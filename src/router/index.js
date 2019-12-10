@@ -1,0 +1,192 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+import Index from '@/components/Index'
+import BindWhiteList from '@/components/trade/BindWhiteList'
+import CapitalAccount from '@/components/trade/CapitalAccount'
+import AccountDetail from '@/components/trade/AccountDetail'
+import CapitalDetail from '@/components/trade/CapitalDetail'
+import TradeList from '@/components/trade/TradeList'
+import Mine from '@/components/account/Mine'
+import User from '@/components/account/User'
+import OpenAccountPersonal from '@/components/account/OpenAccountPersonal'
+import OpenAccountOrgan from '@/components/account/OpenAccountOrgan'
+import OrganRegister from '@/components/customer/OrganRegister'
+import PersonalRegister from '@/components/customer/PersonalRegister'
+import CustomerList from '@/components/customer/CustomerList'
+import Login from '@/components/account/Login'
+import WhiteManage from '@/components/account/WhiteManage'
+import MyAccount from '@/components/account/MyAccount'
+import EditPassword from '@/components/account/EditPassword'
+
+Vue.use(Router)
+
+const router = new Router({
+  mode: 'history',
+  routes: [
+    {
+      path: '/',
+      redirect: '/index',
+    },
+    {
+      meta: {
+        title: '开通资金账户'
+      },
+      path: '/openAccountPersonal',
+      name: 'openAccountPersonal',
+      component: OpenAccountPersonal
+    },
+    {
+      meta: {
+        title: '开通资金账户'
+      },
+      path: '/openAccountOrgan',
+      name: 'openAccountOrgan',
+      component: OpenAccountOrgan
+    },
+    {
+      meta: {
+        title: '绑定白名单'
+      },
+      path: '/bindWhiteList',
+      name: 'bindWhiteList',
+      component: BindWhiteList
+    },
+    {
+      meta: {
+        title: '资金到账明细'
+      },
+      path: '/accountDetail',
+      name: 'accountDetail',
+      component: AccountDetail
+    },
+    {
+      meta: {
+        title: '资金到账明细',
+      },
+      path: '/capitalAccount',
+      name: 'capitalAccount',
+      component: CapitalAccount
+    },
+    {
+      meta: {
+        title: '资金到账明细',
+      },
+      path: '/capitalDetail',
+      name: 'capitalDetail',
+      component: CapitalDetail
+    },
+    {
+      meta: {
+        title: '白名单'
+      },
+      path: '/whiteManage',
+      name: 'whiteManage',
+      component: WhiteManage
+    },
+    {
+      meta: {
+        title: '客户代注册'
+      },
+      path: '/personalRegister',
+      name: 'personalRegister',
+      component: PersonalRegister
+    },
+    {
+      meta: {
+        title: '客户代注册'
+      },
+      path: '/organRegister',
+      name: 'organRegister',
+      component: OrganRegister
+    },
+    {
+      meta: {
+        title: '我的账户',
+      },
+      path: '/mine',
+      name: 'mine',
+      component: Mine
+    },
+    {
+      meta: {
+        title: '登录',
+      },
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      meta: {
+        title: '我的账户',
+      },
+      path: '/myAccount',
+      name: 'myAccount',
+      component: MyAccount
+    },
+    {
+      meta: {
+        title: '密码修改',
+      },
+      path: '/editPassword',
+      name: 'editPassword',
+      component: EditPassword
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: Index,
+      redirect: '/tradeList',
+      children: [
+      {
+        meta: {
+          title: '交易市场'
+        },
+        path: '/tradeList',
+        name: 'tradeList',
+        component: TradeList
+      },
+      
+      {
+        meta: {
+          title: '客户管理'
+        },
+        path: '/customerList',
+        name: 'customerList',
+        component: CustomerList
+      },
+      
+      {
+        meta: {
+          title: '我的账户',
+        },
+        path: '/user',
+        name: 'user',
+        component: User
+      }]
+    }
+    
+  ]
+})
+//路由守卫，做登录拦截
+router.beforeEach((to, from, next) => {
+  // window.document.title = to.meta.title;
+  
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+
+  next()
+  const type = to.meta.type
+  // 判断该路由是否需要登录权限
+  if (type === 'login') {
+    if (window.localStorage.getItem('login')) {
+      next()
+    } else {
+      next('/login')
+    }
+  } else {
+    next()  // 确保一定要有next()被调用
+  }
+
+})
+export default router
