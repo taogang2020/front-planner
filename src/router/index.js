@@ -14,6 +14,7 @@ import OrganRegister from '@/components/customer/OrganRegister'
 import PersonalRegister from '@/components/customer/PersonalRegister'
 import CustomerList from '@/components/customer/CustomerList'
 import Login from '@/components/account/Login'
+import Register from '@/components/account/Register'
 import WhiteManage from '@/components/account/WhiteManage'
 import MyAccount from '@/components/account/MyAccount'
 import EditPassword from '@/components/account/EditPassword'
@@ -106,6 +107,14 @@ const router = new Router({
       path: '/mine',
       name: 'mine',
       component: Mine
+    },
+    {
+      meta: {
+        title: '管理人注册',
+      },
+      path: '/register',
+      name: 'register',
+      component: Register
     },
     {
       meta: {

@@ -1,71 +1,189 @@
 <template>
 <div>
-<van-nav-bar
+  <van-nav-bar
         title="登录"
       />
-
   <div class="loginWarp">
-    <van-tabs v-model="active" :line-width='10'>
-        <!-- <p class="line">|</p> -->
+    <van-tabs  @click="onClick" :line-width='10'>
       <van-tab title="密码登录">
-        <van-field v-model="username" placeholder="请输入手机号" />
-        <van-field v-model="password" type="password" placeholder="请输入密码" />
+        <van-field v-model="form.memberCode" placeholder="请输入管理人编号" />
+        <van-field v-model="form.operatorLoginName" placeholder="请输入登录名" />
+        <van-field v-model="form.password" type="password" placeholder="请输入登录密码" />
       </van-tab>
       
-      <van-tab title="验证码登录">
+      <van-tab title="快捷登录">
+        <van-field v-model="form.memberCode" placeholder="请输入管理人编号" />
         <div class="sendTop">
-          <van-field v-model="username" placeholder="请输入手机号" />
+          <van-field v-model="form.operatorPhone" placeholder="请输入手机号" />
           <p class="send" @click="getcode()" v-html="text_code" v-bind:class="{active:isactive}"></p>
         </div>
-        <van-field v-model="password" type="password" placeholder="请输入验证码" />
+        <van-field v-model="form.validCode" placeholder="请输入验证码" />
       </van-tab>
     </van-tabs>
+     
     <div class="login" @click='login'>登录</div>
-    <p class="register">没有账号？去&nbsp;<router-link to="organRegister">企业注册</router-link>&nbsp;&nbsp;<router-link to="personalRegister">个人注册</router-link></p>
+    <p class="register">没有账号？去&nbsp;<router-link to="register">注册</router-link></p>
   </div>
-  </div>
+</div>
 </template>
 
 <script>
+import crypto from "crypto";
+import { validMobileNo } from "@/utils/validate";
 export default {
   name: "Login",
   data() {
     return {
-      active: 0,
-      username: "",
-      password: "",
+      form:{
+        memberCode:'',
+        operatorPhone:'',
+        validCode:'',
+        operatorLoginName: "",
+        password:"",
+        loginType: 1,//登录方式1是密码登录，2是快捷登录
+      },
+     
       isactive: false,
-      text_code: "发送验证码"
+      text_code: "发送验证码",
+      
     };
   },
-   mounted () {
-     document.querySelector('body').setAttribute('style', 'background-color:#fff')
+  mounted () {
+    document.querySelector('body').setAttribute('style', 'background-color:#fff')
+    // document.querySelector('.van-tabs__line').style.transform = 'translateX(62px) translateX(-50%)'
+    
   },
   beforeDestroy() {
     document.querySelector('body').removeAttribute('style')
   },
+  created(){
+   
+    
+  },
+
   methods: {
-    // 发送验证码
-    getcode(formName) {
+     onClick(name, title) {
       var _this = this;
-      var time = 60;
-      _this.text_code = time + "s后重发";
-      _this.isactive = true;
-      var Timer = setInterval(function() {
-        time--;
-        _this.text_code = time + "s后重发";
-        if (time == 0) {
-          time = 60;
-          clearInterval(Timer);
-          _this.text_code = "发送验证码";
-          _this.isactive = false;
+      if(title == "密码登录"){
+        _this.form.loginType = 1;
+        
+      }else{
+        _this.form.loginType = 2;
+      }
+    },
+    // 发送验证码
+    getcode() {
+      var _this = this;
+      if (_this.form.memberCode == "") {
+        _this.$toast("请填写用户编号");
+        return;
+      }
+      if (_this.form.operatorPhone == "") {
+        _this.$toast("请填写手机号");
+        return;
+      }
+      if (!validMobileNo(_this.form.operatorPhone)) {
+        _this.$toast("请填写格式正确的手机号");
+        return;
+      }
+      _this.$http.post("/api/members/operator/login/sendValidCode",{operatorPhone:_this.form.operatorPhone,memberCode:_this.form.memberCode}).then(function(res){
+        var data = res.data
+        if(data.code==0){
+          var time = 60
+          _this.text_code=time + "s后重发"
+          _this.isactive=true
+          var Timer = setInterval(function () {
+            time--;
+            _this.text_code=time + "s后重发"
+            if (time == 0) {
+                time = 60
+                clearInterval(Timer)
+                _this.text_code="发送验证码"
+                _this.isactive=false
+            }
+          }, 1000);
+        }else{
+          _this.$toast(data.msg);
         }
-      }, 1000);
+      })
     },
     // 登录
     login(){
+      var _this = this;
+      if (_this.form.memberCode == "") {
+        _this.$toast("请填写用户编号");
+        return;
+      }
+      if(_this.form.loginType == 1){
+        //密码登录
+        if (_this.form.operatorLoginName == "") {
+          _this.$toast("请填写登录名");
+          return;
+        }
+        if (_this.form.password == "") {
+          _this.$toast("请填写登录密码");
+          return;
+        }
+      }else{
+        //快捷登录
+        if (_this.form.operatorPhone == "") {
+          _this.$toast("请填写手机号");
+          return;
+        }
+        if (_this.form.validCode == "") {
+          _this.$toast("请填写验证码");
+          return;
+        }
+      }
 
-    }
+      var savepassword = _this.form.password;
+      if(_this.form.password){
+        var  md5 = crypto.createHash("md5");
+        md5.update(_this.form.password) //需要加密的密码
+        _this.form.password = md5.digest('hex');  //password 加密完的密码
+      }
+      this.$http.post("/api/members/operator/login",_this.form).then(function(res){
+        var data = res.data
+        if(data.code==0){
+            sessionStorage.setItem('token', data.data.token)
+            sessionStorage.setItem('guid', data.data.membersOperator.memberGuid)
+            sessionStorage.setItem('operatorguid', data.data.membersOperator.operatorGuid)
+            if(data.data.membersOperator.memberStatus==1){
+              //待审核
+              if(data.data.membersOperator.memberType==1){
+                  _this.$router.push({ 
+                  path:'/organCheckWait',  
+                })
+              }else{
+                _this.$router.push({ 
+                  path:'/personalCheckWait',  
+                })
+              }
+            }else if(data.data.membersOperator.memberStatus==2){
+              //正常
+              _this.$router.push({ 
+                path:'/tradeList',  
+              })
+              
+            }else if(data.data.membersOperator.memberStatus==3){
+              //审核退回
+              if(data.data.membersOperator.memberType==1){
+                _this.$router.push({ 
+                  path:'/organCheckBack',  
+                })
+              }else{
+                _this.$router.push({ 
+                  path:'/personalCheckBack',  
+                })
+              }
+            } 
+        }else{
+          _this.$toast(data.msg);
+          _this.form.password = savepassword;
+        }
+    })
+
+    },
   }
 };
 </script>
