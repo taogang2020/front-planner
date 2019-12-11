@@ -15,6 +15,8 @@ import PersonalRegister from '@/components/customer/PersonalRegister'
 import CustomerList from '@/components/customer/CustomerList'
 import Login from '@/components/account/Login'
 import Register from '@/components/account/Register'
+import OrganCheckBack from '@/components/account/OrganCheckBack'
+import OrganCheckWait from '@/components/account/OrganCheckWait'
 import WhiteManage from '@/components/account/WhiteManage'
 import MyAccount from '@/components/account/MyAccount'
 import EditPassword from '@/components/account/EditPassword'
@@ -107,6 +109,22 @@ const router = new Router({
       path: '/mine',
       name: 'mine',
       component: Mine
+    },
+    {
+      meta: {
+        title: '审核退回'
+      },
+      path: '/organCheckBack',
+      name: 'organCheckBack',
+      component: OrganCheckBack
+    },
+    {
+      meta: {
+        title: '待审核'
+      },
+      path: '/organCheckWait',
+      name: 'organCheckWait',
+      component: OrganCheckWait
     },
     {
       meta: {

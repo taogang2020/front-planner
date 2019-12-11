@@ -58,7 +58,6 @@ export default {
   },
   created(){
    
-    
   },
 
   methods: {
@@ -86,7 +85,7 @@ export default {
         _this.$toast("请填写格式正确的手机号");
         return;
       }
-      _this.$http.post("/api/members/operator/login/sendValidCode",{operatorPhone:_this.form.operatorPhone,memberCode:_this.form.memberCode}).then(function(res){
+      _this.$http.post("/api/planner/members/operator/login/sendValidCode",{operatorPhone:_this.form.operatorPhone,memberCode:_this.form.memberCode}).then(function(res){
         var data = res.data
         if(data.code==0){
           var time = 60
@@ -142,7 +141,7 @@ export default {
         md5.update(_this.form.password) //需要加密的密码
         _this.form.password = md5.digest('hex');  //password 加密完的密码
       }
-      this.$http.post("/api/members/operator/login",_this.form).then(function(res){
+      this.$http.post("/api/planner/members/operator/login",_this.form).then(function(res){
         var data = res.data
         if(data.code==0){
             sessionStorage.setItem('token', data.data.token)
@@ -150,15 +149,10 @@ export default {
             sessionStorage.setItem('operatorguid', data.data.membersOperator.operatorGuid)
             if(data.data.membersOperator.memberStatus==1){
               //待审核
-              if(data.data.membersOperator.memberType==1){
-                  _this.$router.push({ 
-                  path:'/organCheckWait',  
-                })
-              }else{
-                _this.$router.push({ 
-                  path:'/personalCheckWait',  
-                })
-              }
+              _this.$router.push({ 
+                path:'/organCheckWait',  
+              })
+
             }else if(data.data.membersOperator.memberStatus==2){
               //正常
               _this.$router.push({ 
@@ -167,15 +161,9 @@ export default {
               
             }else if(data.data.membersOperator.memberStatus==3){
               //审核退回
-              if(data.data.membersOperator.memberType==1){
-                _this.$router.push({ 
-                  path:'/organCheckBack',  
-                })
-              }else{
-                _this.$router.push({ 
-                  path:'/personalCheckBack',  
-                })
-              }
+              _this.$router.push({ 
+                path:'/organCheckBack',  
+              })
             } 
         }else{
           _this.$toast(data.msg);
