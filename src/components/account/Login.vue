@@ -74,7 +74,7 @@ export default {
     getcode() {
       var _this = this;
       if (_this.form.memberCode == "") {
-        _this.$toast("请填写用户编号");
+        _this.$toast("请填写管理人编号");
         return;
       }
       if (_this.form.operatorPhone == "") {
@@ -110,7 +110,7 @@ export default {
     login(){
       var _this = this;
       if (_this.form.memberCode == "") {
-        _this.$toast("请填写用户编号");
+        _this.$toast("请填写管理人编号");
         return;
       }
       if(_this.form.loginType == 1){
