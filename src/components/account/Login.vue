@@ -8,7 +8,7 @@
       <van-tab title="密码登录">
         <van-field v-model="form.memberCode" placeholder="请输入管理人编号" />
         <van-field v-model="form.operatorLoginName" placeholder="请输入登录名" />
-        <van-field v-model="form.password" type="password" placeholder="请输入登录密码" />
+        <van-field v-model="form.editPassword" type="password" placeholder="请输入登录密码" />
       </van-tab>
       
       <van-tab title="快捷登录">
@@ -39,6 +39,7 @@ export default {
         operatorPhone:'',
         validCode:'',
         operatorLoginName: "",
+        editPassword:"",
         password:"",
         loginType: 1,//登录方式1是密码登录，2是快捷登录
       },
@@ -119,7 +120,7 @@ export default {
           _this.$toast("请填写登录名");
           return;
         }
-        if (_this.form.password == "") {
+        if (_this.form.editPassword == "") {
           _this.$toast("请填写登录密码");
           return;
         }
@@ -135,11 +136,12 @@ export default {
         }
       }
 
-      var savepassword = _this.form.password;
-      if(_this.form.password){
+      var savepassword = _this.form.editPassword;
+      if(_this.form.editPassword){
         var  md5 = crypto.createHash("md5");
-        md5.update(_this.form.password) //需要加密的密码
+        md5.update(_this.form.editPassword) //需要加密的密码
         _this.form.password = md5.digest('hex');  //password 加密完的密码
+        _this.form.editPassword = "";
       }
       this.$http.post("/api/planner/members/operator/login",_this.form).then(function(res){
         var data = res.data
@@ -167,7 +169,7 @@ export default {
             } 
         }else{
           _this.$toast(data.msg);
-          _this.form.password = savepassword;
+          _this.form.editPassword = savepassword;
         }
     })
 
