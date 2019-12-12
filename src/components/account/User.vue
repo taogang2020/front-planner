@@ -11,7 +11,7 @@
       <div class="accountManger clear">
         <div class="item clear">
           <div class="fl list" v-if="form.openAccountNum == 0" @click="openAccount">
-            <van-icon name="graphic" size="0.7rem" color="#ffd01e" />&nbsp;
+            <van-icon name="graphic" size="0.7rem" color="#ffd01e" />
             <p class="titlename">开通资金账户</p>
           </div>
           <div class="fl list" v-if="form.openAccountNum != 0" @click="accountDetail">
@@ -24,7 +24,7 @@
       <div class="accountManger clear">
         <div class="item clear">
           <div class="fl list">
-            <van-icon name="vip-card-o" size="0.7rem" color="#ff701e" />&nbsp;
+            <van-icon name="vip-card-o" size="0.7rem" color="#ff701e" />
             <p class="titlename">我的客户</p>
           </div>
           <div class="fl list">
