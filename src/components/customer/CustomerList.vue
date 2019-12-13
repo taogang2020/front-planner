@@ -15,7 +15,6 @@
         </li>
       </ul>
     </div>
-    
     <van-overlay :show="show" @click="show = false">
       <div class="wrapper" @click.stop>
         <div class="block">
