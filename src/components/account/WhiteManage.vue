@@ -11,7 +11,7 @@
         <div class="itemTop">
           <p class="fl name">国盛资产转让1期</p>
           <p class="fr channel">
-            银行渠道:<span>贵州场外</span>
+            银行渠道：<span>贵州场外</span>
           </p>
         </div>
         <div class="itemCenter">

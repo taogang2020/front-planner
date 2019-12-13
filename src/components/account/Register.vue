@@ -1,11 +1,6 @@
 <template>
   <div class="register">
-    <van-nav-bar
-      title="注册"
-      left-text="返回"
-      left-arrow
-      @click-left="onClickLeft"
-    />
+    <van-nav-bar v-show="is_weixin" title="注册" left-text="返回" left-arrow @click-left="onClickLeft"/>
     <div>
       <div v-show="firstTep">
         <van-cell-group class="text">
@@ -24,7 +19,7 @@
           <van-field v-model="form.memberAddress" label="详细地址:" label-width="2.6rem"  placeholder="请输入详细地址" />
         </van-cell-group>
         <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize label="业务经营范围:" label-width="2.4rem"  placeholder="请输入业务经营范围" />
-        <div class="firstBtn"><van-button type="danger" class="next" @click="firstNext">下一步</van-button></div>
+        <div class="firstBtn"><van-button type="danger" class="next pre" @click="firstNext">下一步</van-button></div>
       </div>
       <div v-show="secondTep" class="text">
         <van-field v-model="form.recommendCode" label="推荐码:" placeholder="请输入推荐码" />
@@ -64,11 +59,10 @@
               <p>其他</p>
             </div>
           </div>
-          <div class="secondBtn">
+          <div class="thirdBtn">
             <van-button type="danger" class="pre" @click="thirdPre">上一步</van-button>
-            <van-button type="danger" class="pre" @click="submitReview">提交审核</van-button>
+            <van-button type="danger" class="pre" style="width:1.8rem" @click="submitReview">提交审核</van-button>
           </div>
-          
       </div>
 
        <!-- 注册成功后页面 -->
@@ -199,6 +193,7 @@ export default {
       showlegalIdCardType: false,
       showCardType: false,
       showAddress:false,
+      is_weixin:false,
     }
   },
 
@@ -206,9 +201,23 @@ export default {
     var _this = this;
     _this.getAdress();
     _this.getSelect();
+    _this.isWeixin();
   },
 
   methods: {
+    // 判断是否是微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin=false;
+        return true;
+      }else{
+        _this.is_weixin=true;
+        return false;
+      }
+    }, 
     //获取下拉框信息
     getSelect() {
       var _this = this;
@@ -594,14 +603,10 @@ export default {
   min-height: 1rem;
   line-height: 0.6rem;
   font-size: 0.3rem;
-  /* margin-bottom: 0.1rem; */
 }
 .register .textarea .van-field__control{
- 
   min-height: 1rem;
   line-height: 0.6rem;
-  /* font-size: 0.3rem; */
-  /* margin-bottom: 0.1rem; */
 }
 .register .van-cell-group {
   background: transparent;
@@ -620,15 +625,9 @@ export default {
 .register .van-picker__cancel{
   color: #666;
 }
-
-/* .register .van-uploader__upload-icon{
-  opacity: 0;
-} */
 .register .van-field__control{
   text-align: right;
 }
-
-
 .register .van-uploader__upload {
   width: 2rem;
   height: 2rem;
@@ -651,8 +650,9 @@ export default {
   width: 2rem;
   height: 2rem;;
 }
-
-
+.register .van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after{
+  border-width: 0;
+}
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -669,14 +669,19 @@ export default {
   text-align: center;
 }
 .register .firstBtn{
-  width: 1.5rem;
+  width: 1.6rem;
   margin: 0 auto;
-
 }
 .register .secondBtn{
-  width: 3.6rem;
+  width: 3.3rem;
   margin: 0 auto;
-
+}
+.register .thirdBtn{
+  width: 3.5rem;
+  margin: 0 auto;
+}
+.pre{
+  width: 1.6rem;
 }
 .register .title{
   font-size: 0.4rem;
@@ -737,7 +742,7 @@ export default {
   line-height: 0.7rem;
 }
 .register a{
-    color: #fff;
+  color: #fff;
 }
 
 </style>

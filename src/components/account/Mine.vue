@@ -1,6 +1,6 @@
 <template>
   <div class="Mine">
-    <van-nav-bar  title="个人中心" />
+    <van-nav-bar v-show="is_weixin"  title="个人中心" />
     <div class="content" >
       <van-cell-group>
         <van-field v-model="form.operatorName" required label="操作员名称:" />
@@ -54,15 +54,30 @@ export default {
       form:{},
       idTypeList: [],
       showCardType:false,
+      is_weixin:false,
     };
   },
 
   created() {
     var _this = this;
     _this.getOperatorDetail();
+    _this.isWeixin();
   },
 
   methods: {
+    // 判断是否是微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin=false;
+        return true;
+      }else{
+        _this.is_weixin=true;
+        return false;
+      }
+    }, 
     //获取操作员信息
     getOperatorDetail(){
       var _this = this;
@@ -206,11 +221,11 @@ export default {
   border: 1px solid #ed2424;
 }
 .Mine .secondBtn{
-  width: 2.8rem;
+  width: 3.3rem;
   margin: 0 auto;
 }
 .Mine .secondBtn .van-button{
-  width: 1.3rem;
+  width: 1.5rem;
   height: 0.7rem;
   line-height: 0.7rem;
 }

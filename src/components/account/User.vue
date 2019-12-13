@@ -150,7 +150,7 @@ export default {
   width: 25%;
   height: 2.2rem;
   background: #fff;
-  margin-right: 0.3rem;
+  /* margin-right: 0.3rem; */
   font-size: 0.32rem;
   color: #252f3f;
   letter-spacing: 0.01rem;

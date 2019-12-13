@@ -1,6 +1,6 @@
 <template>
   <div class="editPassword">
-    <van-nav-bar title="密码管理" />
+    <van-nav-bar v-show="is_weixin" title="密码管理" />
     <div>
       <van-cell-group>
         <van-field v-model="form.oldSecrectCode" label="原始密码:" type="password" required placeholder="请输入原始密码" />
@@ -23,13 +23,30 @@ export default {
         oldSecrectCode:'',
         newSecrectCode:'',
         confirmSecrectCode:'',
-      }
+      },
+      is_weixin:false,
     };
   },
 
-  created() {},
+  created() {
+    var _this = this;
+    _this.isWeixin();
+  },
 
   methods: {
+    // 判断是否是微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin=false;
+        return true;
+      }else{
+        _this.is_weixin=true;
+        return false;
+      }
+    }, 
       submit(){
 
       },
@@ -57,12 +74,9 @@ export default {
 .editPassword .van-field__control {
   text-align: right;
 }
-.editPassword .secondBtn{
-  width: 2.8rem;
-  margin: 0.2rem auto;
-}
+
 .editPassword .secondBtn .van-button{
-  width: 1.3rem;
+  width: 1.5rem;
   height: 0.7rem;
   line-height: 0.7rem;
 }
@@ -73,5 +87,9 @@ export default {
   width: 7.5rem;
   height: auto;
   font-size: 0.3rem;
+}
+.editPassword .secondBtn{
+  width: 3.3rem;
+  margin: 0.2rem auto;
 }
 </style>

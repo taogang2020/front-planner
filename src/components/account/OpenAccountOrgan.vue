@@ -1,11 +1,6 @@
 <template>
   <div class="openAccount">
-    <van-nav-bar
-      title="开通资金账户"
-      left-text="返回"
-      left-arrow
-      @click-left="onClickLeft"
-    />
+    <van-nav-bar v-show="is_weixin" title="开通资金账户"/>
     <div>
       <van-cell-group >
         <van-field v-model="form.userNo" label="客户编号:" readonly/>
@@ -31,8 +26,8 @@
       </van-cell-group>
     </div>
     <div class="Btn">
-      <van-button type="danger">确 认</van-button>
-      <van-button type="default">取 消</van-button>
+      <van-button type="danger" class="sure">确 认</van-button>
+      <van-button type="default" class="sure">取 消</van-button>
     </div>
   </div>
 </template>
@@ -62,9 +57,28 @@ export default {
           {"name":"杭州","id":5}
       ],
        bankArray: false,
+       is_weixin:false,
     };
   },
+  created(){
+    var _this = this;
+    _this.isWeixin();
+
+  },
   methods: {
+    // 判断是否是微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin=false;
+        return true;
+      }else{
+        _this.is_weixin=true;
+        return false;
+      }
+    }, 
     openBank() {
       var _this = this;
       _this.show = true;
@@ -76,11 +90,6 @@ export default {
 	   var text= value.name;
       console.log('当前值'+keyId + '当前索引'+text);
       _this.bankArray = false
-    },
-    // 点击头部返回
-    onClickLeft() {
-      var _this = this;
-       _this.$router.go(-1);
     },
   }
 };
@@ -129,7 +138,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .openAccount {
-  width: 7.5rem；;
+  width: 7.5rem;
 }
 .openAccount p {
   color: #333;
@@ -139,5 +148,8 @@ export default {
 }
 .Btn {
   text-align: center;
+}
+.sure{
+  width: 1.5rem;
 }
 </style>

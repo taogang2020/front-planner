@@ -1,8 +1,6 @@
 <template>
 <div>
-  <van-nav-bar
-        title="登录"
-      />
+  <van-nav-bar v-show="is_weixin" title="登录"/>
   <div class="loginWarp">
     <van-tabs  @click="onClick" :line-width='10'>
       <van-tab title="密码登录">
@@ -42,9 +40,9 @@ export default {
         password:"",
         loginType: 1,//登录方式1是密码登录，2是快捷登录
       },
-     
       isactive: false,
       text_code: "发送验证码",
+      is_weixin:false,
       
     };
   },
@@ -57,10 +55,24 @@ export default {
     document.querySelector('body').removeAttribute('style')
   },
   created(){
-   
+    var _this = this;
+    _this.isWeixin();
   },
 
   methods: {
+    // 判断是否是微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin=false;
+        return true;
+      }else{
+        _this.is_weixin=true;
+        return false;
+      }
+    }, 
      onClick(name, title) {
       var _this = this;
       if(title == "密码登录"){
@@ -152,13 +164,11 @@ export default {
               _this.$router.push({ 
                 path:'/organCheckWait',  
               })
-
             }else if(data.data.membersOperator.memberStatus==2){
               //正常
               _this.$router.push({ 
                 path:'/tradeList',  
               })
-              
             }else if(data.data.membersOperator.memberStatus==3){
               //审核退回
               _this.$router.push({ 

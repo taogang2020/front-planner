@@ -1,6 +1,6 @@
 <template>
   <div class="organWait">
-    <van-nav-bar title="待审核" />
+    <van-nav-bar v-show="is_weixin" title="待审核" />
     <div>
         <div class="titleDes">
         <p class="status">用户您好，您的资料已提交审核，您的审核状态为：<span style='font-size:0.32rem;color:#ed2424'>{{form.memberStatusDesc}}</span></p>
@@ -84,6 +84,7 @@ export default {
         { url: '' },
       ],
       form:{},
+      is_weixin:false,
     }
   },
 
@@ -93,6 +94,19 @@ export default {
   },
 
   methods: {
+    // 判断是否是微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin=false;
+        return true;
+      }else{
+        _this.is_weixin=true;
+        return false;
+      }
+    }, 
     //选项卡切换
     onClick(name, title) {
     },
@@ -233,7 +247,7 @@ export default {
 <style scoped>
 .organWait {
   width: 7.5rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
 }
 .organWait p {
   color: #333;
@@ -260,9 +274,6 @@ export default {
   bottom: 0;
   left: 0.7rem;
 }
-.idCardPositive p{
-  left: 0.5rem;
-}
 .organWait a{
   color: #fff;
 }
@@ -272,14 +283,17 @@ export default {
   margin-left: 0.5rem;
 }
 .organWait .logOut {
-  width: 6rem;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+  width: 7.5rem;
   height: 0.8rem;
   background: #252f3f;
   color: #fff;
   font-size: 0.32rem;
   text-align: center;
-  margin: 0.5rem auto;
+  margin: 0;
   line-height: 0.8rem;
-  border-radius: 0.08rem;
 }
 </style>

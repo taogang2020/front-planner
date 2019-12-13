@@ -1,6 +1,6 @@
 <template>
   <div class="organBack">
-    <van-nav-bar title="审核退回"/>
+    <van-nav-bar v-show="is_weixin" title="审核退回"/>
     <div>
         <div class="titleDes">
         <p class="status">用户您好，你的资料已提交审核，您的审核状态为：<span style='font-size:0.3rem;color:#ed2424'>{{form.memberStatusDesc}}</span>，请根据审核意见更改资料。</p>
@@ -152,10 +152,9 @@ export default {
       showcompanyType: false,
       showlegalIdCardType: false,
       showCardType: false,
-     
+      is_weixin:false,
     }
   },
-
   created() {
     var _this = this;
     _this.getAdress();
@@ -163,6 +162,19 @@ export default {
   },
 
   methods: {
+    // 判断是否是微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin=false;
+        return true;
+      }else{
+        _this.is_weixin=true;
+        return false;
+      }
+    }, 
     //获取地址
     getAdress() {
       var _this = this;
@@ -622,7 +634,7 @@ export default {
 <style scoped>
 .organBack {
   width: 7.5rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
 }
 .organBack p {
   color: #333;
@@ -630,10 +642,6 @@ export default {
   line-height: 0.6rem;
   margin-bottom: 0.2rem;
   text-align: center;
-}
-.organBack .firstBtn{
-  width: 1.5rem;
-  margin: 0 auto;
 }
 .titleDes{
   background: #fff;
@@ -644,14 +652,8 @@ export default {
     text-align: left;
 }
 .organBack .secondBtn{
-  width: 2.8rem;
+  width: 3.3rem;
   margin: 0 auto;
-}
-.organBack .title{
-  font-size: 0.4rem;
-  text-align: center;
-  color: #ed2424;
-  margin-bottom: 0.4rem;
 }
 .second{
   padding: 0.4rem;
@@ -670,54 +672,25 @@ export default {
 .idCardPositive p{
   left: 0.5rem;
 }
-.head-img{
-  width: 3rem;
-  height: 2rem;;
-}
-.PositiveImg{
-  position: absolute;
-  left: 0rem;
-  top: 0;
-}
-.ReverseImg{
-  position: absolute;
-  left: 0rem;
-  top: 0;
-}
-.regSuccess{
-  padding: 1rem 0.4rem;
-  box-sizing: border-box;
-}
-.regSuccess p{
-  font-size: 0.3rem;
-  color: #333;
-}
-.regSuccess span{
-  font-size: 0.45rem;
-  color: red;
-}
-.organBack .successCode{
-  width: 4rem;
-  height: 0.7rem;
-  background: #ed2424;
-  margin: 1rem auto;
-  border-radius: 0.05rem;
-  text-align: center;
-  line-height: 0.7rem;
-}
 .organBack a{
     color: #fff;
 }
 .organBack .logOut {
-  width: 6rem;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+  width: 7.5rem;
   height: 0.8rem;
   background: #252f3f;
   color: #fff;
   font-size: 0.32rem;
   text-align: center;
-  margin: 0.5rem auto;
+  margin: 0;
   line-height: 0.8rem;
-  border-radius: 0.08rem;
+}
+.pre{
+  width: 1.5rem;
 }
 
 </style>

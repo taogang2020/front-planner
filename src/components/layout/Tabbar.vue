@@ -1,5 +1,5 @@
 <template>
-  <div class="Tabber">
+  <div class="Tabbar">
     <van-tabbar v-model="active" class="active_tab" >
 
       <van-tabbar-item>
@@ -71,7 +71,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.Tabber{
+.Tabbar{
   width: 7.5rem;
 }
 a {

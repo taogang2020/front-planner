@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="账户中心" />
+    <van-nav-bar v-show="is_weixin" title="账户中心" />
     <div class="my_account">
       <p>
         <router-link :to="{name:'mine'}">
@@ -22,12 +22,30 @@
 export default {
   name: "MyAccount",
   data() {
-    return {};
+    return {
+      is_weixin:false,
+    };
   },
 
-  created() {},
+  created() {
+    var _this = this;
+    _this.isWeixin();
+  },
 
   methods: {
+    // 判断是否是微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin=false;
+        return true;
+      }else{
+        _this.is_weixin=true;
+        return false;
+      }
+    }, 
     //退出登录
     logOut() {
       var _this = this;
@@ -80,13 +98,14 @@ export default {
 }
 .logOut {
   width: 100%;
-  height: 1rem;
+  height: 0.8rem;
   bottom: 0;
   position: fixed;
+  z-index: 999;
   background: #252f3f;
   color: #fff;
   font-size: 0.32rem;
   text-align: center;
-  line-height: 1rem;
+  line-height: 0.8rem;
 }
 </style>
