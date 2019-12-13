@@ -189,7 +189,7 @@ export default {
     getDetail(){
       var _this = this;
       var guid = sessionStorage.getItem('guid')
-      this.$http.get("/api/planner/member/getMemberDetail",{params:{memberGuid:guid}}).then(function (res) {
+      this.$http.get("/api/member/getMemberDetail",{params:{memberGuid:guid}}).then(function (res) {
         var data = res.data;
         if (data.code == 0) {
             _this.idTypeList = data.data.zjTypeList;
@@ -342,7 +342,7 @@ export default {
       // 此时可以自行将文件上传至服务器
       var _this = this;
       this.$http
-        .post("/api/planner/member/upload/ststoken", { uploadFileType: 1 })
+        .post("/api/member/upload/ststoken", { uploadFileType: 1 })
         .then(function(res) {
           var data = res.data;
           if (data.code == 0) {
@@ -531,7 +531,7 @@ export default {
     //退出登录
     logOut() {
       var _this = this;
-      _this.$http.get("/api/planner/members/operator/logOut",{params:{token:sessionStorage.getItem("token")}}).then(function (res) {
+      _this.$http.get("/api/members/operator/logOut",{params:{token:sessionStorage.getItem("token")}}).then(function (res) {
         var data = res.data;
         if (data.code == 0) {
           sessionStorage.removeItem("token")

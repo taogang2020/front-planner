@@ -22,7 +22,6 @@
         <div class="firstBtn"><van-button type="danger" class="next pre" @click="firstNext">下一步</van-button></div>
       </div>
       <div v-show="secondTep" class="text">
-        <van-field v-model="form.recommendCode" label="推荐码:" placeholder="请输入推荐码" />
         <van-field v-model="form.operatorName" required label="业务负责人:" placeholder="请输入业务负责人" />
         <van-field :value="form.idTypeDesc" required @click="showCardType = true" label="证件类型:" readonly clickable  placeholder="请选择证件类型" />
         <van-field v-model="form.idCard" required label="证件号:" placeholder="请输入证件号"/>
@@ -164,7 +163,6 @@ export default {
         memberPhone:'',
         operatorLoginName:'',
         secrectCode:'',
-        recommendCode:"",//推荐码
         yyzzFilePath:"",//营业执照
         yyzzFileName:"",
         sqwtsFilePath:"",//授权人委托书
@@ -178,7 +176,6 @@ export default {
         totalAssets:"",//总资产
         netAssets:"",//净资产
         fundsSources:"",//资金来源
-        memberType: 1,//机构
       },
       cardNum:'',
       minDate:new Date(1970, 10, 1),
@@ -449,7 +446,7 @@ export default {
       md5.update(_this.form.secrectCode); //需要加密的密码
       _this.form.secrectCode = md5.digest("hex"); //password 加密完的密码
       //提交
-      _this.$http.post("/api/member/register", _this.form).then(function(res) {
+      _this.$http.post("/api/planner/member/register", _this.form).then(function(res) {
         var data = res.data;
         if (data.code == 0) {
           console.log(data.data)
@@ -498,7 +495,7 @@ export default {
         return;
       }
       //验证注册
-      _this.$http.post("/api/member/registerCheck", _this.form).then(function(res) {
+      _this.$http.post("/api/planner/member/registerCheck", _this.form).then(function(res) {
         var data = res.data;
         if (data.code == 10004) {
           _this.firstTep = false;

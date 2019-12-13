@@ -46,7 +46,7 @@
 </template>
 
 <script>
-
+import {validMobileNo, validIdCard, validLoginName } from "@/utils/validate";
 export default {
   name: "Mine",
   data() {

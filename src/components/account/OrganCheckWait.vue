@@ -114,7 +114,7 @@ export default {
     getDetail(){
         var _this = this;
         var guid = sessionStorage.getItem('guid')
-        _this.$http.get("/api/planner/member/getMemberDetail",{params:{memberGuid:guid}}).then(function (res) {
+        _this.$http.get("/api/member/getMemberDetail",{params:{memberGuid:guid}}).then(function (res) {
           var data = res.data;
           if (data.code == 0) {
             _this.form = data.data.membersVo;
@@ -148,7 +148,7 @@ export default {
     // 退出登录
     logOut() {
       var _this = this;
-      _this.$http.get("/api/planner/members/operator/logOut",{params:{token:sessionStorage.getItem("token")}}).then(function (res) {
+      _this.$http.get("/api/members/operator/logOut",{params:{token:sessionStorage.getItem("token")}}).then(function (res) {
         var data = res.data;
         if (data.code == 0) {
           sessionStorage.removeItem("token")
