@@ -31,6 +31,14 @@ export default {
   name: "CustomerList",
   data() {
     return {
+      form:{
+        memberFullName: '',
+        memberPhone:'',
+        memberType:-1,
+        memberStatus:-1,
+        pageNo:1,
+        pageSize:10,
+      },
         list:[
             {'transferName':'票据资产01','tradeMoney':'1000','assetsMoney':'2000'},
             {'transferName':'票据资产02','tradeMoney':'1000','assetsMoney':'2000'},
@@ -48,9 +56,26 @@ export default {
     document.querySelector("body").removeAttribute("style");
   },
   created(){
-
+    var _this = this;
+    _this.getList();
   },
   methods: {
+    // 获取列表
+    getList(){
+      var _this = this;
+      var params = _this.form;
+      this.$http.post("/api/member/page/search",params).then(function (res) {
+        var data = res.data;
+        if (data.code == 0) {
+            // _this.tableData = data.data.pageData.list;
+            // _this.total = data.data.pageData.totalsize;
+            // _this.memberType = data.data.memberTypeArray; 
+            // _this.memberStatus = data.data.memberStatusArray; 
+        } else {
+          _this.$toast(data.msg);
+        }
+      })
+    },
     // 点击返回
     cancel() {
       var _this = this;
