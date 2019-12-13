@@ -13,6 +13,8 @@ import OpenAccountOrgan from '@/components/account/OpenAccountOrgan'
 import OrganRegister from '@/components/customer/OrganRegister'
 import PersonalRegister from '@/components/customer/PersonalRegister'
 import CustomerList from '@/components/customer/CustomerList'
+import PersonalAccountDetail from '@/components/customer/PersonalAccountDetail'
+import OrganAccountDetail from '@/components/customer/OrganAccountDetail'
 import Login from '@/components/account/Login'
 import Register from '@/components/account/Register'
 import OrganCheckBack from '@/components/account/OrganCheckBack'
@@ -125,6 +127,22 @@ const router = new Router({
       path: '/organCheckWait',
       name: 'organCheckWait',
       component: OrganCheckWait
+    },
+    {
+      meta: {
+        title: '客户详情'
+      },
+      path: '/organAccountDetail',
+      name: 'organAccountDetail',
+      component: OrganAccountDetail
+    },
+    {
+      meta: {
+        title: '客户详情'
+      },
+      path: '/personalAccountDetail',
+      name: 'personalAccountDetail',
+      component: PersonalAccountDetail
     },
     {
       meta: {
