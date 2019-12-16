@@ -63,7 +63,7 @@
 </template>
 <script>
 export default {
-  name: "OrganAccountDetail",
+  name: "OrganDetail",
   data() {
     return {
       positiveFileList: [

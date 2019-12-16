@@ -21,8 +21,9 @@
               @load="onLoad"
             >
             <ul class="container ">
-              <li class="van-clearfix" v-for='item in myList' :key="item.assetsMoney" @click='handClick(item)'>
-                <p class="fl">{{item.memberCode}}</p>
+              <li class="van-clearfix" v-for='item in myList' :key="item.assetsMoney" >
+                <p class="fl" v-if="item.memberType == 1"><router-link :to="{name:'organDetail',params:{'memberGuid':item.memberGuid}}">{{item.memberCode}}</router-link></p>
+                <p class="fl" v-if="item.memberType == 2"><router-link :to="{name:'personalDetail',params:{'memberGuid':item.memberGuid}}">{{item.memberCode}}</router-link></p>
                 <p class="fl">{{item.memberFullName}}</p>
                 <p class="fl">{{item.memberStatusDesc}}</p>
               </li>
@@ -31,19 +32,6 @@
           </template>
         
       </van-pull-refresh>
-      <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="暂无更多数据"
-      @load="load_more_items"
-    >
-        <van-cell
-          v-for="item in items"
-          :key="item"
-          :title="item.memberCode"
-          :value="item.memberCode"
-          />
-    </van-list>
     </div>
 
     <van-overlay :show="show" @click="show = false">
@@ -145,9 +133,9 @@ export default {
 
 
     handClick(item){
-      // console.log(id)
-      console.log(item.id)
-      console.log(item.memberType)
+      
+      console.log(item.memberGuid)
+     // console.log(item.memberType)
 
     },
     // 点击返回

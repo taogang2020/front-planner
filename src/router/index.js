@@ -13,8 +13,8 @@ import OpenAccountOrgan from '@/components/account/OpenAccountOrgan'
 import OrganRegister from '@/components/customer/OrganRegister'
 import PersonalRegister from '@/components/customer/PersonalRegister'
 import CustomerList from '@/components/customer/CustomerList'
-import PersonalAccountDetail from '@/components/customer/PersonalAccountDetail'
-import OrganAccountDetail from '@/components/customer/OrganAccountDetail'
+import PersonalDetail from '@/components/customer/PersonalDetail'
+import OrganDetail from '@/components/customer/OrganDetail'
 import Login from '@/components/account/Login'
 import Register from '@/components/account/Register'
 import OrganCheckBack from '@/components/account/OrganCheckBack'
@@ -132,17 +132,17 @@ const router = new Router({
       meta: {
         title: '客户详情'
       },
-      path: '/organAccountDetail',
-      name: 'organAccountDetail',
-      component: OrganAccountDetail
+      path: '/organDetail/:memberGuid',
+      name: 'organDetail',
+      component: OrganDetail
     },
     {
       meta: {
         title: '客户详情'
       },
-      path: '/personalAccountDetail',
-      name: 'personalAccountDetail',
-      component: PersonalAccountDetail
+      path: '/personalDetail/:memberGuid',
+      name: 'personalDetail',
+      component: PersonalDetail
     },
     {
       meta: {
@@ -199,7 +199,6 @@ const router = new Router({
         name: 'customerList',
         component: CustomerList
       },
-      
       {
         meta: {
           title: '我的账户',
