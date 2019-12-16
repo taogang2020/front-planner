@@ -8,9 +8,9 @@ import 'vant/lib/index.css';
 import '@/assets/style/reset.css'
 import http from './utils/http.js'
 
-
 Vue.config.productionTip = false
 Vue.use(Vant);
+
 Vue.prototype.$http = http
 /* eslint-disable no-new */
 new Vue({

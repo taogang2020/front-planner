@@ -14,8 +14,6 @@
 <script>
 // 引入侧边栏
 import tabbarNav from './layout/Tabbar'
-
-
 export default {
   name: 'Index',
   components: {
@@ -27,10 +25,10 @@ export default {
 <style scoped>
 
 .main{
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    background: #fafafa;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: #fafafa;
 }
 .bot{
   height: 0.8rem;
