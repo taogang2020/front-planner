@@ -5,9 +5,9 @@
       />
     <div>
       <van-cell-group v-show="active">
-        <van-field v-model="form.memberFullName" label="姓名:" required placeholder="请输入用户名" />
+        <van-field v-model="form.memberFullName" label="姓名:" required placeholder="请输入姓名" />
         <van-field v-model="form.memberPhone" label="手机号:" placeholder="请输入手机号" />
-        <van-field v-model="form.operatorLoginName" required label="登陆名:" placeholder="请输入登陆名" />
+        <van-field v-model="form.operatorLoginName" required label="登录名:" placeholder="请输入登录名" />
         <van-field
           v-model="form.secrectCode"
           required
@@ -16,7 +16,7 @@
           placeholder="请输入登录密码"
         />
         <van-field
-          :value="form.idType"
+          :value="form.idTypeDesc"
           required
           @click="showCardType = true"
           label="证件类型:"
@@ -32,6 +32,7 @@
           readonly
           placeholder="请选择地址"
         />
+        <van-field v-model="form.memberAddress" label="详细地址:" placeholder="请输入详细地址" />
         <div class="firstBtn">
           <van-button type="danger" class="next" @click="next">下一步</van-button>
         </div>
@@ -40,17 +41,18 @@
         <p class="title">请上传相关证件</p>
         <div class="ImgBox clear">
           <div class="file idCardPositive fl">
-            <van-uploader :after-read="afterRead" />
+            <van-uploader v-model="positiveFileList" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
             <p>身份证正面</p>
           </div>
           <div class="file idCardReverse fr">
-            <van-uploader :after-read="afterRead" />
+            <van-uploader v-model="reverseFileList" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
             <p>身份证反面</p>
           </div>
         </div>
         <div class="secondBtn">
           <van-button type="danger" class="pre" @click="pre">上一步</van-button>
-          <van-button type="danger" class="pre" @click="pre">提交审核</van-button>
+          <van-button type="danger" class="pre" @click="submitClick(2)">保存</van-button>
+          <van-button type="danger" class="pre" @click="submitClick(1)">提交审核</van-button>
         </div>
       </div>
     </div>
@@ -58,164 +60,54 @@
     <van-popup v-model="showCardType" position="bottom">
       <van-picker
         show-toolbar
-        :columns="columns"
-        value-key="name"
+        :columns="idTypeList"
+        value-key="typeName"
         @cancel="showCardType = false"
         @confirm="onConfirm"
       />
     </van-popup>
     <!-- 地址选择器 -->
     <van-popup v-model="AddrPopup" position="bottom" :style="{ height: '40%' }">
-      <van-picker ref="area" show-toolbar :columns="cityList" @cancel="AddrPopup = false" @confirm="sureAddress" @change="onChange" />
+      <van-area  show-toolbar :area-list="areaList" @cancel="AddrPopup = false" @confirm="sureAddress" />
     </van-popup>
     
   </div>
 </template>
-
 <script>
-const citys = [
-  {
-    value: 1,
-    label: "浙江",
-    children: [
-      {
-        value: 2,
-        label: "杭州",
-        children: [
-          {
-            value: 7,
-            label: "临安区"
-          },
-          {
-            value: 8,
-            label: "下城区"
-          },
-          {
-            value: 9,
-            label: "上城区"
-          }
-        ]
-      },
-      {
-        value: 3,
-        label: "宁波",
-        children: [
-          {
-            value: 10,
-            label: "海曙区"
-          },
-          {
-            value: 11,
-            label: "江东区"
-          },
-          {
-            value: 12,
-            label: "江北区"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    value: 4,
-    label: "福建",
-    children: [
-      {
-        value: 5,
-        label: "福州",
-        children: [
-          {
-            value: 13,
-            label: "鼓楼区"
-          },
-          {
-            value: 14,
-            label: "台江区"
-          },
-          {
-            value: 15,
-            label: "仓山区"
-          }
-        ]
-      },
-      {
-        value: 6,
-        label: "厦门",
-        children: [
-          {
-            value: 16,
-            label: "思明区"
-          },
-          {
-            value: 17,
-            label: "海沧区"
-          },
-          {
-            value: 18,
-            label: "湖里区"
-          }
-        ]
-      }
-    ]
-  }
-];
-function getChildArray(citys){
-  let parentList = [];
-  citys.forEach((itme, index)=>{
-    parentList.push(itme.label);
-  })
-  return parentList
-}
-function getChlidList(name, citys){
-  let list = [];
-  citys.forEach(itme=>{
-    if(itme.label == name){
-      list = itme.children;
-    }
-  })
-  return getChildArray(list);
-}
+
+import OSS from "ali-oss";
+import crypto from "crypto";
+import { validMobileNo,validIdCard,validLoginName,validLoginPassword } from "@/utils/validate";
 
 export default {
   name: "PersonalRegister",
   data() {
     return {
-      cityList: [
-        {
-          values: getChildArray(citys),
-          className: "column1"
-        },
-        {
-          values: getChlidList("浙江", citys),
-          className: "column2",
-          defaultIndex: 0
-        },
-        {
-          values: getChlidList("杭州", citys[0]["children"]),
-          className: "column3",
-          defaultIndex: 0
-        }
-      ],
-      provinceInfo: citys[0],
-      cityInfo: citys[0]['children'][0],
-      areaInfo: citys[0]['children'][0]['children'][0],
-      defaultIndex: [0, 0, 0],
-
-      columns: [
-        { name: "浙江", id: 1 },
-        { name: "宁波", id: 2 },
-        { name: "上海", id: 3 },
-        { name: "北京", id: 4 },
-        { name: "杭州", id: 5 }
-      ],
+      areaList:{},
+      idTypeList:[],
+      positiveFileList:[],
+      reverseFileList:[],
+      
       form: {
+        memberGuid:'',
         memberFullName: "",
         memberPhone: "",
         operatorLoginName: "",
         secrectCode: "",
-        idType: "",
+        idCardType: "",
+        idTypeDesc: "",
         idCard: "",
         address: "",
+        provinceCode: "", //省
+        cityCode: "", //市
+        districtCode: "", //区
+        memberAddress: "", //详细地址
+        memberType:2,//自然人
+        fzrPositiveFilePath:"",
+        fzrPositiveFileName:"",
+        fzrNegativeFilePath:"",
+        fzrNegativeFileName:"",
+        isSubmit:"",//保存2 提交1
       },
       active: true,
       AddrPopup: false,
@@ -226,101 +118,221 @@ export default {
   },
   created() {
     var _this = this;
+    _this.getAdress();
+    _this.getSelect();
   },
   methods: {
-    diffIndex(indexs) {
+    //获取地址
+    getAdress() {
       var _this = this;
-      let editIndexFlag;
-      indexs.forEach((item, index) => {
-        if (item != this.defaultIndex[index]) {
-          editIndexFlag = index;
-          _this.defaultIndex[index] = item;
-          return false;
+      this.$http.get("/api/sys/area/search/mobile").then(function(res) {
+        var data = res.data;
+        if (data.code == 0) {
+          _this.areaList = data.data;
         }
       });
-      let length = this.defaultIndex.length;
-      for (var i = editIndexFlag + 1; i < length; i++) {
-        _this.defaultIndex[i] = 0;
-      }
-      return _this.defaultIndex;
     },
-
-    updIds() {
+    //获取下拉框信息
+    getSelect() {
       var _this = this;
-      _this.provinceInfo = citys[_this.defaultIndex[0]];
-      _this.cityInfo = citys[_this.defaultIndex[0]]['children'][_this.defaultIndex[1]];
-      _this.areaInfo = citys[_this.defaultIndex[0]]['children'][_this.defaultIndex[1]]['children'][_this.defaultIndex[2]];
-      console.log("id"+_this.provinceInfo.value+"name"+_this.provinceInfo.label)
-      console.log("id"+_this.cityInfo.value+"name"+_this.cityInfo.label)
-      console.log("id"+_this.areaInfo.value+"name"+_this.areaInfo.label)
-
+      this.$http.get("/api/member/toRegisterPage").then(function(res) {
+        var data = res.data;
+        if (data.code == 0) {
+          _this.idTypeList = data.data.zjTypeList;
+          _this.form.idTypeDesc = _this.idTypeList[0].typeName;
+          _this.form.idCardType = _this.idTypeList[0].id;
+        }
+      });
     },
-    onChange(picker, values) {
-      var _this = this;
-      let indexs = _this.diffIndex(picker.getIndexes());
-      //设置城市
-      let cityList = getChlidList(values[0], citys);
-      picker.setColumnValues(1, cityList);
-      let areaList = getChlidList(cityList[indexs[1]],citys[indexs[0]]["children"]);
-      picker.setColumnValues(2, areaList);
-      _this.updIds();
-    },
-
+    
     // 点击地址
     showPopup() {
       var _this = this;
       _this.AddrPopup = true;
-     
     },
     // 点击确认地址
     sureAddress(value) {
-      console.log(value);
       var _this = this;
+      _this.form.provinceCode = value[0].code;
+      _this.form.cityCode = value[1].code;
+      _this.form.districtCode = value[2].code;
+      _this.form.address = value[0].name+"/"+value[1].name+"/"+value[2].name;
       _this.AddrPopup = false;
     },
     // 点击确认身份证类型
     onConfirm(value) {
       var _this = this;
-      var keyId = value.id;
-      var text = value.name;
-      _this.form.value = text;
-      console.log("当前值" + keyId + "当前索引" + text);
+      _this.form.idTypeDesc = value.typeName;
+      _this.form.idCardType = value.id;
       _this.showCardType = false;
     },
-    // 上传图片
-    afterRead(file) {
-      // 此时可以自行将文件上传至服务器
-      console.log(file);
+    // 删除身份证正面
+    delPositive(){
+      var _this = this;
+      _this.form.fzrPositiveFilePath = "";
+      _this.form.fzrPositiveFileName = "";
+      return true;
     },
+    //删除身份证反面
+    delNegative(){
+      var _this = this;
+      _this.form.fzrNegativeFilePath = "";
+      _this.form.fzrNegativeFileName = "";
+      return true;
+    },
+    // 上传身份证正面
+    uploadPositive(file) {
+      var _this = this;
+      _this.uploadFile(file,3);
+    },
+    // 上传身份证反面
+    uploadNegative(file) {
+      var _this = this;
+      _this.uploadFile(file,4);
+    },
+    // 上传图片
+    uploadFile(params,fileType) {
+      // 此时可以自行将文件上传至服务器
+      var _this = this;
+      this.$http
+        .post("/api/member/upload/ststoken", { uploadFileType: 1 })
+        .then(function(res) {
+          var data = res.data;
+          if (data.code == 0) {
+            var client = OSS({
+              accessKeyId: data.data.accessKeyId,
+              accessKeySecret: data.data.accessKeySecret,
+              stsToken: data.data.securityToken,
+              bucket: data.data.bucketName,
+              region: "oss-cn-beijing"
+            });
+            var fileName = params.file.name;
+            var fileformat = _this.getCaption(params.file.name, 1);
+            var suffix = "." + fileformat;
+            var uuid = _this.uuid();
+            var storeAs = data.data.uploadPath + "/" + uuid + suffix;
+            try {
+              let result = client.put(storeAs, params.file);
+              if(fileType == 3){
+                // 身份证正面
+                _this.form.fzrPositiveFilePath = storeAs;
+                _this.form.fzrPositiveFileName = fileName;
+              } else if (fileType == 4) {
+                // 身份证反面
+                _this.form.fzrNegativeFilePath = storeAs;
+                _this.form.fzrNegativeFileName = fileName;
+              }
+            } catch (e) {
+              console.log(e);
+            }
+          } else {
+            _this.$toast(data.msg);
+          }
+        });
+    },
+    // 生成uuid
+    uuid() {
+      var s = [];
+      var hexDigits = "0123456789abcdef";
+      for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+      }
+      s[14] = "4";
+      s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);
+      s[8] = s[13] = s[18] = s[23] = "";
 
+      var uuid = s.join("");
+      return uuid;
+    },
+    // 截取图片文件格式
+    getCaption(obj, state) {
+      var index = obj.lastIndexOf(".");
+      if (state == 0) {
+        obj = obj.substring(0, index);
+      } else {
+        obj = obj.substring(index + 1, obj.length);
+      }
+      return obj;
+    },
+    //下一步
     next() {
       var _this = this;
-      var reg = /^(13|14|15|16|17|18|19)[0-9]{9}$/;
       if (_this.form.memberFullName == "") {
-        _this.$toast("请填写用户名");
+        _this.$toast("请填写姓名");
         return;
       }
-      if (_this.form.operatorLoginNam == "") {
+      if (_this.form.memberPhone != "" && !validMobileNo(_this.form.memberPhone)) {
+        _this.$toast("请填写正确的手机号");
+        return;
+      }
+      if (_this.form.operatorLoginName == "") {
         _this.$toast("请填写登录名");
+        return;
+      }
+      if(!validLoginName(_this.form.operatorLoginName)){
+        _this.$toast("登录名以字母开头，只能包含字母、数字、下划线");
         return;
       }
       if (_this.form.secrectCode == "") {
         _this.$toast("请填写登录密码");
         return;
       }
-      if (_this.form.idType == "") {
-        _this.$toast("请选择身份证类型");
+      if(!validLoginPassword(_this.form.secrectCode)){
+        _this.$toast("登录密码只能包含字母、数字、下划线");
+        return;
+      }
+      if (_this.form.idCardType == "") {
+        _this.$toast("请选择证件类型");
         return;
       }
       if (_this.form.idCard == "") {
-        _this.$toast("请填写身份证号");
+        _this.$toast("请填写证件号");
         return;
       }
-      if (_this.form.memberPhone != reg) {
-        _this.$toast("请填写正确的手机号");
+      if(!validIdCard(_this.form.idCard)){
+        _this.$toast("请输入正确的证件号");
         return;
       }
       _this.active = false;
+    },
+    
+    //保存或者提交审核
+    submitClick(isSubmit){
+      var _this = this;
+      //判断文件是否上传
+      if (_this.form.fzrPositiveFilePath == "") {
+        _this.$toast("请上传身份证正面文件");
+        return;
+      }
+      if (_this.form.fzrNegativeFilePath == "") {
+        _this.$toast("请上传身份证反面文件");
+        return;
+      }
+      _this.form.isSubmit = isSubmit;
+      var savesecrectCode = _this.form.secrectCode;
+      var  md5 = crypto.createHash("md5");
+      md5.update(_this.form.secrectCode) //需要加密的密码
+      _this.form.secrectCode = md5.digest('hex');  //password 加密完的密码
+      _this.$http.post("/api/planner/member/cust/register",_this.form).then(function(res){
+        var data =res.data;
+        if(data.code==0){
+          var result =data.data;
+          if(result) {
+            _this.$toast("操作成功");
+            //返回列表
+            _this.$router.push({
+              path:'/customerList'
+            });
+          } else {
+            _this.$toast("操作失败");
+            _this.form.secrectCode = savesecrectCode;
+          }
+        } else {
+          _this.$toast(data.msg);
+          _this.form.secrectCode = savesecrectCode;
+        } 
+      });
+
     },
 
     pre() {
