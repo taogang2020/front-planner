@@ -1,59 +1,49 @@
 <template>
   <div class="customerList">
-    <van-nav-bar title="客户管理" />
+    <van-nav-bar  title="客户管理" />
     <div class="listBox ">
-      <div class="clear"><p class="titlename" @click="registerClick">客户代注册</p></div>
-      <div class="clear title">
+      <!-- <div class="clear"><p class="titlename" @click="registerClick">客户代注册</p></div>
+      <div class="clear van-clearfix title">
         <p class="fl">客户编号</p>
         <p class="fl">客户全称</p>
         <p class="fl">客户类型</p>
-      </div>
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      </div> -->
+      <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh"> -->
         
           <div v-if='noData'> 暂无数据 </div>
-          <template v-else>
-            <van-list
-              class="list"
-              ref="list"
-              v-model="loading"
-              :finished="finished"
-              finished-text="- 没有更多了 -"
-              @load="onLoad"
-            >
-            <ul class="container ">
-              <li class="van-clearfix" v-for='item in myList' :key="item.assetsMoney" @click='handClick(item)'>
-                <p class="fl">{{item.memberCode}}</p>
-                <p class="fl">{{item.memberFullName}}</p>
-                <p class="fl">{{item.memberStatusDesc}}</p>
-              </li>
-              </ul>
-            </van-list>
-          </template>
-        
-      </van-pull-refresh>
-      <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="暂无更多数据"
-      @load="load_more_items"
-    >
-        <van-cell
-          v-for="item in items"
-          :key="item"
-          :title="item.memberCode"
-          :value="item.memberCode"
-          />
-    </van-list>
+          <van-list
+            class="list van-clearfix"
+            v-model="loading"
+            :finished="finished"
+            finished-text="- 没有更多了 -"
+            @load="onLoad"
+            ref='test'
+            v-else
+          >
+          <ul class="van-clearfix conwtainer">
+            <li class="van-clearfix" v-for='item in myList' :key="item.assetsMoney" @click='handClick(item)'>
+              <p class="fl">{{item.memberCode}}</p>
+              <p class="fl">{{item.memberFullName}}</p>
+              <p class="fl">{{item.memberStatusDesc}}</p>
+            </li>
+            </ul>
+            <!-- <van-cell
+              v-for='item in myList'
+              :key="item.memberFullName"
+              :title="item.memberFullName"
+            ></van-cell> -->
+          </van-list>
+      <!-- </van-pull-refresh> -->
     </div>
 
-    <van-overlay :show="show" @click="show = false">
+    <!-- <van-overlay :show="show" @click="show = false">
       <div class="wrapper" @click.stop>
         <div class="block">
           <p><router-link :to="{name:'organRegister'}">企业</router-link></p>
           <p><router-link :to="{name:'personalRegister'}">个人</router-link></p>
         </div>
       </div>
-    </van-overlay>
+    </van-overlay> -->
   </div>
 </template>
 
@@ -68,35 +58,32 @@ export default {
         memberType:-1,
         memberStatus:-1,
         pageNo:1,
-        pageSize:10,
+        pageSize:20,
       },
-      list:[],
+      is_weixin:false,
       show:false,
       loading: false, // 当loading为true时，转圈圈
       finished: false, // 数据是否请求结束，结束会先显示- 没有更多了 -
       myList:[],
       noData: false, // 如果没有数据，显示暂无数据
       isLoading:false ,// 下拉的加载图案
-
-
+      lock:true,
 
     };
   },
   created(){
     var _this = this;
-    // _this.getList();
   },
   methods: {
-    // 获取列表
+    
+
+    // 获取数据列表
     getList(){
       var _this = this;
       var params = _this.form;
-      // _this.finished = false;
       _this.$http.post("/api/member/page/search",params).then(function (res) {
         var data = res.data;
         if (data.code == 0) {
-          _this.loading = false;
-          _this.isLoading = false;
           _this.myList = _this.myList.concat(data.data.pageData.list);
           _this.form.pageNo++;
           // 如果没有数据，显示暂无数据
@@ -111,20 +98,16 @@ export default {
         } else {
           _this.$toast(data.msg);
         }
+        console.log(_this.myList);
+        _this.loading = false;
       })
     },
      // 列表加载
     onLoad () {
-      var _this = this;
-
-        setTimeout(() => {
-        _this.getList()
-        // 加载状态结束
-        _this.loading = false;
-      
-      }, 500)
-      
-      
+      // console.log(this.$refs['test'].check());
+      // this.loading = false;
+      // console.log(this.$refs['test'].check())
+        this.getList();
     },
    
 
@@ -157,8 +140,11 @@ export default {
     },
     
     registerClick(){
+      console.log(111)
         var _this = this;
-        _this.show = true
+        console.log(_this.show)
+        _this.show = true;
+        console.log(_this.show)
 
     }
   }
@@ -206,7 +192,6 @@ export default {
   width: 7.5rem;
   font-size: 0.3rem;
 }
-
 a{
   color: #fff;
 }
