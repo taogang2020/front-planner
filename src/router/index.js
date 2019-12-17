@@ -22,6 +22,7 @@ import OrganCheckWait from '@/components/account/OrganCheckWait'
 import WhiteManage from '@/components/account/WhiteManage'
 import MyAccount from '@/components/account/MyAccount'
 import EditPassword from '@/components/account/EditPassword'
+import OpenAccountList from '@/components/account/OpenAccountList'
 
 Vue.use(Router)
 
@@ -47,6 +48,14 @@ const router = new Router({
       path: '/openAccountOrgan/:memberGuid',
       name: 'openAccountOrgan',
       component: OpenAccountOrgan
+    },
+    {
+      meta: {
+        title: '绑定银行卡'
+      },
+      path: '/openAccountList',
+      name: 'openAccountList',
+      component: OpenAccountList
     },
     {
       meta: {

@@ -60,11 +60,11 @@
         </van-tab>
       </van-tabs>
       <div class="secondBtn">
-        <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="editClick()">编辑</van-button>
-        <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="deleteClick()">删除</van-button>
-        <van-button type="danger" class="pre" v-if="showSaveBtn" @click="cancelEditClick()">取消</van-button>
-        <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(2)">保存</van-button>
-        <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(1)">成为用户</van-button>
+        <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="editClick()">编 辑</van-button>
+        <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="deleteClick()">删 除</van-button>
+        <van-button type="danger" class="pre" v-if="showSaveBtn" @click="cancelEditClick()">取 消</van-button>
+        <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(2)">保 存</van-button>
+        <van-button type="danger" class="pre" style="width:1.8rem" v-if="showSaveBtn" @click="submitClick(1)">成为用户</van-button>
       </div>
     </div>
     <!-- 企业类型选择器 -->
@@ -684,6 +684,11 @@ export default {
 .idCardPositive p{
   left: 0.5rem;
 }
+.organDetail .secondBtn .van-button{
+  width: 1.5rem;
+  height: 0.7rem;
+  line-height: 0.7rem;
+}
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -718,6 +723,11 @@ export default {
   width: 2rem;
   height: 2rem;
   margin-left: 0.5rem;
+}
+.secondBtn{
+  width: 7rem;
+  margin: 0 auto;
+  text-align: center;
 }
 
 </style>

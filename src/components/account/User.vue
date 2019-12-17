@@ -67,19 +67,11 @@ export default {
     //去往开户页面
     openAccount(){
       var _this = this;
-      if(_this.form.memberType == 1){
-        //机构开户
+     
         _this.$router.push({ 
-          path:'/openAccountOrgan',  
+          path:'/openAccountList',  
         })
-      }else if(_this.form.memberType == 2){
-        //个人开户
-        _this.$router.push({ 
-          path:'/openAccountPersonal',  
-        })
-      }else{
-        _this.$toast("请重新登录");
-      }
+  
 
     },
     //去往资金账户详情页面
@@ -112,6 +104,7 @@ export default {
   float: right;
   top: 0;
   left: 0;
+  margin-top: 0;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
