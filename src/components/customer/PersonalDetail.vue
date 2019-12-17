@@ -45,6 +45,7 @@
       </van-tabs>
       <div class="secondBtn">
         <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="editClick()">编辑</van-button>
+        <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="deleteClick()">删除</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="cancelEditClick()">取消</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(2)">保存</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(1)">成为用户</van-button>
@@ -64,6 +65,8 @@
     <van-popup v-model="AddrPopup" position="bottom" :style="{ height: '40%' }">
       <van-area  show-toolbar :area-list="areaList" @cancel="AddrPopup = false" @confirm="sureAddress" />
     </van-popup>
+    <!-- 删除弹框 -->
+    <van-dialog v-model="showDelete" title="确认删除吗？" show-cancel-button @confirm="confirmDelete"></van-dialog>
   </div>
 </template>
 <script>
@@ -89,6 +92,7 @@ export default {
       AddrPopup: false,
       is_disabled: true,
       showSaveBtn : false,
+      showDelete : false,
     };
   },
   created() {
@@ -347,6 +351,28 @@ export default {
         } 
       });
     },
+    //删除弹窗
+    deleteClick(){
+      var _this = this;
+      _this.showDelete = true;
+    },
+    //确认删除
+    confirmDelete(){
+      var _this = this;
+      _this.$http.get("/api/planner/member/cust/delete",{params:{memberGuid:_this.form.memberGuid}}).then(function (res) {
+        var data = res.data;
+        if (data.code == 0) {
+          _this.$toast("删除成功");
+          //返回列表
+          _this.$router.push({
+            path:'/customerList'
+          });
+        } else {
+          _this.$toast(data.msg);
+        }
+      });
+    },
+
   }
 };
 </script>
