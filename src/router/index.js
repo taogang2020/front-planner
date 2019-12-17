@@ -34,17 +34,17 @@ const router = new Router({
     },
     {
       meta: {
-        title: '开通资金账户'
+        title: '绑定银行卡'
       },
-      path: '/openAccountPersonal',
+      path: '/openAccountPersonal/:memberGuid',
       name: 'openAccountPersonal',
       component: OpenAccountPersonal
     },
     {
       meta: {
-        title: '开通资金账户'
+        title: '绑定银行卡'
       },
-      path: '/openAccountOrgan',
+      path: '/openAccountOrgan/:memberGuid',
       name: 'openAccountOrgan',
       component: OpenAccountOrgan
     },

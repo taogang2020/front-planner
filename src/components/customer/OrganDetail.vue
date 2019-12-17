@@ -7,61 +7,118 @@
         <van-tab title="基本信息">
           <div >
             <van-cell-group class="text">
-              <van-field v-model="form.memberFullName" disabled label="企业全称:" />
-              <van-field v-model="form.memberName" label="企业简称:" disabled/>
-              <van-field v-model="form.companyCreditCode" required disabled label-width="2.7rem" label="统一社会信用代码:" />
-              <van-field v-model="form.companyTypeDesc" required label="企业类型:" disabled clickable />
-              <van-field v-model="form.legalMan" required disabled label="企业法人:"/>
-              <van-field v-model="form.legalIdCardTypeDesc" required disabled label="法人证件类型:" label-width="2.6rem" />
-              <van-field v-model="form.legalIdCard" required label="法人证件号:" disabled/>
-              <van-field v-model="form.openTimeStr" label="成立时间:"  disabled />
-              <van-field v-model="form.totalAssets" label="总资产(亿):" disabled />
-              <van-field v-model="form.netAssets" label="净资产(亿):" disabled />
-              <van-field v-model="form.fundsSources" label="资金来源:" disabled />
-              <van-field v-model="form.address" label="注册地址:" disabled  />
-              <van-field v-model="form.memberAddress" label="详细地址:" disabled />
+              <van-field v-model="form.memberCode" disabled label="用户编号:" />
+              <van-field v-model="form.memberStatusDesc" disabled label="状态:" />
+              <van-field v-model="form.memberFullName" required :disabled="is_disabled" label="企业全称:" placeholder="请输入企业全称"/>
+              <van-field v-model="form.memberName" label="企业简称:" :disabled="is_disabled" placeholder="请输入企业简称"/>
+              <van-field v-model="form.companyCreditCode" required :disabled="is_disabled" label-width="2.7rem" label="统一社会信用代码:" placeholder="请输入统一社会信用代码"/>
+              <van-field :value="form.companyTypeDesc" required label="企业类型:" :disabled="is_disabled" clickable  @click="companyTypeSelect" placeholder="请选择企业类型" />
+              <van-field v-model="form.legalMan" required :disabled="is_disabled" label="企业法人:" placeholder="请输入企业法人"/>
+              <van-field :value="form.legalIdCardTypeDesc" required @click="legalIdCardTypeSelect" label="法人证件类型:" label-width="2.6rem" :disabled="is_disabled" clickable  placeholder="请选择" />
+              <van-field v-model="form.legalIdCard" required label="法人证件号:" :disabled="is_disabled" placeholder="请输入法人证件号"/>
+              <van-field v-model="form.openTime" label="成立时间:"  :disabled="is_disabled" @click="showTimeSelect" placeholder="请选择成立时间"/>
+              <van-field v-model="form.totalAssets" label="总资产(亿):" :disabled="is_disabled" placeholder="请输入总资产"/>
+              <van-field v-model="form.netAssets" label="净资产(亿):" :disabled="is_disabled" placeholder="请输入净资产"/>
+              <van-field v-model="form.fundsSources" label="资金来源:" :disabled="is_disabled" placeholder="请输入资金来源"/>
+              <van-field :value="form.address" label="注册地址:" @click="showPopup" :disabled="is_disabled"  placeholder="请选择注册地址" />
+              <van-field v-model="form.memberAddress" label="详细地址:" :disabled="is_disabled" placeholder="请输入详细地址"/>
             </van-cell-group>
-            <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize disabled label="业务经营范围:" label-width="2.4rem"  placeholder="请输入业务经营范围" />
+            <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize :disabled="is_disabled" label="业务经营范围:" label-width="2.4rem"  placeholder="请输入业务经营范围" />
           </div>
           <div class="text" style="margin-top:0.1rem">
-            <van-field v-model="form.operatorName" required label="业务负责人:" disabled/>
-            <van-field v-model="form.operatorIdTypeDesc" required label="业务负责人证件:" label-width="2.6rem" disabled  />
-            <van-field v-model="form.operatorIdCard" required label="业务负责人证件号:" label-width="2.6rem" disabled/>
-            <van-field v-model="form.memberPhone" label="手机号:"  disabled/>
-            <van-field v-model="form.operatorLoginName" required label="登录名:" disabled />
+            <van-field v-model="form.operatorName" required label="业务负责人:" :disabled="is_disabled" placeholder="请输入业务负责人" />
+            <van-field :value="form.operatorIdTypeDesc" required @click="cardTypeSelect" label="证件类型:"  :disabled="is_disabled" clickable  placeholder="请选择证件类型" />
+            <van-field v-model="form.operatorIdCard" required label="业务负责人证件号:" label-width="2.6rem" :disabled="is_disabled" placeholder="请输入证件号"/>
+            <van-field v-model="form.memberPhone" label="手机号:"  :disabled="is_disabled" placeholder="请输入手机号" />
+            <van-field v-model="form.operatorLoginName" required label="登录名:" :disabled="is_disabled" placeholder="请输入登录名" />
           </div>
         </van-tab>
         <van-tab title="证明文件">
           <div class="ImgBox clear">
             <div class="file  fl">
-              <van-uploader v-model="yyzzFileList" :disabled="true" :deletable='false' :max-count="1"/>
+              <van-uploader v-model="yyzzFileList" :disabled="is_disabled" :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz"/>
               <p>营业执照</p>
             </div>
             <div class="file fr">
-              <van-uploader v-model="sqwtsFileList" :disabled="true" :deletable='false' :max-count="1"/>
+              <van-uploader v-model="sqwtsFileList" :disabled="is_disabled" :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" />
               <p>授权人委托书</p>
             </div>
-            <div class="file fl">
-              <van-uploader v-model="positiveFileList" :disabled="true" :deletable='false' :max-count="1"/>
-              <p>身份证正面</p>
+            <div class="file idCardPositive fl">
+              <van-uploader v-model="positiveFileList" :disabled="is_disabled" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive"/>
+              <p>负责人身份证正面</p>
             </div>
-            <div class="file fr">
-              <van-uploader v-model="reverseFileList" :disabled="true" :deletable='false' :max-count="1"/>
-              <p>身份证反面</p>
+            <div class="file idCardPositive fr">
+              <van-uploader v-model="reverseFileList" :disabled="is_disabled" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative"/>
+              <p>负责人身份证反面</p>
             </div>
             <div class="file fl">
-              <van-uploader v-model="otherFileList" :disabled="true" :deletable='false' :max-count="1"/>
+              <van-uploader v-model="otherFileList" :disabled="is_disabled" :max-count="1" :after-read="uploadOther" :before-delete="delOther"/>
               <p>其他</p>
             </div>
             
           </div>
         </van-tab>
       </van-tabs>
-      
+      <div class="secondBtn">
+        <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="editClick()">编辑</van-button>
+        <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="deleteClick()">删除</van-button>
+        <van-button type="danger" class="pre" v-if="showSaveBtn" @click="cancelEditClick()">取消</van-button>
+        <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(2)">保存</van-button>
+        <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(1)">成为用户</van-button>
+      </div>
     </div>
+    <!-- 企业类型选择器 -->
+    <van-popup v-model="showcompanyType" position="bottom">
+      <van-picker
+        show-toolbar
+        :columns="companyTypeList"
+        value-key="typeName"
+        @cancel="showcompanyType = false"
+        @confirm="onCompanyType"
+      />
+    </van-popup>
+    <!-- 法人类型选择器 -->
+    <van-popup v-model="showlegalIdCardType" position="bottom">
+      <van-picker
+        show-toolbar
+        :columns="idTypeList"
+        value-key="typeName"
+        @cancel="showlegalIdCardType = false"
+        @confirm="onLegalIdCardType"
+      />
+    </van-popup>
+    <!-- 时间选择器 -->
+    <van-popup v-model="showTime" position="bottom" :style="{ height: '40%' }" >
+      <van-datetime-picker
+        v-model="currentDate"
+        type="date"
+        :min-date="minDate"
+        @cancel="showTime = false"
+        @confirm="onShowTime"
+      />
+    </van-popup>
+    <!-- 地址选择器 -->
+    <van-popup v-model="AddrPopup" position="bottom" :style="{ height: '40%' }" >
+      <van-area show-toolbar :area-list="areaList" @cancel="AddrPopup = false" @confirm="sureAddress" />
+    </van-popup>
+    <!-- 证件类型选择器 -->
+    <van-popup v-model="showCardType" position="bottom">
+      <van-picker
+        show-toolbar
+        :columns="idTypeList"
+        value-key="typeName"
+        @cancel="showCardType = false"
+        @confirm="onConfirm"
+      />
+    </van-popup>
+    <!-- 删除弹框 -->
+    <van-dialog v-model="showDelete" title="确认删除吗？" show-cancel-button @confirm="confirmDelete"></van-dialog>
   </div>
 </template>
 <script>
+import OSS from "ali-oss";
+import { validMobileNo,validIdCard,validLoginName } from "@/utils/validate";
+import {dateCommonFormat } from '@/utils/common';
 export default {
   name: "OrganDetail",
   data() {
@@ -81,8 +138,23 @@ export default {
       otherFileList: [
         { url: '' },
       ],
-      form:{},
+      minDate:new Date(1970, 10, 1),
+      currentDate: new Date(),
+      form:{
+        isSubmit: 2,
+      },
+      companyTypeList:[],
+      areaList:{},
+      idTypeList:[],
       is_weixin:false,
+      showcompanyType: false,
+      showlegalIdCardType: false,
+      showTime:false,
+      AddrPopup:false,
+      showCardType: false,
+      is_disabled: true,
+      showSaveBtn : false,
+      showDelete : false,
     }
   },
 
@@ -109,18 +181,37 @@ export default {
     //选项卡切换
     onClick(name, title) {
     },
+    //获取地址
+    getAdress() {
+      var _this = this;
+      this.$http.get("/api/sys/area/search/mobile").then(function(res) {
+        var data = res.data;
+        if (data.code == 0) {
+          _this.areaList = data.data;
+        }
+      });
+    },
     // 获取数据
     getDetail(){
         var _this = this;
-        var guid = sessionStorage.getItem('guid')
-        _this.$http.get("/api/member/getMemberDetail",{params:{memberGuid:guid}}).then(function (res) {
+        var memberGuid = _this.$route.params.memberGuid;
+        _this.$http.get("/api/member/getMemberDetail",{params:{memberGuid:memberGuid}}).then(function (res) {
           var data = res.data;
           if (data.code == 0) {
             _this.form = data.data.membersVo;
-            var zjTypeListArr = data.data.zjTypeList;
-            for(var i = 0; i < zjTypeListArr.length; i++){
-              if (zjTypeListArr[i].id==data.data.membersVo.legalIdCardType){
-                _this.form.legalIdCardTypeDesc = zjTypeListArr[i].typeName;
+            _this.companyTypeList = data.data.companyTypeList;
+            _this.idTypeList = data.data.zjTypeList;
+            //获取企业类型
+            for(var i=0; i<_this.companyTypeList.length; i++){
+              if(_this.form.companyType == _this.companyTypeList[i].id){
+                _this.form.companyTypeDesc = _this.companyTypeList[i].typeName;
+                break;
+              }
+            }
+            //获取法人证件类型
+            for(var i=0; i<_this.idTypeList.length; i++){
+              if(_this.form.legalIdCardType == _this.idTypeList[i].id){
+                _this.form.legalIdCardTypeDesc = _this.idTypeList[i].typeName;
                 break;
               }
             }
@@ -130,6 +221,11 @@ export default {
             }
             _this.form.idTypeDesc = data.data.membersVo.operatorIdTypeDesc;
             _this.form.address = address;
+            if(data.data.membersVo.openTime){
+              _this.form.openTime = dateCommonFormat(data.data.membersVo.openTime);
+            }else{
+              _this.form.openTime = "";
+            }
             _this.yyzzFileList[0].url = "http://"+ data.data.membersVo.yyzzFilePathFull;
             _this.sqwtsFileList[0].url = "http://"+ data.data.membersVo.sqwtsFilePathFull;
             _this.positiveFileList[0].url = "http://"+ data.data.membersVo.fzrPositiveFilePathFull;
@@ -137,14 +233,372 @@ export default {
             if(data.data.membersVo.otherFilePathFull){
               _this.otherFileList[0].url = "http://"+ data.data.membersVo.otherFilePathFull;
             }else{
-              _this.otherFileList[0].url = ''
+              _this.otherFileList = [];
             }
           } else {
             _this.$toast(data.msg);
           }
         })
     },
-    
+    //企业类型选择
+    companyTypeSelect(){
+      var _this = this;
+      if(!_this.is_disabled){
+        _this.showcompanyType = true;
+      }
+    },
+    //法人证件类型选择
+    legalIdCardTypeSelect(){
+      var _this = this;
+      if(!_this.is_disabled){
+        _this.showlegalIdCardType = true;
+      }
+    },
+    //成立时间选择
+    showTimeSelect(){
+      var _this = this;
+      if(!_this.is_disabled){
+        _this.showTime = true;
+      }
+    },
+    //负责人证件类型选择
+    cardTypeSelect(){
+      var _this = this;
+      if(!_this.is_disabled){
+        _this.showCardType = true;
+      }
+    },
+    // 点击地址
+    showPopup() {
+      var _this = this;
+      if(!_this.is_disabled){
+        _this.AddrPopup = true;
+      }
+    },
+    // 点击确认地址
+    sureAddress(value){
+      var _this = this;
+      _this.form.provinceId = null;
+      _this.form.cityId = null;
+      _this.form.districtId = null;
+      _this.form.provinceCode = value[0].code;
+      _this.form.cityCode = value[1].code;
+      _this.form.districtCode = value[2].code;
+      _this.form.address = value[0].name+"/"+value[1].name+"/"+value[2].name;
+      _this.AddrPopup = false;
+    },
+    // 点击确认企业类型
+    onCompanyType(value) {
+      var _this = this;
+      _this.form.companyTypeDesc = value.typeName;
+      _this.form.companyType = value.id;
+      _this.showcompanyType = false;
+    },
+    // 点击确认法人证件类型
+    onLegalIdCardType(value) {
+      var _this = this;
+      _this.form.legalIdCardTypeDesc = value.typeName;
+      _this.form.legalIdCardType = value.id;
+      _this.showlegalIdCardType = false
+    },
+    // 点击确定成立时间
+    onShowTime(value) {
+      var _this = this;
+      _this.form.openTime = dateCommonFormat(value);
+      _this.showTime = false;
+    },
+    // 点击确认身份证类型
+    onConfirm(value) {
+      var _this = this;
+      _this.form.operatorIdTypeDesc = value.typeName;
+      _this.form.operatorIdType = value.id;
+      _this.showCardType = false
+    },
+    // 删除营业执照
+    delYyzz() {
+      var _this = this;
+      if(!_this.is_disabled){
+        _this.form.yyzzFilePath = "";
+        _this.form.yyzzFileName = "";
+        return true;
+      }else{
+        return false;
+      }
+    },
+    // 删除授权人委托书
+    delSqwts() {
+      var _this = this;
+      if(!_this.is_disabled){
+        _this.form.sqwtsFilePath = "";
+        _this.form.sqwtsFileName = "";
+        return true;
+      }else{
+        return false;
+      }
+    },
+    // 删除身份证正面
+    delPositive(){
+      var _this = this;
+      if(!_this.is_disabled){
+        _this.form.fzrPositiveFilePath = "";
+        _this.form.fzrPositiveFileName = "";
+        return true;
+      }else{
+        return false;
+      }
+    },
+    //删除身份证反面
+    delNegative(){
+      var _this = this;
+      if(!_this.is_disabled){
+        _this.form.fzrNegativeFilePath = "";
+        _this.form.fzrNegativeFileName = "";
+        return true;
+      }else{
+        return false;
+      }
+    },
+    // 删除其他
+    delOther() {
+      var _this = this;
+      if(!_this.is_disabled){
+        _this.form.otherFilePath = "";
+        _this.form.otherFileName = "";
+        return true;
+      }else{
+        return false;
+      }
+    },
+    // 上传营业执照
+    uploadYyzz(file) {
+      var _this = this;
+      _this.uploadFile(file,1);
+    },
+    // 上传授权人委托书
+    uploadSqwts(file) {
+      var _this = this;
+      _this.uploadFile(file,2);
+    },
+    // 上传身份证正面
+    uploadPositive(file) {
+      var _this = this;
+      _this.uploadFile(file,3);
+    },
+    // 上传身份证反面
+    uploadNegative(file) {
+      var _this = this;
+      _this.uploadFile(file,4);
+    },
+    // 上传其他
+    uploadOther(file) {
+      var _this = this;
+      _this.uploadFile(file,5);
+    },
+    // 上传图片
+    uploadFile(params,fileType) {
+      // 此时可以自行将文件上传至服务器
+      var _this = this;
+      this.$http
+        .post("/api/member/upload/ststoken", { uploadFileType: 1 })
+        .then(function(res) {
+          var data = res.data;
+          if (data.code == 0) {
+            var client = OSS({
+              accessKeyId: data.data.accessKeyId,
+              accessKeySecret: data.data.accessKeySecret,
+              stsToken: data.data.securityToken,
+              bucket: data.data.bucketName,
+              region: "oss-cn-beijing"
+            });
+            var fileName = params.file.name;
+            var fileformat = _this.getCaption(params.file.name, 1);
+            var suffix = "." + fileformat;
+            var uuid = _this.uuid();
+            var storeAs = data.data.uploadPath + "/" + uuid + suffix;
+            try {
+              let result = client.put(storeAs, params.file);
+              if(fileType == 1){
+                // 营业执照
+                _this.form.yyzzFilePath = storeAs;
+                _this.form.yyzzFileName = fileName;
+              } else if (fileType == 2) {
+                // 授权人委托书
+                _this.form.sqwtsFilePath = storeAs;
+                _this.form.sqwtsFileName = fileName;
+              } else if(fileType == 3){
+                // 身份证正面
+                _this.form.fzrPositiveFilePath = storeAs;
+                _this.form.fzrPositiveFileName = fileName;
+              } else if (fileType == 4) {
+                // 身份证反面
+                _this.form.fzrNegativeFilePath = storeAs;
+                _this.form.fzrNegativeFileName = fileName;
+              } else if (fileType == 5) {
+                // 其他
+                _this.form.otherFilePath = storeAs;
+                _this.form.otherFileName = fileName;
+              }
+            } catch (e) {
+              console.log(e);
+            }
+          } else {
+            _this.$toast(data.msg);
+          }
+        });
+    },
+    // 生成uuid
+    uuid() {
+      var s = [];
+      var hexDigits = "0123456789abcdef";
+      for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+      }
+      s[14] = "4";
+      s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);
+      s[8] = s[13] = s[18] = s[23] = "";
+
+      var uuid = s.join("");
+      return uuid;
+    },
+    // 截取图片文件格式
+    getCaption(obj, state) {
+      var index = obj.lastIndexOf(".");
+      if (state == 0) {
+        obj = obj.substring(0, index);
+      } else {
+        obj = obj.substring(index + 1, obj.length);
+      }
+      return obj;
+    },
+    //编辑
+    editClick(){
+      var _this = this;
+      _this.getAdress();
+      _this.is_disabled = false;
+      _this.showSaveBtn = true;
+    },
+    //取消
+    cancelEditClick(){
+      var _this = this;
+      _this.getDetail();
+      _this.is_disabled = true;
+      _this.showSaveBtn = false;
+    },
+    //保存或者提交审核
+    submitClick(isSubmit){
+      var _this = this;
+      if (_this.form.memberFullName == "") {
+        _this.$toast("请填写企业全称");
+        return;
+      }
+      if (_this.form.companyCreditCode == "") {
+        _this.$toast("请填写统一社会信用代码");
+        return;
+      }
+      if (_this.form.companyType == "") {
+        _this.$toast("请选择企业类型");
+        return;
+      }
+      if (_this.form.legalMan == "") {
+        _this.$toast("请填写企业法人");
+        return;
+      }
+      if (_this.form.legalIdCardType == "") {
+        _this.$toast("请选择法人证件类型");
+        return;
+      }
+      if (_this.form.legalIdCard == "") {
+        _this.$toast("请填写法人证件号");
+        return;
+      }
+      if(!validIdCard(_this.form.legalIdCard)){
+        _this.$toast("请输入正确的法人证件号");
+        return;
+      }
+      if (_this.form.operatorName == "") {
+        _this.$toast("请填写业务负责人");
+        return;
+      }
+      if (_this.form.operatorIdType == "") {
+        _this.$toast("请选择负责人证件类型");
+        return;
+      }
+      if (_this.form.operatorIdCard == "") {
+        _this.$toast("请填写负责人证件号码");
+        return;
+      }
+      if(!validIdCard(_this.form.operatorIdCard)){
+        _this.$toast("请输入正确的负责人证件号");
+        return;
+      }
+      if (_this.form.memberPhone != "" && !validMobileNo(_this.form.memberPhone)) {
+        _this.$toast("请填写正确的手机号");
+        return;
+      }
+      if (_this.form.operatorLoginName == "") {
+        _this.$toast("请填写登录名");
+        return;
+      }
+      if(!validLoginName(_this.form.operatorLoginName)){
+        _this.$toast("登录名以字母开头，只能包含字母、数字、下划线");
+        return;
+      }
+      //判断文件是否上传
+      if (_this.form.yyzzFilePath == "") {
+        _this.$toast("请上传营业执照文件");
+        return;
+      }
+      if (_this.form.sqwtsFilePath == "") {
+        _this.$toast("请上传请上传授权人委托书文件");
+        return;
+      }
+      if (_this.form.fzrPositiveFilePath == "") {
+        _this.$toast("请上传负责人身份证正面文件");
+        return;
+      }
+      if (_this.form.fzrNegativeFilePath == "") {
+        _this.$toast("请上传负责人身份证反面文件");
+        return;
+      }
+      _this.form.isSubmit = isSubmit;
+      _this.$http.post("/api/planner/member/cust/register",_this.form).then(function(res){
+        var data =res.data;
+        if(data.code==0){
+          var result =data.data;
+          if(result) {
+            _this.$toast("操作成功");
+            _this.getDetail();
+            _this.is_disabled = true;
+            _this.showSaveBtn = false;
+          } else {
+            _this.$toast("操作失败");
+          }
+        } else {
+          _this.$toast(data.msg);
+        } 
+      });
+    },
+    //删除弹窗
+    deleteClick(){
+      var _this = this;
+      _this.showDelete = true;
+    },
+    //确认删除
+    confirmDelete(){
+      var _this = this;
+      _this.$http.get("/api/planner/member/cust/delete",{params:{memberGuid:_this.form.memberGuid}}).then(function (res) {
+        var data = res.data;
+        if (data.code == 0) {
+          _this.$toast("删除成功");
+          //返回列表
+          _this.$router.push({
+            path:'/customerList'
+          });
+        } else {
+          _this.$toast(data.msg);
+        }
+      });
+    },
     
   }
 
@@ -226,6 +680,9 @@ export default {
 .organDetail .van-uploader__preview-image {
   width: 2rem;
   height: 2rem;
+}
+.idCardPositive p{
+  left: 0.5rem;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
