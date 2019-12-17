@@ -1,49 +1,47 @@
 <template>
   <div class="customerList">
-    <van-nav-bar  title="客户管理" />
+    <van-nav-bar title="客户管理" />
     <div class="listBox ">
-      <!-- <div class="clear"><p class="titlename" @click="registerClick">客户代注册</p></div>
-      <div class="clear van-clearfix title">
+      <div class="clear"><p class="titlename" @click="registerClick">客户代注册</p></div>
+      <div class=" title">
         <p class="fl">客户编号</p>
         <p class="fl">客户全称</p>
         <p class="fl">客户类型</p>
-      </div> -->
-      <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh"> -->
-        
-          <div v-if='noData'> 暂无数据 </div>
-          <van-list
-            class="list van-clearfix"
-            v-model="loading"
-            :finished="finished"
-            finished-text="- 没有更多了 -"
-            @load="onLoad"
-            ref='test'
-            v-else
-          >
-          <ul class="van-clearfix conwtainer">
-            <li class="van-clearfix" v-for='item in myList' :key="item.assetsMoney" @click='handClick(item)'>
-              <p class="fl">{{item.memberCode}}</p>
-              <p class="fl">{{item.memberFullName}}</p>
-              <p class="fl">{{item.memberStatusDesc}}</p>
-            </li>
-            </ul>
-            <!-- <van-cell
-              v-for='item in myList'
-              :key="item.memberFullName"
-              :title="item.memberFullName"
-            ></van-cell> -->
-          </van-list>
-      <!-- </van-pull-refresh> -->
-    </div>
+      </div>
 
-    <!-- <van-overlay :show="show" @click="show = false">
+       
+          <div v-if='noData'> 暂无数据 </div>
+          <div v-else>
+            <van-list
+              class="list"
+              ref="list"
+              v-model="loading"
+              :finished="finished"
+              finished-text="- 没有更多了 -"
+              @load="onLoad"
+            >
+            
+              <div class="van-clearfix" v-for='item in myList' :key="item.assetsMoney" >
+                <p class="fl" v-if="item.memberType == 1"><router-link :to="{name:'organDetail',params:{'memberGuid':item.memberGuid}}">{{item.memberCode}}</router-link></p>
+                <p class="fl" v-if="item.memberType == 2"><router-link :to="{name:'personalDetail',params:{'memberGuid':item.memberGuid}}">{{item.memberCode}}</router-link></p>
+                <p class="fl">{{item.memberFullName}}</p>
+                <p class="fl">{{item.memberStatusDesc}}</p>
+              </div>
+            </van-list>
+          </div>
+        </div>
+
+
+    <van-overlay :show="show" @click="show = false">
       <div class="wrapper" @click.stop>
         <div class="block">
           <p><router-link :to="{name:'organRegister'}">企业</router-link></p>
           <p><router-link :to="{name:'personalRegister'}">个人</router-link></p>
         </div>
       </div>
-    </van-overlay> -->
+    </van-overlay>
+
+ 
   </div>
 </template>
 
@@ -58,32 +56,34 @@ export default {
         memberType:-1,
         memberStatus:-1,
         pageNo:1,
-        pageSize:20,
+        pageSize:10,
       },
-      is_weixin:false,
+      list:[],
       show:false,
       loading: false, // 当loading为true时，转圈圈
       finished: false, // 数据是否请求结束，结束会先显示- 没有更多了 -
       myList:[],
-      noData: false, // 如果没有数据，显示暂无数据
-      isLoading:false ,// 下拉的加载图案
-      lock:true,
+      noData: false, // 如果没有数据，显示暂无数
+    
+
+
 
     };
   },
   created(){
     var _this = this;
+    // _this.getList();
   },
   methods: {
-    
-
-    // 获取数据列表
+    // 获取列表
     getList(){
       var _this = this;
       var params = _this.form;
+      // _this.finished = false;
       _this.$http.post("/api/member/page/search",params).then(function (res) {
         var data = res.data;
         if (data.code == 0) {
+          _this.loading = false;
           _this.myList = _this.myList.concat(data.data.pageData.list);
           _this.form.pageNo++;
           // 如果没有数据，显示暂无数据
@@ -98,39 +98,28 @@ export default {
         } else {
           _this.$toast(data.msg);
         }
-        console.log(_this.myList);
-        _this.loading = false;
       })
     },
      // 列表加载
     onLoad () {
-      // console.log(this.$refs['test'].check());
-      // this.loading = false;
-      // console.log(this.$refs['test'].check())
-        this.getList();
+      var _this = this;
+      setTimeout(() => {
+        _this.getList()
+        // 加载状态结束
+        _this.loading = false;
+      }, 500)
+      // 异步更新数据
+      
+      
+      
     },
    
 
-    onRefresh () {
-      var _this = this;
-      setTimeout(() => {
-        // 重新初始化这些属性
-        _this.isLoading = false
-        _this.myList = []
-        _this.form.pageNo = 1
-        _this.loading = false
-        _this.finished = false
-        _this.noData = false
-        // 请求信息
-        _this.getList()
-      }, 500)
-    },
-
 
     handClick(item){
-      // console.log(id)
-      console.log(item.id)
-      console.log(item.memberType)
+      
+      console.log(item.memberGuid)
+     // console.log(item.memberType)
 
     },
     // 点击返回
@@ -140,11 +129,8 @@ export default {
     },
     
     registerClick(){
-      console.log(111)
         var _this = this;
-        console.log(_this.show)
-        _this.show = true;
-        console.log(_this.show)
+        _this.show = true
 
     }
   }
@@ -191,9 +177,11 @@ export default {
 .customerList {
   width: 7.5rem;
   font-size: 0.3rem;
+  min-height: auto;
 }
+
 a{
-  color: #fff;
+  color: #ed2424;
 }
 .customerList .listBox {
   padding: 0 0.3rem;
@@ -235,6 +223,9 @@ a{
   background: #ed2424;
   line-height: 0.8rem;
   border-radius: 0.08rem;
+}
+.block a{
+  color: #fff;
 }
 .titlename{
   width: 2rem;
