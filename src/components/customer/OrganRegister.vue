@@ -19,7 +19,7 @@
         <van-field :value="form.address" label="注册地址:" @click="showPopup" readonly  placeholder="请选择注册地址" />
         <van-field v-model="form.memberAddress" label="详细地址:" label-width="2.6rem"  placeholder="请输入详细地址" />
         <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize label="业务经营范围:" label-width="2.4rem"  placeholder="请输入业务经营范围" />
-        <div class="firstBtn"><van-button type="danger" class="next" @click="firstNext">下一步</van-button></div>
+        <div class="firstBtn"><van-button type="danger" class="pre" @click="firstNext">下一步</van-button></div>
       </van-cell-group>
       <div v-show="secondTep">
         <van-field v-model="form.operatorName" required label="业务负责人:" placeholder="请输入业务负责人" />
@@ -58,10 +58,10 @@
               <p>其他</p>
             </div>
           </div>
-          <div class="secondBtn">
+          <div class="thirdBtn">
             <van-button type="danger" class="pre" @click="thirdPre">上一步</van-button>
             <van-button type="danger" class="pre" @click="submitClick(2)">保存</van-button>
-            <van-button type="danger" class="pre" @click="submitClick(1)">提交审核</van-button>
+            <van-button type="danger" style="width:1.8rem" class="pre" @click="submitClick(1)">成为用户</van-button>
           </div>
           
       </div>
@@ -590,6 +590,11 @@ export default {
   margin-left: 0.5rem;
   
 }
+.register .secondBtn{
+  width: 3.5rem;
+  margin: 0 auto;
+
+}
 
 
 </style>
@@ -606,7 +611,7 @@ export default {
   text-align: center;
 }
 .register .firstBtn{
-  width: 1.5rem;
+  width: 1.6rem;
   margin: 0 auto;
 
 }
@@ -652,5 +657,12 @@ export default {
   left: 0rem;
   top: 0;
 }
-
+.thirdBtn{
+  width: 6.5rem;
+  margin: 0 auto;
+  text-align: center;
+}
+.pre{
+  width: 1.6rem;
+}
 </style>

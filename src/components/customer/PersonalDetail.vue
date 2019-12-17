@@ -1,5 +1,5 @@
 <template>
-  <div class="personalWait">
+  <div class="personalDetail">
     <van-nav-bar v-show="is_weixin" title="客户详情"/>
     <div>
       <van-tabs @click="onClick" sticky>
@@ -47,7 +47,7 @@
         <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="editClick()">编辑</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="cancelEditClick()">取消</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(2)">保存</van-button>
-        <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(1)">成为用户</van-button>
+        <van-button type="danger" class="pre isUser" v-if="showSaveBtn" @click="submitClick(1)">成为用户</van-button>
       </div>
     </div>
     <!-- 证件类型选择器 -->
@@ -351,83 +351,93 @@ export default {
 };
 </script>
 <style>
-.personalWait .van-button {
+.personalDetail .van-button {
   height: 0.7rem;
   line-height: 0.7rem;
   cursor: pointer;
 }
-.personalWait .van-nav-bar .van-icon {
+.personalDetail .van-nav-bar .van-icon {
   color: #333;
 }
-.personalWait .van-nav-bar__text {
+.personalDetail .van-nav-bar__text {
   color: #333;
 }
-.personalWait .van-nav-bar__left {
+.personalDetail .van-nav-bar__left {
   left: 0;
 }
-.personalWait .van-cell {
+.personalDetail .van-cell {
   width: 7.5rem;
   height: 1rem;
   line-height: 0.6rem;
   font-size: 0.3rem;
   margin-bottom: 0.1rem;
 }
-.personalWait .van-cell-group {
+.personalDetail .van-cell-group {
   background: transparent;
 }
-.personalWait .van-button--danger {
+.personalDetail .van-button--danger {
   color: #fff;
   background-color: #ed2424;
   border: 1px solid #ed2424;
 }
-.personalWait .van-action-sheet {
+.personalDetail .van-action-sheet {
   max-height: 40%;
 }
-.personalWait .van-picker__confirm {
+.personalDetail .van-picker__confirm {
   color: #ed2424;
 }
-.personalWait .van-picker__cancel {
+.personalDetail .van-picker__cancel {
   color: #666;
 }
-.personalWait .van-field__control {
+.personalDetail .van-field__control {
   text-align: right;
 }
-.personalWait .van-tabs__wrap {
+.personalDetail .van-tabs__wrap {
   margin-bottom: 0.3rem;
 }
-.personalWait .van-ellipsis {
+.personalDetail .van-ellipsis {
   font-size: 0.3rem;
 }
-.personalWait .van-uploader__upload {
+.personalDetail .van-uploader__upload {
   width: 2rem;
   height: 2rem;
   margin: 0;
 }
-.personalWait .van-uploader {
+.personalDetail .van-uploader {
   margin-left: 0.5rem;
   width: 2rem;
   height: 2rem;
 }
-.personalWait .van-uploader__wrapper {
+.personalDetail .van-uploader__wrapper {
   width: 2rem;
   height: 2rem;
 }
-.personalWait .van-uploader__input {
+.personalDetail .van-uploader__input {
   width: 2rem;
   height: 2rem;
 }
-.personalWait .van-uploader__preview-image {
+.personalDetail .van-uploader__preview-image {
   width: 2rem;
   height: 2rem;
+}
+.personalDetail .secondBtn{
+  width: 7.5rem;
+  margin: 0 auto;
+  text-align: center;
+}
+.personalDetail .secondBtn .van-button{
+  width: 1.5rem;
+  height: 0.7rem;
+  line-height: 0.7rem;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.personalWait {
+.personalDetail {
   width: 7.5rem;
   padding-bottom: 1rem;
 }
-.personalWait p {
+.personalDetail p {
   color: #333;
   font-size: 0.3rem;
   line-height: 0.6rem;
@@ -447,12 +457,16 @@ export default {
   bottom: 0;
   left: 0.7rem;
 }
-.personalWait a {
+.personalDetail a {
   color: #fff;
 }
 .file img{
   width: 2rem;
   height: 2rem;
   margin-left: 0.5rem;
+}
+.personalDetail .secondBtn .isUser{
+  width: 1.8rem;
+
 }
 </style>

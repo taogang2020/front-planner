@@ -1,5 +1,5 @@
 <template>
-  <div class="organWait">
+  <div class="organDetail">
     <van-nav-bar v-show="is_weixin" title="客户详情" />
     <div>
         
@@ -151,90 +151,90 @@ export default {
 }
 </script>
 <style>
-.organWait .van-button {
+.organDetail .van-button {
   height: 0.7rem;
   line-height: 0.7rem;
   cursor: pointer;
 }
-.organWait .van-nav-bar .van-icon{
+.organDetail .van-nav-bar .van-icon{
   color: #333;
 }
-.organWait .van-nav-bar__text{
+.organDetail .van-nav-bar__text{
   color: #333;
 }
-.organWait .van-nav-bar__left{
+.organDetail .van-nav-bar__left{
   left: 0;
 }
-.organWait .text .van-cell {
+.organDetail .text .van-cell {
   width: 7.5rem;
   height: 1rem;
   line-height: 0.6rem;
   font-size: 0.3rem;
   margin-bottom: 0.1rem;
 }
-.organWait .textarea {
+.organDetail .textarea {
   width: 7.5rem;
   min-height: 1rem;
   line-height: 0.6rem;
   font-size: 0.3rem;
 }
-.organWait .textarea .van-field__control{
+.organDetail .textarea .van-field__control{
   min-height: 1rem;
   line-height: 0.6rem;
 }
-.organWait .van-cell-group {
+.organDetail .van-cell-group {
   background: transparent;
 }
-.organWait .van-button--danger {
+.organDetail .van-button--danger {
   color: #fff;
   background-color: #ed2424;
   border: 1px solid #ed2424;
 }
-.organWait .van-action-sheet {
+.organDetail .van-action-sheet {
   max-height: 40%;
 }
-.organWait .van-picker__confirm{
+.organDetail .van-picker__confirm{
   color:#ed2424;
 }
-.organWait .van-picker__cancel{
+.organDetail .van-picker__cancel{
   color: #666;
 }
-.organWait .van-field__control{
+.organDetail .van-field__control{
   text-align: right;
 }
-.organWait .van-tabs__wrap {
+.organDetail .van-tabs__wrap {
   margin-bottom: 0.3rem;
 }
-.organWait .van-uploader__upload {
+.organDetail .van-uploader__upload {
   width: 2rem;
   height: 2rem;
   margin: 0;
 }
-.organWait .van-uploader {
+.organDetail .van-uploader {
   margin-left: 0.5rem;
   width: 2rem;
   height: 2rem;
 }
-.organWait .van-uploader__wrapper {
+.organDetail .van-uploader__wrapper {
   width: 2rem;
   height: 2rem;
 }
-.organWait .van-uploader__input {
+.organDetail .van-uploader__input {
   width: 2rem;
   height: 2rem;
 }
-.organWait .van-uploader__preview-image {
+.organDetail .van-uploader__preview-image {
   width: 2rem;
   height: 2rem;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.organWait {
+.organDetail {
   width: 7.5rem;
   padding-bottom: 1rem;
 }
-.organWait p {
+.organDetail p {
   color: #333;
   font-size: 0.3rem;
   line-height: 0.6rem;
@@ -254,7 +254,7 @@ export default {
 .idCardPositive p{
   left: 0.5rem;
 }
-.organWait a{
+.organDetail a{
   color: #fff;
 }
 .file img{

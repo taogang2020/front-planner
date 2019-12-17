@@ -34,7 +34,7 @@
         />
         <van-field v-model="form.memberAddress" label="详细地址:" placeholder="请输入详细地址" />
         <div class="firstBtn">
-          <van-button type="danger" class="next" @click="next">下一步</van-button>
+          <van-button type="danger" class="next pre" @click="next">下一步</van-button>
         </div>
       </van-cell-group>
       <div class="second" v-show="!active">
@@ -49,10 +49,10 @@
             <p>身份证反面</p>
           </div>
         </div>
-        <div class="secondBtn">
+        <div class="thirdBtn">
           <van-button type="danger" class="pre" @click="pre">上一步</van-button>
           <van-button type="danger" class="pre" @click="submitClick(2)">保存</van-button>
-          <van-button type="danger" class="pre" @click="submitClick(1)">提交审核</van-button>
+          <van-button type="danger" style="width:1.8rem" class="pre" @click="submitClick(1)">成为用户</van-button>
         </div>
       </div>
     </div>
@@ -404,11 +404,7 @@ export default {
   text-align: center;
 }
 .register .firstBtn {
-  width: 1.5rem;
-  margin: 0 auto;
-}
-.register .secondBtn {
-  width: 3.6rem;
+  width: 1.6rem;
   margin: 0 auto;
 }
 .register .title {
@@ -438,5 +434,13 @@ export default {
   position: absolute;
   left: 0rem;
   top: 0;
+}
+.thirdBtn{
+  width: 6.5rem;
+  margin: 0 auto;
+  text-align: center;
+}
+.pre{
+  width: 1.6rem;
 }
 </style>
