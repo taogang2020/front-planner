@@ -80,21 +80,24 @@ export default {
       var _this = this;
       var params = _this.form;
       // _this.finished = false;
+      _this.loading = true;
       _this.$http.post("/api/member/page/search",params).then(function (res) {
         var data = res.data;
         if (data.code == 0) {
           _this.loading = false;
           _this.myList = _this.myList.concat(data.data.pageData.list);
-          _this.form.pageNo++;
           // 如果没有数据，显示暂无数据
           if (_this.myList.length === 0 && _this.form.pageNo === 1) {
             _this.noData = true;
+            return;
           }
           // 如果加载完毕，显示没有更多了
-          if (data.data.pageData.list.length === 0) {
+          if (data.data.pageData.totalpage === _this.form.pageNo) {
             _this.finished = true;
           }
-
+          if(Number(data.data.pageData.totalpage) > Number(_this.form.pageNo)) {
+            _this.form.pageNo ++;
+          }      
         } else {
           _this.$toast(data.msg);
         }
@@ -103,21 +106,15 @@ export default {
      // 列表加载
     onLoad () {
       var _this = this;
-      setTimeout(() => {
-        _this.getList()
-        // 加载状态结束
-        _this.loading = false;
-      }, 500)
-      // 异步更新数据
-      
-      
+      console.log(this.form.pageNo)
+      _this.getList();
+      // 异步更新数
       
     },
    
 
 
     handClick(item){
-      
       console.log(item.memberGuid)
      // console.log(item.memberType)
 
