@@ -62,8 +62,8 @@
       <div class="secondBtn">
         <van-button type="danger" class="pre" v-if="(form.memberStatus == 3 || form.memberStatus == 6) && !showSaveBtn" @click="editClick()">编 辑</van-button>
         <van-button type="danger" class="pre" v-if="(form.memberStatus == 3 || form.memberStatus == 6) && !showSaveBtn" @click="deleteClick()">删 除</van-button>
-        <van-button type="danger" class="pre" v-if="form.memberStatus == 1 && !showSaveBtn" @click="reviewClick(2)">审核通过</van-button>
-        <van-button type="danger" class="pre" v-if="form.memberStatus == 1 && !showSaveBtn" @click="reviewClick(3)">审核退回</van-button>
+        <van-button type="danger" class="pre" style="width:1.8rem" v-if="form.memberStatus == 1 && !showSaveBtn" @click="reviewClick(2)">审核通过</van-button>
+        <van-button type="danger" class="pre" style="width:1.8rem" v-if="form.memberStatus == 1 && !showSaveBtn" @click="reviewClick(3)">审核退回</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="cancelEditClick()">取 消</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(2)">保 存</van-button>
         <van-button type="danger" class="pre" style="width:1.8rem" v-if="showSaveBtn" @click="submitClick(1)">提交审核</van-button>
@@ -116,7 +116,16 @@
     <!-- 删除弹框 -->
     <van-dialog v-model="showDelete" title="确认删除吗？" show-cancel-button @confirm="confirmDelete"></van-dialog>
     <!-- 审核弹框 -->
-    <van-dialog v-model="showReview" title="审核" show-cancel-button @confirm="confirmReview"></van-dialog>
+    <van-dialog v-model="showReview" title="审核" show-cancel-button @confirm="confirmReview">
+      <van-field
+      v-model="message"
+      rows="1"
+      autosize
+      label="审核意见"
+      type="textarea"
+      placeholder="请输入审核意见"
+    />
+    </van-dialog>
   </div>
 </template>
 <script>
@@ -127,6 +136,7 @@ export default {
   name: "OrganDetail",
   data() {
     return {
+      message:'',
       positiveFileList: [
         { url: '' },
       ],
@@ -725,6 +735,12 @@ export default {
   width: 1.5rem;
   height: 0.7rem;
   line-height: 0.7rem;
+}
+.organDetail .van-dialog__header{
+  padding-top: 0.1rem;
+}
+.organDetail .van-dialog__confirm{
+  color:#ed2424;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
