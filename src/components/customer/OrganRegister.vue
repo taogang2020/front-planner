@@ -1,8 +1,6 @@
 <template>
   <div class="register">
-    <van-nav-bar
-        title="客户代注册"
-      />
+    <van-nav-bar title="客户代注册"/>
     <div>
       <van-cell-group v-show="firstTep">
         <van-field v-model="form.memberFullName" required label="企业全称:" placeholder="请输入企业全称" />
