@@ -25,8 +25,8 @@
       
     </div>
     <div class="Btn">
-      <van-button type="danger" class="sure">确 认</van-button>
-      <van-button type="default" class="sure">取 消</van-button>
+      <van-button type="danger" class="sure" @click="openAccount">确 认</van-button>
+      <van-button type="default" class="sure" @click="cancelClick">取 消</van-button>
     </div>
     <div id="thirdPayHtml" style="display:none;"></div>
   </div>
@@ -81,7 +81,7 @@ export default {
     //获取会员基本信息
     getMemberBasicInfo(){
       var _this = this;
-      var memberGuid = _this.$route.params.memberGuid;
+      var memberGuid = _this.$route.query.memberGuid;
       _this.$http.get("/api/member/getMemberBasicInfo",{params:{memberGuid:memberGuid}}).then(function (res) {
         var data = res.data;
         if (data.code == 0) {
@@ -165,6 +165,11 @@ export default {
         }
       });
 
+    },
+    //取消
+    cancelClick(){
+      var _this = this;
+      _this.$router.go(-1);
     },
 
   }

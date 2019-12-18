@@ -10,13 +10,9 @@
       </div>
       <div class="accountManger clear">
         <div class="item clear">
-          <div class="fl list" v-if="form.openAccountNum == 0" @click="openAccount">
+          <div class="fl list" @click="openAccount">
             <van-icon name="graphic" size="0.7rem" color="#ffd01e" />
-            <p class="titlename">开通资金账户</p>
-          </div>
-          <div class="fl list" v-if="form.openAccountNum != 0" @click="accountDetail">
-            <van-icon name="graphic" size="0.7rem" color="#ffd01e" />
-            <p class="titlename">资金账户</p>
+            <p class="titlename">银行卡管理</p>
           </div>
         </div>
       
@@ -74,23 +70,7 @@ export default {
   
 
     },
-    //去往资金账户详情页面
-    accountDetail(){
-      var _this = this;
-      if(_this.form.memberType == 1){
-        //机构
-        _this.$router.push({ 
-          path:'/accountDetailOrgan',  
-        })
-      }else if(_this.form.memberType == 2){
-        //个人
-        _this.$router.push({ 
-          path:'/accountDetailPersonal',  
-        })
-      }else{
-        _this.$toast("请重新登录");
-      }
-    },
+    
   }
 };
 </script>

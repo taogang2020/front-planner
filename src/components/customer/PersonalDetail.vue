@@ -48,7 +48,7 @@
         <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="deleteClick()">删 除</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="cancelEditClick()">取 消</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(2)">保 存</van-button>
-        <van-button type="danger" class="pre isUser" style="width:1.8rem" v-if="showSaveBtn" @click="submitClick(1)">成为用户</van-button>
+        <van-button type="danger" class="pre isUser" style="width:1.8rem" v-if="showSaveBtn" @click="submitClick(1)">提交审核</van-button>
       </div>
     </div>
     <!-- 证件类型选择器 -->

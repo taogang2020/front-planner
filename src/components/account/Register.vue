@@ -449,7 +449,6 @@ export default {
       _this.$http.post("/api/planner/member/register", _this.form).then(function(res) {
         var data = res.data;
         if (data.code == 0) {
-          console.log(data.data)
           _this.firstTep = false;
           _this.secondTep = false;
           _this.thirdTep = false;

@@ -23,6 +23,8 @@ import WhiteManage from '@/components/account/WhiteManage'
 import MyAccount from '@/components/account/MyAccount'
 import EditPassword from '@/components/account/EditPassword'
 import OpenAccountList from '@/components/account/OpenAccountList'
+import AccountDetailPersonal from '@/components/account/AccountDetailPersonal'
+import AccountDetailOrgan from '@/components/account/AccountDetailOrgan'
 
 Vue.use(Router)
 
@@ -37,7 +39,7 @@ const router = new Router({
       meta: {
         title: '绑定银行卡'
       },
-      path: '/openAccountPersonal/:memberGuid',
+      path: '/openAccountPersonal',
       name: 'openAccountPersonal',
       component: OpenAccountPersonal
     },
@@ -45,7 +47,7 @@ const router = new Router({
       meta: {
         title: '绑定银行卡'
       },
-      path: '/openAccountOrgan/:memberGuid',
+      path: '/openAccountOrgan',
       name: 'openAccountOrgan',
       component: OpenAccountOrgan
     },
@@ -56,6 +58,22 @@ const router = new Router({
       path: '/openAccountList',
       name: 'openAccountList',
       component: OpenAccountList
+    },
+    {
+      meta: {
+        title: '银行卡管理'
+      },
+      path: '/accountDetailPersonal',
+      name: 'accountDetailPersonal',
+      component: AccountDetailPersonal
+    },
+    {
+      meta: {
+        title: '银行卡管理'
+      },
+      path: '/accountDetailOrgan',
+      name: 'accountDetailOrgan',
+      component: AccountDetailOrgan
     },
     {
       meta: {

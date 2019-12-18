@@ -52,7 +52,7 @@
         <div class="thirdBtn">
           <van-button type="danger" class="pre" @click="pre">上一步</van-button>
           <van-button type="danger" class="pre" @click="submitClick(2)">保存</van-button>
-          <van-button type="danger" style="width:1.8rem" class="pre" @click="submitClick(1)">成为用户</van-button>
+          <van-button type="danger" style="width:1.8rem" class="pre" @click="submitClick(1)">提交审核</van-button>
         </div>
       </div>
     </div>
