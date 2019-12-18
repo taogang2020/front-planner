@@ -44,11 +44,13 @@
         </van-tab>
       </van-tabs>
       <div class="secondBtn">
-        <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="editClick()">编 辑</van-button>
-        <van-button type="danger" class="pre" v-if="form.memberStatus != 2 && form.memberStatus != 5 && form.memberStatus != 7 && !showSaveBtn" @click="deleteClick()">删 除</van-button>
+        <van-button type="danger" class="pre" v-if="(form.memberStatus == 3 || form.memberStatus == 6) && !showSaveBtn" @click="editClick()">编 辑</van-button>
+        <van-button type="danger" class="pre" v-if="(form.memberStatus == 3 || form.memberStatus == 6) && !showSaveBtn" @click="deleteClick()">删 除</van-button>
+        <van-button type="danger" class="pre" v-if="form.memberStatus == 1 && !showSaveBtn" @click="reviewClick(2)">审核通过</van-button>
+        <van-button type="danger" class="pre" v-if="form.memberStatus == 1 && !showSaveBtn" @click="reviewClick(3)">审核退回</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="cancelEditClick()">取 消</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(2)">保 存</van-button>
-        <van-button type="danger" class="pre isUser" style="width:1.8rem" v-if="showSaveBtn" @click="submitClick(1)">成为用户</van-button>
+        <van-button type="danger" class="pre isUser" style="width:1.8rem" v-if="showSaveBtn" @click="submitClick(1)">提交审核</van-button>
       </div>
     </div>
     <!-- 证件类型选择器 -->
@@ -67,6 +69,8 @@
     </van-popup>
     <!-- 删除弹框 -->
     <van-dialog v-model="showDelete" title="确认删除吗？" show-cancel-button @confirm="confirmDelete"></van-dialog>
+    <!-- 审核弹框 -->
+    <van-dialog v-model="showReview" title="审核" show-cancel-button @confirm="confirmReview"></van-dialog>
   </div>
 </template>
 <script>
@@ -81,6 +85,11 @@ export default {
       form: {
         isSubmit: 2,
       },
+      reviewForm: {
+        memberGuid:'',
+        reviewStatus: '',
+        reviewOpinion: '',
+      },
       positiveFileList: [
         { url: '' },
       ],
@@ -93,6 +102,7 @@ export default {
       is_disabled: true,
       showSaveBtn : false,
       showDelete : false,
+      showReview : false,
     };
   },
   created() {
@@ -125,6 +135,7 @@ export default {
         var data = res.data;
         if (data.code == 0) {
           _this.idTypeList = data.data.zjTypeList;
+          _this.reviewForm.memberGuid = memberGuid;
             _this.form = data.data.membersVo;
             var address = "";
             if(data.data.membersVo.districtName){
@@ -371,6 +382,32 @@ export default {
           _this.$toast(data.msg);
         }
       });
+    },
+    //审核弹窗
+    reviewClick(type){
+      var _this = this;
+      _this.showReview = true;
+      _this.reviewForm.reviewStatus = type;
+    },
+    //确认审核
+    confirmReview(){
+      var _this = this;
+      if(_this.reviewForm.reviewOpinion){
+        _this.$http.get("/api/planner/member/review",{params:_this.reviewForm}).then(function (res) {
+          var data = res.data;
+          if (data.code == 0) {
+            _this.$toast("成功");
+            //返回列表
+            _this.$router.push({
+              path:'/customerList'
+            });
+          } else {
+            _this.$toast(data.msg);
+          }
+        });
+      } else {
+        _this.$toast("请填写审核意见");
+      }
     },
 
   }

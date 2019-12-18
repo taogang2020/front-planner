@@ -6,7 +6,7 @@
       <div class=" title">
         <p class="fl">客户编号</p>
         <p class="fl">客户全称</p>
-        <p class="fl">客户类型</p>
+        <p class="fl">状态</p>
       </div>
 
        
