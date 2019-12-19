@@ -1,12 +1,13 @@
 <template>
   <div class="tradeList">
-    <div class="top clear">
+    <img class="developing" src="../../assets/imgs/developing.jpg"/>>
+    <!-- <div class="top clear">
       <van-cell-group class="fl inp">
         <van-field v-model="value" placeholder="请输入用户名" right-icon="search" />
       </van-cell-group>
       <p class="fr choose" @click="screen">筛选</p>
-    </div>
-    <div class="list">
+    </div> -->
+    <!-- <div class="list">
       <div class="item">
         <div class="itemTop">
           <p class="fl name">国盛资产转让1期</p>
@@ -55,8 +56,8 @@
         </div>
         
       </div>
-    </div>
-    <van-dialog
+    </div> -->
+    <!-- <van-dialog
       v-model="dialog"
       show-cancel-button
       confirmButtonColor="#ED2424"
@@ -80,7 +81,7 @@
         <van-radio class="fl" name="1">贵州场外</van-radio>
         <van-radio class="fl" name="2">山东金交</van-radio>
       </van-radio-group>
-    </van-dialog>
+    </van-dialog> -->
   </div>
 </template>
 
@@ -237,5 +238,12 @@ export default {
   margin: 0.2rem 0;
   font-size: 0.3rem;
   color: #333;
+}
+.developing{
+  display: block;
+  width: 7.5rem;
+  position: fixed;
+  bottom: 1rem;
+  top: 0;
 }
 </style>
