@@ -24,14 +24,14 @@ instance.interceptors.request.use(
       return Promise.error(error)
     }
   )
-  // instance.interceptors.response.use(response => {
-  //   // 判断登录是否过期
-  //   if (response.data.code === 10001) {
-         // 清除token
-  //     sessionStorage.removeItem("token")
-  //     location.href = '/login';
-  //     // 清除token
-  //   }
-  //   return response
-  // })
+  instance.interceptors.response.use(response => {
+    // 判断登录是否过期
+    if (response.data.code === 10001) {
+      //清除token
+      sessionStorage.removeItem("token")
+      location.href = '/login';
+      // 清除token
+    }
+    return response
+  })
   export default instance

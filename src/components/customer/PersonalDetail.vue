@@ -70,10 +70,11 @@
     <!-- 删除弹框 -->
     <van-dialog v-model="showDelete" title="确认删除吗？" show-cancel-button @confirm="confirmDelete"></van-dialog>
     <!-- 审核弹框 -->
-    <van-dialog v-model="showReview" title="审核" show-cancel-button @confirm="confirmReview">
+    <van-dialog v-model="showReview" title="审核" show-cancel-button :before-close="confirmReview">
        <van-field
-      v-model="message"
+      v-model="reviewForm.reviewOpinion"
       rows="1"
+      required
       autosize
       label="审核意见"
       type="textarea"
@@ -91,7 +92,6 @@ export default {
     return {
       idTypeList:[],
       areaList:{},
-      message:'',
       form: {
         isSubmit: 2,
       },
@@ -321,9 +321,11 @@ export default {
         _this.$toast("请填写姓名");
         return;
       }
-      if (_this.form.memberPhone != "" && !validMobileNo(_this.form.memberPhone)) {
-        _this.$toast("请填写正确的手机号");
-        return;
+      if (_this.form.memberPhone) {
+        if(!validMobileNo(_this.form.memberPhone)){
+          _this.$toast("请填写正确的手机号");
+          return;
+        }
       }
       if (_this.form.operatorLoginName == "") {
         _this.$toast("请填写登录名");
@@ -361,9 +363,12 @@ export default {
           var result =data.data;
           if(result) {
             _this.$toast("操作成功");
-            _this.getDetail();
             _this.is_disabled = true;
             _this.showSaveBtn = false;
+            //返回列表
+            _this.$router.push({
+              path:'/customerList'
+            });
           } else {
             _this.$toast("操作失败");
           }
@@ -400,23 +405,31 @@ export default {
       _this.reviewForm.reviewStatus = type;
     },
     //确认审核
-    confirmReview(){
+    confirmReview(action,done){
       var _this = this;
-      if(_this.reviewForm.reviewOpinion){
-        _this.$http.get("/api/planner/member/review",{params:_this.reviewForm}).then(function (res) {
-          var data = res.data;
-          if (data.code == 0) {
-            _this.$toast("成功");
-            //返回列表
-            _this.$router.push({
-              path:'/customerList'
-            });
-          } else {
-            _this.$toast(data.msg);
-          }
-        });
-      } else {
-        _this.$toast("请填写审核意见");
+      if(action === 'confirm') {
+        if(_this.reviewForm.reviewOpinion){
+          _this.$http.get("/api/planner/member/review",{params:_this.reviewForm}).then(function (res) {
+            var data = res.data;
+            if (data.code == 0) {
+              _this.$toast("成功");
+              //返回列表
+              _this.$router.push({
+                path:'/customerList'
+              });
+            } else {
+              _this.$toast(data.msg);
+            }
+          });
+          done();//关闭
+        } else {
+          _this.$toast("请填写审核意见");
+          done(false);//不关闭
+        }
+      } else if (action === 'cancel') {
+        _this.reviewForm.reviewStatus = "";
+        _this.reviewForm.reviewOpinion = "";
+        done(); //关闭
       }
     },
 
