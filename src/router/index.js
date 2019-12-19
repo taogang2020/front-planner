@@ -204,6 +204,14 @@ const router = new Router({
       component: EditPassword
     },
     {
+      meta: {
+        title: '客户管理'
+      },
+      path: '/customerList',
+      name: 'customerList',
+      component: CustomerList
+    },
+    {
       path: '/index',
       name: 'index',
       component: Index,
@@ -218,14 +226,7 @@ const router = new Router({
         component: TradeList
       },
       
-      {
-        meta: {
-          title: '客户管理'
-        },
-        path: '/customerList',
-        name: 'customerList',
-        component: CustomerList
-      },
+      
       {
         meta: {
           title: '我的账户',

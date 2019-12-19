@@ -31,7 +31,7 @@ export default {
   background: #fafafa;
 }
 .bot{
-  height: 0.8rem;
+  height: 1rem;
   width: 100%;
   position: fixed;
   bottom: 0;

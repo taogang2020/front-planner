@@ -159,6 +159,7 @@ export default {
     var _this = this;
     _this.getAdress();
     _this.getDetail();
+    _this.isWeixin();
   },
 
   methods: {

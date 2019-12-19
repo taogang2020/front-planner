@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <van-nav-bar title="客户代注册"/>
+    <van-nav-bar v-show="is_weixin" title="客户代注册"/>
     <div>
       <van-cell-group v-show="firstTep">
         <van-field v-model="form.memberFullName" required label="企业全称:" placeholder="请输入企业全称" />
@@ -181,6 +181,7 @@ export default {
       showlegalIdCardType: false,
       showCardType: false,
       showAddress:false,
+      is_weixin:false,
       
     }
   },
@@ -189,9 +190,23 @@ export default {
     var _this = this;
     _this.getAdress();
     _this.getSelect();
+    _this.isWeixin()
   },
 
   methods: {
+    // 判断是否是微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin=false;
+        return true;
+      }else{
+        _this.is_weixin=true;
+        return false;
+      }
+    },
     //获取下拉框信息
     getSelect() {
       var _this = this;

@@ -1,8 +1,6 @@
 <template>
   <div class="register">
-    <van-nav-bar
-        title="客户代注册"
-      />
+    <van-nav-bar v-show="is_weixin" title="客户代注册" />
     <div>
       <van-cell-group v-show="active">
         <van-field v-model="form.memberFullName" label="姓名:" required placeholder="请输入姓名" />
@@ -41,7 +39,7 @@
         <p class="title">请上传相关证件</p>
         <div class="ImgBox clear">
           <div class="file idCardPositive fl">
-            <van-uploader v-model="positiveFileList" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
+            <van-uploader v-model="positiveFileList" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive"/>
             <p>身份证正面</p>
           </div>
           <div class="file idCardReverse fr">
@@ -113,6 +111,7 @@ export default {
       AddrPopup: false,
       showCardType: false,
       showAddress: false,
+      is_weixin:false,
      
     };
   },
@@ -120,8 +119,22 @@ export default {
     var _this = this;
     _this.getAdress();
     _this.getSelect();
+    _this.isWeixin();
   },
   methods: {
+    // 判断是否是微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin=false;
+        return true;
+      }else{
+        _this.is_weixin=true;
+        return false;
+      }
+    },
     //获取地址
     getAdress() {
       var _this = this;

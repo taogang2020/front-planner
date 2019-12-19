@@ -1,34 +1,11 @@
 <template>
   <div class="Tabbar">
-    <van-tabbar v-model="active" class="active_tab" >
+    
 
-      <van-tabbar-item>
-            <router-link to="/tradeList">
-                <span>交易市场</span>
-            </router-link>
-            <!-- <template slot="icon" slot-scope="props">
-                <img :src="props.active ? home_icon.active : home_icon.normal"/>
-            </template> -->
-        </van-tabbar-item>
-
-        <van-tabbar-item>
-            <router-link to="/customerList">
-                <span>客户</span>
-            </router-link>
-            <!-- <template slot="icon" slot-scope="props">
-                <img :src="props.active ? category_icon.active : category_icon.normal"/>
-            </template> -->
-        </van-tabbar-item>
-
-        <van-tabbar-item>
-            <router-link to="/user">
-                <span>个人中心</span>
-            </router-link>
-            <!-- <template slot="icon" slot-scope="props">
-                <img :src="props.active ? message_icon.active : message_icon.normal"/>
-            </template> -->
-        </van-tabbar-item>
-
+    <van-tabbar route active-color="#ed2424">
+      <van-tabbar-item replace to="/tradeList" icon="wap-home">交易市场</van-tabbar-item>
+      <van-tabbar-item replace to="/customerList" icon="column">客户</van-tabbar-item>
+      <van-tabbar-item replace to="/user" icon="manager">个人中心</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -38,20 +15,7 @@ export default {
   name: 'Tabbar',
   data () {
     return {
-      currIndex: 0,
-      active: 0,
-      home_icon: {
-          normal: require('../../assets/imgs/product_list_tab1.png'),
-          active: require('../../assets/imgs/product_list_tab2.png')
-      },
-      category_icon: {
-          normal: require('../../assets/imgs/product_list_tab1.png'),
-          active: require('../../assets/imgs/product_list_tab2.png')
-      },
-      message_icon: {
-          normal: require('../../assets/imgs/product_list_tab1.png'),
-          active: require('../../assets/imgs/product_list_tab2.png')
-      },
+      
      
     }
   },
@@ -64,17 +28,21 @@ export default {
 }
 </script>
 <style>
-.active_tab .router-link-active {
-    color: #252F3F;
+.Tabbar .van-tabbar-item--active .van-tabbar-item__text {
+  color: #252f3f;
+}
+.Tabbar .van-tabbar-item__icon {
+  font-size: 0.5rem;
 }
 </style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.Tabbar{
+.Tabbar {
   width: 7.5rem;
+  height: 1rem;
 }
 a {
-  color: #99A0AA;
+  color: #99a0aa;
 }
 </style>

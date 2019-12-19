@@ -91,6 +91,7 @@ export default {
   created() {
     var _this = this;
     _this.getDetail();
+    _this.isWeixin();
   },
 
   methods: {
