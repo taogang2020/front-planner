@@ -91,7 +91,7 @@ export default {
     return {
       idTypeList:[],
       areaList:{},
-      // message:'',
+      message:'',
       form: {
         isSubmit: 2,
       },
