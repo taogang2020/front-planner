@@ -157,6 +157,10 @@ export default {
         }
       });
     },
+    cancel(){
+      var _this = this;
+      _this.$router.go(-1);
+    }
 
   }
 };

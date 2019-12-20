@@ -14,10 +14,9 @@
             <van-icon name="graphic" size="0.7rem" color="#ffd01e" />
             <p class="titlename">银行卡管理</p>
           </div>
-        </div>
-      
+        </div>     
       </div>
-      <div class="accountManger clear">
+      <!-- <div class="accountManger clear">
         <div class="item clear">
           <div class="fl list">
             <van-icon name="vip-card-o" size="0.7rem" color="#ff701e" />
@@ -28,7 +27,7 @@
             <p class="titlename">白名单</p>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -63,12 +62,9 @@ export default {
     //去往开户页面
     openAccount(){
       var _this = this;
-     
-        _this.$router.push({ 
-          path:'/openAccountList',  
-        })
-  
-
+      _this.$router.push({ 
+        path:'/openAccountList',  
+      })
     },
     
   }
