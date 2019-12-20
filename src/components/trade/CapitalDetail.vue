@@ -1,6 +1,6 @@
 <template>
   <div class="capitalDetail">
-    <van-nav-bar title="资金到账明细" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar v-show='is_weixin' title="资金到账明细" left-text="返回" left-arrow @click-left="onClickLeft" />
     <div class="listBox">
       <div class="clear title">
         <p class="fl">转让名称</p>
@@ -30,7 +30,8 @@ export default {
             {'transferName':'票据资产01','tradeMoney':'1000','assetsMoney':'2000'},
             {'transferName':'票据资产02','tradeMoney':'1000','assetsMoney':'2000'},
             {'transferName':'票据资产03','tradeMoney':'1000','assetsMoney':'2000'}
-        ]
+        ],
+        is_weixin:false,
     };
   },
   mounted() {
@@ -42,9 +43,24 @@ export default {
     document.querySelector("body").removeAttribute("style");
   },
   created(){
-
+    var _this = this;
+    _this.isWeixin();
   },
   methods: {
+    // 判断是否是微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin){
+        _this.is_weixin = false;
+        return true;
+      }else{
+        _this.is_weixin = false;
+        return false;
+      }
+    },
+
     // 点击返回
     cancel() {
       var _this = this;

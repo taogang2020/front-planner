@@ -1,13 +1,6 @@
 <template>
   <div class="capitalAccount">
-    <van-nav-bar
-      title="资金到账明细"
-      left-text="返回"
-      right-text="全额到账"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="accountClick"
-    />
+    <van-nav-bar v-show ='is_weixin' title="资金到账明细" left-text="返回" right-text="全额到账" left-arrow @click-left="onClickLeft"  @click-right="accountClick"/>
     <div class="top clear">
       <van-cell-group class="inp">
         <van-field v-model="value" placeholder="请输入用户名" right-icon="search" @click-right-icon="search"/>
@@ -15,15 +8,14 @@
     </div>
     <div class="item">
       <div class="title clear">
-          <div class="checkbox fl"><van-checkbox v-model="checked" @change="checkAll" shape="square" checked-color="#ed2424"></van-checkbox></div>
-        
+        <div class="checkbox fl"><van-checkbox v-model="checked" @change="checkAll" shape="square" checked-color="#ed2424"></van-checkbox></div>
         <p class="fl titleName">客户名称</p>
         <p class="fl titleName">银行卡号</p>
         <p class="fl titleName">到账金额</p>
         <p class="fl titleName">备注</p>
       </div>
       <van-checkbox-group v-model="result" ref="checkboxGroup">
-        <li class="list"  v-for = "(item, index) in list" >
+        <li class="list"  v-for = "(item, index) in list"  :key="item.id">
           <div class="checkbox fl" >
             <van-checkbox
               v-if="item.is_check==1"
@@ -52,6 +44,7 @@ export default {
     return {
       value:'',
       result:[],
+      is_weixin:false,
       checked:false,
       list:[
         {"name":"子文涵","id":4,"is_check":1,idcard:'中国工商(****1234)'},
@@ -70,7 +63,26 @@ export default {
     document.querySelector('body').removeAttribute('style')
     document.querySelector('.main').removeAttribute('style')
   },
+  created(){
+    var _this = this; 
+    _this.isWeixin();
+
+  },
   methods: {
+    // 判断是否微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin){
+        _this.is_weixin = false;
+        return true;
+      }else{
+        _this.is_weixin = false;
+        return false;
+      }
+    },
+
     toggle(index,id) {
       var _this = this;
       this.$refs.checkboxes[index].toggle();

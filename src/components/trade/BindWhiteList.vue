@@ -1,13 +1,6 @@
 <template>
   <div class="whiteList">
-    <van-nav-bar
-      title="绑定白名单"
-      left-text="返回"
-      right-text="绑定"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="bindClick"
-    />
+    <van-nav-bar v-show='is_weixin' title="绑定白名单" left-text="返回" right-text="绑定" left-arrow  @click-left="onClickLeft"  @click-right="bindClick"/>
     <div class="top clear">
       <van-cell-group class="inp">
         <van-field v-model="value" placeholder="请输入用户名" right-icon="search" @click-right-icon="search"/>
@@ -57,6 +50,7 @@ export default {
         {"name":"谷紫怡","id":6,"is_check":1,idcard:'330000198607182967'},
       ],
       selectedData:[],
+      is_weixin:false,
     };
   },
  
@@ -68,7 +62,25 @@ export default {
     document.querySelector('body').removeAttribute('style')
     document.querySelector('.main').removeAttribute('style')
   },
+  created(){
+    var _this = this;
+    _this.isWeixin();
+  },
   methods: {
+    // 判断是否微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin = false;
+        return true;
+      } else {
+        _this.is_weixin = true;
+        return false;
+      }
+    },
+    
     toggle(index,id) {
       var _this = this;
       this.$refs.checkboxes[index].toggle();

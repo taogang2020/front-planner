@@ -1,12 +1,6 @@
 <template>
   <div class="AccountDetail">
-    <van-nav-bar
-      title="资金到账明细"
-      left-text="返回"
-      right-text="明细"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="detailClick"
+    <van-nav-bar v-show='is_weixin' title="资金到账明细" left-text="返回"  right-text="明细" left-arrow @click-left="onClickLeft" @click-right="detailClick"
     />
     <div>
       <van-cell-group>
@@ -66,10 +60,30 @@ export default {
         { name: "上海", id: 3 },
         { name: "北京", id: 4 },
         { name: "杭州", id: 5 }
-      ]
+      ],
+      is_weixin:false,
     };
   },
+  created(){
+    var _this = this;
+    _this.isWeixin();
+
+  },
   methods: {
+    // 判断是否微信打开
+    isWeixin(){
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        _this.is_weixin = false;
+        return true;
+      } else {
+        _this.is_weixin = true;
+        return false;
+      }
+    },
+
     // 点击确定转让代码
     onConfirm(value) {
       var _this = this;
