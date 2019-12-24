@@ -11,11 +11,11 @@
       
       <van-tab title="快捷登录">
         <van-field v-model="form.memberCode" placeholder="请输入管理人编号" />
+        <van-field v-model="form.operatorPhone" placeholder="请输入手机号" />
         <div class="sendTop">
-          <van-field v-model="form.operatorPhone" placeholder="请输入手机号" />
+          <van-field v-model="form.validCode" placeholder="请输入验证码" />
           <p class="send" @click="getcode()" v-html="text_code" v-bind:class="{active:isactive}"></p>
         </div>
-        <van-field v-model="form.validCode" placeholder="请输入验证码" />
       </van-tab>
     </van-tabs>
      
