@@ -62,11 +62,13 @@
       <div class="secondBtn">
         <van-button type="danger" class="pre" v-if="(form.memberStatus == 3 || form.memberStatus == 6) && !showSaveBtn" @click="editClick()">编 辑</van-button>
         <van-button type="danger" class="pre" v-if="(form.memberStatus == 3 || form.memberStatus == 6) && !showSaveBtn" @click="deleteClick()">删 除</van-button>
+        <!--
         <van-button type="danger" class="pre" style="width:1.8rem" v-if="form.memberStatus == 1 && !showSaveBtn" @click="reviewClick(2)">审核通过</van-button>
         <van-button type="danger" class="pre" style="width:1.8rem" v-if="form.memberStatus == 1 && !showSaveBtn" @click="reviewClick(3)">审核退回</van-button>
+        -->
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="cancelEditClick()">取 消</van-button>
         <van-button type="danger" class="pre" v-if="showSaveBtn" @click="submitClick(2)">保 存</van-button>
-        <van-button type="danger" class="pre" style="width:1.8rem" v-if="showSaveBtn" @click="submitClick(1)">提交审核</van-button>
+        <van-button type="danger" class="pre" style="width:1.8rem" v-if="showSaveBtn" @click="submitClick(1)">成为用户</van-button>
       </div>
     </div>
     <!-- 企业类型选择器 -->
@@ -116,6 +118,7 @@
     <!-- 删除弹框 -->
     <van-dialog v-model="showDelete" title="确认删除吗？" show-cancel-button @confirm="confirmDelete"></van-dialog>
     <!-- 审核弹框 -->
+    <!-- 
     <van-dialog v-model="showReview" title="审核" show-cancel-button :before-close="confirmReview">
       <van-field
       v-model="reviewForm.reviewOpinion"
@@ -127,6 +130,7 @@
       placeholder="请输入审核意见"
     />
     </van-dialog>
+    -->
   </div>
 </template>
 <script>
@@ -626,39 +630,39 @@ export default {
       });
     },
     //审核弹窗
-    reviewClick(type){
-      var _this = this;
-      _this.showReview = true;
-      _this.reviewForm.reviewStatus = type;
-    },
+    // reviewClick(type){
+    //   var _this = this;
+    //   _this.showReview = true;
+    //   _this.reviewForm.reviewStatus = type;
+    // },
     //确认审核
-    confirmReview(action,done){
-      var _this = this;
-      if(action === 'confirm') {
-        if(_this.reviewForm.reviewOpinion){
-          _this.$http.get("/api/planner/member/review",{params:_this.reviewForm}).then(function (res) {
-            var data = res.data;
-            if (data.code == 0) {
-              _this.$toast("成功");
-              //返回列表
-              _this.$router.push({
-                path:'/customerList'
-              });
-            } else {
-              _this.$toast(data.msg);
-            }
-          });
-          done();//关闭
-        } else {
-          _this.$toast("请填写审核意见");
-          done(false);//不关闭
-        }
-      } else if (action === 'cancel') {
-        _this.reviewForm.reviewStatus = "";
-        _this.reviewForm.reviewOpinion = "";
-        done(); //关闭
-      }
-    },
+    // confirmReview(action,done){
+    //   var _this = this;
+    //   if(action === 'confirm') {
+    //     if(_this.reviewForm.reviewOpinion){
+    //       _this.$http.get("/api/planner/member/review",{params:_this.reviewForm}).then(function (res) {
+    //         var data = res.data;
+    //         if (data.code == 0) {
+    //           _this.$toast("成功");
+    //           //返回列表
+    //           _this.$router.push({
+    //             path:'/customerList'
+    //           });
+    //         } else {
+    //           _this.$toast(data.msg);
+    //         }
+    //       });
+    //       done();//关闭
+    //     } else {
+    //       _this.$toast("请填写审核意见");
+    //       done(false);//不关闭
+    //     }
+    //   } else if (action === 'cancel') {
+    //     _this.reviewForm.reviewStatus = "";
+    //     _this.reviewForm.reviewOpinion = "";
+    //     done(); //关闭
+    //   }
+    // },
     
   }
 
