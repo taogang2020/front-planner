@@ -1,6 +1,5 @@
 <template>
 <div>
-  <van-nav-bar v-show="is_weixin" title="登录"/>
   <div class="loginWarp">
     <van-tabs  @click="onClick" :line-width='10'>
       <van-tab title="密码登录">
@@ -20,7 +19,7 @@
     </van-tabs>
      
     <div class="login" @click='login'>登录</div>
-    <p class="register">没有账号？去&nbsp;<router-link to="register">注册</router-link></p>
+    <p class="register">没有账号, 去&nbsp;<router-link to="register">注册</router-link></p>
   </div>
 </div>
 </template>
@@ -43,7 +42,7 @@ export default {
       },
       isactive: false,
       text_code: "发送验证码",
-      is_weixin:false,
+     
       
     };
   },
@@ -57,23 +56,10 @@ export default {
   },
   created(){
     var _this = this;
-    _this.isWeixin();
+   
   },
 
   methods: {
-    // 判断是否是微信打开
-    isWeixin(){
-      var _this = this;
-      var ua = navigator.userAgent.toLowerCase();
-      var isWeixin = ua.indexOf('micromessenger') != -1;
-      if (isWeixin) {
-        _this.is_weixin=false;
-        return true;
-      }else{
-        _this.is_weixin=true;
-        return false;
-      }
-    }, 
      onClick(name, title) {
       var _this = this;
       if(title == "密码登录"){
