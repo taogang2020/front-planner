@@ -39,7 +39,7 @@
       <!-- 底部 -->
       <tabbar-nav></tabbar-nav>
     </div>
-    <van-overlay :show="show" @click="show = false" style="z-index:99">
+    <van-overlay :show="show" @click="show = false" >
       <div class="wrapper" @click.stop>
         <div class="block">
           <p><router-link :to="{name:'organRegister'}">企业</router-link></p>
@@ -195,6 +195,9 @@ export default {
   width: 3rem;
   height: 3rem;
   background-color: #fff;
+}
+.customerList .van-overlay{
+  z-index: 99 !important;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
