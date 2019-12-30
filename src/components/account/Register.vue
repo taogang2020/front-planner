@@ -182,7 +182,7 @@ export default {
       currentDate: new Date(),
       firstTep: true,
       secondTep: false,
-      thirdTep: true,
+      thirdTep: false,
       fourTep: false,
       AddrPopup:false,
       showTime:false,
