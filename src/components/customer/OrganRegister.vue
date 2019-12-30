@@ -35,11 +35,11 @@
       <div class="second" v-show="thirdTep">
           <p class="title">请上传相关证件</p>
           <div class="ImgBox clear">
-            <div class="file idCardPositive fl">
+            <div class="file fl">
               <van-uploader v-model="yyzzFileList" :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz" />
               <p>营业执照</p>
             </div>
-            <div class="file idCardReverse fr">
+            <div class="file fr">
               <van-uploader v-model="sqwtsFileList" :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" />
               <p>授权人委托书</p>
             </div>
@@ -47,7 +47,7 @@
               <van-uploader v-model="positiveFileList" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
               <p>负责人身份证正面</p>
             </div>
-            <div class="file idCardReverse fr">
+            <div class="file idCardPositive fr">
               <van-uploader v-model="reverseFileList" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
               <p>负责人身份证反面</p>
             </div>
@@ -587,29 +587,35 @@ export default {
 .register .van-picker__cancel{
   color: #666;
 }
-.register .van-uploader__upload{
+.register .van-uploader__upload {
   width: 2rem;
   height: 2rem;
-  /* opacity: 0;
-  z-index: 999; */
+  margin: 0;
 }
-/* .register .van-uploader__upload-icon{
-  opacity: 0;
-} */
+.register .van-uploader {
+  margin-left: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+}
+.register .van-uploader__wrapper {
+  width: 2rem;
+  height: 2rem;
+}
+.register .van-uploader__input{
+  width: 2rem;
+  height: 2rem;;
+}
+.register .van-uploader__preview-image{
+  width: 2rem;
+  height: 2rem;;
+}
 .register .van-field__control{
   text-align: right;
-}
-.register .van-uploader{
-  margin-left: 0.5rem;
-  
 }
 .register .secondBtn{
   width: 3.5rem;
   margin: 0 auto;
-
 }
-
-
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -626,12 +632,10 @@ export default {
 .register .firstBtn{
   width: 1.6rem;
   margin: 0 auto;
-
 }
 .register .secondBtn{
   width: 3.6rem;
   margin: 0 auto;
-
 }
 .register .title{
   font-size: 0.4rem;
@@ -654,7 +658,16 @@ export default {
 }
 .file{
   width: 3rem;
+  height: 3rem;
   position: relative;
+}
+.file p{
+  position: absolute;
+  bottom: 0;
+  left: 0.7rem;
+}
+.idCardPositive p{
+  left: 0.5rem;
 }
 .head-img{
   width: 3rem;
