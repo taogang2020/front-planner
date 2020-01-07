@@ -388,15 +388,29 @@ export default {
 .register .van-picker__cancel {
   color: #666;
 }
+
 .register .van-uploader__upload {
   width: 2rem;
   height: 2rem;
-  /* opacity: 0;
-  z-index: 999; */
+  margin: 0;
 }
-/* .register .van-uploader__upload-icon{
-  opacity: 0;
-} */
+.register .van-uploader {
+  margin-left: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+}
+.register .van-uploader__wrapper {
+  width: 2rem;
+  height: 2rem;
+}
+.register .van-uploader__input{
+  width: 2rem;
+  height: 2rem;;
+}
+.register .van-uploader__preview-image{
+  width: 2rem;
+  height: 2rem;;
+}
 .register .van-field__control {
   text-align: right;
 }
@@ -432,7 +446,13 @@ export default {
 }
 .file {
   width: 3rem;
+  height: 3rem;
   position: relative;
+}
+.file p{
+  position: absolute;
+  bottom: 0;
+  left: 0.7rem;
 }
 .head-img {
   width: 3rem;
