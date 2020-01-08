@@ -33,11 +33,11 @@
         <van-tab title="证明文件">
           <div class="ImgBox clear">
             <div class="file idCardPositive fl">
-              <van-uploader v-model="positiveFileList" :disabled="is_disabled" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
+              <van-uploader v-model="positiveFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
               <p>身份证正面</p>
             </div>
             <div class="file idCardReverse fr">
-              <van-uploader v-model="reverseFileList" :disabled="is_disabled" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
+              <van-uploader v-model="reverseFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
               <p>身份证反面</p>
             </div>
           </div>
@@ -238,6 +238,15 @@ export default {
     uploadNegative(file) {
       var _this = this;
       _this.uploadFile(file, 4);
+    },
+    // 上传图片验证
+    beforeUpload(file) {
+      var _this = this;
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        _this.$toast("上传文件不能超过2MB");
+      }
+      return isLt2M;
     },
     // 上传图片
     uploadFile(params, fileType) {

@@ -36,23 +36,23 @@
           <p class="title">请上传相关证件</p>
           <div class="ImgBox clear">
             <div class="file fl">
-              <van-uploader v-model="yyzzFileList" :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz" />
+              <van-uploader v-model="yyzzFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz" />
               <p>营业执照</p>
             </div>
             <div class="file fr">
-              <van-uploader v-model="sqwtsFileList" :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" />
+              <van-uploader v-model="sqwtsFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" />
               <p>授权人委托书</p>
             </div>
             <div class="file idCardPositive fl">
-              <van-uploader v-model="positiveFileList" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
+              <van-uploader v-model="positiveFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
               <p>负责人身份证正面</p>
             </div>
             <div class="file idCardPositive fr">
-              <van-uploader v-model="reverseFileList" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
+              <van-uploader v-model="reverseFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
               <p>负责人身份证反面</p>
             </div>
             <div class="file fl">
-              <van-uploader v-model="otherFileList" :max-count="1" :after-read="uploadOther" :before-delete="delOther" />
+              <van-uploader v-model="otherFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadOther" :before-delete="delOther" />
               <p>其他</p>
             </div>
           </div>
@@ -336,6 +336,15 @@ export default {
     uploadOther(file) {
       var _this = this;
       _this.uploadFile(file,5);
+    },
+    // 上传图片验证
+    beforeUpload(file) {
+      var _this = this;
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        _this.$toast("上传文件不能超过2MB");
+      }
+      return isLt2M;
     },
     // 上传图片
     uploadFile(params,fileType) {
