@@ -3,7 +3,7 @@
     <!-- <img class="developing" src="../../assets/imgs/developing.jpg"/>> -->
     <div class="top clear">
       <van-cell-group class="fl inp">
-        <van-field v-model="value" placeholder="请输入用户名" right-icon="search" />
+        <van-field v-model="value" placeholder="请输入转让资产名称" right-icon="search" />
       </van-cell-group>
       <p class="fr choose" @click="screen">筛选</p>
     </div>
@@ -20,27 +20,32 @@
             finished-text="- 没有更多了 -"
             @load="onLoad"
           >
-            <div class="item">
+            <div class="item" v-for='item in myList'>
               <div class="itemTop">
-                <p class="fl name">国盛资产转让1期</p>
+                <p class="fl name">{{item.transferName}}</p>
                 <p class="fr channel">
                   银行渠道:
-                  <span>贵州场外</span>
+                  <span>{{item.registAgencyName}}</span>
                 </p>
               </div>
               <div class="itemCenter">
                 <p>
                   转让金额：
-                  <span>12345</span>元
+                  <span>{{item.transferMoney}}</span>元
+                </p>
+                <p v-if="item.transferRateType == 1">
+                  固定收益率：
+                  <span>年化{{item.transferRate}}</span>%
+                </p>
+                <p v-if="item.transferRateType == 2">
+                  固定折价率：
+                  <span>年化{{item.transferRate}}</span>%
                 </p>
                 <p>
-                  转让折价率：
-                  <span>5</span>%
-                </p>
-                <p>
-                  资产到期日：
-                  <span>2020-06-09</span>
-                  <span class="date">(剩余120天)</span>
+                  转让到期日：
+                  <span>{{item.transferEndTimeStr}}</span>
+                  <span v-if="item.issueStatus==7 || item.issueStatus==8 || item.issueStatus==9" class="date">({{item.issueStatusDesc}})</span>
+                  <span v-if="item.issueStatus!=7 && item.issueStatus!=8 && item.issueStatus!=9" class="date">(剩余{{item.transferEndDateAndNowDateDiff}}天)</span>
                 </p>
               </div>
               <div class="clear">
@@ -86,6 +91,7 @@
 
 <script>
 import tabbarNav from "../layout/Tabbar";
+import {dateCommonFormat } from '@/utils/common';
 export default {
   name: "TradeList",
   components: {
@@ -93,6 +99,17 @@ export default {
   },
   data() {
     return {
+      form:{
+        transferName:'',
+        transferMoneyBegin:'',
+        transferMoneyEnd:'',
+        transferRateBegin:'',
+        transferRateEnd:'',
+        registAgencyId:'',
+        pageNo:1,
+        pageSize:10,
+        total:0,
+      },
       value: "",
       value1: "",
       dialog: false,
@@ -120,55 +137,55 @@ export default {
     },
     // 获取列表
     getList(){
-    //   var _this = this;
-    //   var params = _this.form;
-    //   // _this.finished = false;
-    //   _this.loading = true;
-    //   _this.$http.post("/api/member/page/search",params).then(function (res) {
-    //     var data = res.data;
-    //     if (data.code == 0) {
-    //       _this.loading = false;
-    //       _this.myList = _this.myList.concat(data.data.pageData.list);
-    //       // 如果没有数据，显示暂无数据
-    //       if (_this.myList.length === 0 && _this.form.pageNo === 1) {
-    //         _this.noData = true;
-    //         return;
-    //       }
-    //       // 如果加载完毕，显示没有更多了
-    //       if (data.data.pageData.totalpage === _this.form.pageNo) {
-    //         _this.finished = true;
-    //       }
-    //       if(Number(data.data.pageData.totalpage) > Number(_this.form.pageNo)) {
-    //         _this.form.pageNo ++;
-    //       }
-    //     } else {
-    //       _this.$toast(data.msg);
-    //     }
-    //   })
+      var _this = this;
+      var params = _this.form;
+      // _this.finished = false;
+      _this.loading = true;
+      _this.$http.post("/api/planner/issue/selectParentAssetsIssue",params).then(function (res) {
+        var data = res.data;
+        if (data.code == 0) {
+          _this.loading = false;
+          _this.myList = _this.myList.concat(data.data.list);
+          // 如果没有数据，显示暂无数据
+          if (_this.myList.length === 0 && _this.form.pageNo === 1) {
+            _this.noData = true;
+            return;
+          }
+          // 如果加载完毕，显示没有更多了
+          if (data.data.totalpage === _this.form.pageNo) {
+            _this.finished = true;
+          }
+          if(Number(data.data.totalpage) > Number(_this.form.pageNo)) {
+            _this.form.pageNo ++;
+          }
+        } else {
+          _this.$toast(data.msg);
+        }
+      })
     },
     // 列表上拉加载
     onLoad() {
       var _this = this;
       // 异步更新数据
-      // setTimeout(() => {
-      //   _this.getList();
-      //   _this.loading = true;
-      // }, 500)
+      setTimeout(() => {
+        _this.getList();
+        _this.loading = true;
+      }, 500)
     },
     // 下拉刷新
     onRefresh() {
-      // var _this = this;
-      // setTimeout(() => {
-      //   // 重新初始化这些属性
-      //   _this.isLoading = false;
-      //   _this.myList = [];
-      //   _this.form.pageNo = 1;
-      //   _this.loading = false;
-      //   _this.finished = false;
-      //   _this.noData = false;
-      //   // 请求信息
-      //   _this.getList();
-      // }, 500)
+      var _this = this;
+      setTimeout(() => {
+        // 重新初始化这些属性
+        _this.isLoading = false;
+        _this.myList = [];
+        _this.form.pageNo = 1;
+        _this.loading = false;
+        _this.finished = false;
+        _this.noData = false;
+        // 请求信息
+        _this.getList();
+      }, 500)
     },
     screen() {
       var _this = this;
