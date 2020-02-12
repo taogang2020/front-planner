@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="my_account">
     <van-nav-bar v-show="is_weixin" title="账户中心" />
-    <div class="my_account">
+    <div >
       <p>
         <router-link :to="{name:'mine'}">
           基本信息
@@ -24,6 +24,8 @@ export default {
   data() {
     return {
       is_weixin:false,
+      show:false,
+      bankPhoneShow:false,
     };
   },
 
@@ -46,6 +48,28 @@ export default {
         return false;
       }
     }, 
+    // // 设置交易密码 
+    // setPassword(){
+    //   var _this = this;
+    //   _this.$dialog.confirm({
+    //     title: "提示", 
+    //     message: "确定前往交易所页面设置交易密码吗?",
+    //     showCancelButton: true,
+    //   })
+    //   .then(() => { //点击确认按钮后的调用
+          
+    //   })
+    //   .catch(() => { //点击取消按钮后的调用
+        
+    //   })
+
+    // },
+    // // 点击修改交易密码
+    // editPassword(){
+    //  var _this = this;
+    //  _this.show = true;
+
+    // },
     //退出登录
     logOut() {
       var _this = this;
@@ -71,6 +95,26 @@ export default {
 }
 .my_account .van-nav-bar__text {
   color: #333;
+}
+.my_account .van-overlay{
+  z-index: 1200 !important;
+}
+.van-dialog__confirm .van-button__text{
+  color: #ed2424;
+}
+.my_account .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 50%;
+  height:3rem;
+  margin-top:-1.5rem;
+}
+.my_account .block {
+  width: 6.5rem;
+  height: 3rem;
+  background-color: #fff;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -107,5 +151,15 @@ export default {
   font-size: 0.32rem;
   text-align: center;
   line-height: 0.8rem;
+}
+.my_account .change{
+  width: 3rem;
+  height: 0.8rem;
+  text-align: center;
+  margin: 0.4rem auto;
+  color: #fff;
+  background: #ed2424;
+  line-height: 0.8rem;
+  border-radius: 0.08rem;
 }
 </style>

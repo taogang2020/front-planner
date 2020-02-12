@@ -212,20 +212,19 @@ const router = new Router({
       component: CustomerList
     },
     {
+      meta: {
+        title: '交易市场'
+      },
+      path: '/tradeList',
+      name: 'tradeList',
+      component: TradeList
+    },
+    {
       path: '/index',
       name: 'index',
       component: Index,
       redirect: '/tradeList',
       children: [
-      {
-        meta: {
-          title: '交易市场'
-        },
-        path: '/tradeList',
-        name: 'tradeList',
-        component: TradeList
-      },
-      
       
       {
         meta: {
