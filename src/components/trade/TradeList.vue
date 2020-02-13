@@ -21,14 +21,14 @@
             @load="onLoad"
           >
             <div class="item">
-              <div class="itemTop">
+              <div class="itemTop van-clearfix">
                 <p class="fl name">国盛资产转让1期</p>
                 <p class="fr channel">
                   银行渠道:
                   <span>贵州场外</span>
                 </p>
               </div>
-              <div class="itemCenter">
+              <div class="itemCenter van-clearfix">
                 <p>
                   转让金额：
                   <span>12345</span>元
@@ -43,7 +43,7 @@
                   <span class="date">(剩余120天)</span>
                 </p>
               </div>
-              <div class="clear">
+              <div class="clear van-clearfix">
                 <div class="bind fl" @click="handelClick()">绑定白名单</div>
                 <div class="bind fl" @click="detailClick()">资金到账情况</div>
               </div>
@@ -93,6 +93,11 @@ export default {
   },
   data() {
     return {
+      form:{
+       
+        pageNo:1,
+        pageSize:10,
+      },
       value: "",
       value1: "",
       dialog: false,
@@ -109,14 +114,7 @@ export default {
   methods: {
     handelClick() {
       var _this = this;
-      // _this.$dialog
-      //   .alert({
-      //     message:"绑定成功，为保证您的XX请及时进行线下打款操作，线下打款帐号：XXXXXXXXX",
-      //       confirmButtonColor:'#ed2424'
-      //   })
-      //   .then(() => {
-      //     // on close
-      //   });
+    
     },
     // 获取列表
     getList(){
