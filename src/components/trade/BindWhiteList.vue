@@ -21,29 +21,47 @@
           shape="square"
           checked-color="#ed2424"
         ></van-checkbox>
-        <p class="fl titleName">客户名称</p>
-        <p class="fl titleName">身份证号</p>
+        <p class="fl titleName">用户名称</p>
+        <p class="fl titleName">用户编号</p>
         <p class="fl titleName">是否已绑白名单</p>
       </div>
+      <div class="clearFixd">
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <div v-if='noData' class="noData"> 暂无数据 </div>
+          <div v-else>
+            <van-list
+              class="list"
+              ref="list"
+              v-model="loading"
+              :finished="finished"
+              :offset="30"
+              finished-text="- 没有更多了 -"
+              @load="onLoad"
+            >
       <van-checkbox-group v-model="selectedData" ref="checkboxGroup" >
-        <li class="list" v-for="item in list" :key="item.id">
+        <li class="list" v-for="item in myList" :key="item.memberId">
           <div class="checkbox fl">
             <van-checkbox
-              v-show="item.is_check==1"
+              v-show="item.isBind==2"
               shape="square"
-              :name="item.id"
-              :value="item.id"
+              :name="item.memberId"
+              :value="item.memberId"
               checked-color="#ed2424"
               ref="checkboxes"
               slot="right-icon"
               @click="changes"
             />
           </div>
-          <span class="fl">{{item.name}}</span>
-          <span class="fl">{{item.idcard}}</span>
-          <span class="fl">{{item.name}}</span>
+          <span class="fl">{{item.memberFullName}}</span>
+          <span class="fl">{{item.memberCode}}</span>
+          <span v-if="item.isBind==1" class="fl">是</span>
+          <span v-if="item.isBind==2" class="fl">否</span>
         </li>
       </van-checkbox-group>
+      </van-list>
+        </div>
+      </van-pull-refresh>
+    </div>
     </div>
   </div>
 </template>
@@ -53,17 +71,24 @@ export default {
   name: "BindWhiteList",
   data() {
     return {
+      form:{
+        issueGuid: "",
+        memberFullName: '',
+        pageNo: 1,
+        pageSize: 10,
+        total: 0
+      },
+      myList: [],
       value: "",
       result: [],
       checked: false,
-      list: [
-        { name: "子文涵", id: 4, is_check: 1, idcard: "330000198607182967" },
-        { name: "桓何不", id: 5, is_check: 0, idcard: "330000198607182967" },
-        { name: "谷紫怡", id: 6, is_check: 1, idcard: "330000198607182967" },
-        { name: "谷紫二", id: 7, is_check: 1, idcard: "330000198607182967" }
-      ],
       selectedData: [],
-      is_weixin: false
+      is_weixin: false,
+      isLoading: false, // 下拉的加载图案
+      loading: false, // 当loading为true时，转圈圈
+      finished: false, // 数据是否请求结束，结束会先显示- 没有更多了 -
+      noData: false // 如果没有数据，显示暂无数
+      
     };
   },
 
@@ -78,6 +103,7 @@ export default {
   created() {
     var _this = this;
     _this.isWeixin();
+    _this.getList();
   },
   methods: {
     // 判断是否微信打开
@@ -93,6 +119,59 @@ export default {
         return false;
       }
     },
+    // 获取集合
+    getList() {
+      var _this = this;
+      _this.loading = true;
+      _this.form.issueGuid = _this.$route.params.issueGuid;
+      _this.$http.post("/api/planner/white/selectWhiteList",_this.form).then(function (res) {
+        var data = res.data;
+        if (data.code == 0) {
+          _this.loading = false;
+          _this.myList = _this.myList.concat(data.data.membersList.list);
+          // 调用全选方法
+          _this.checkAll();
+          // 如果没有数据，显示暂无数据
+          if (_this.myList.length === 0 && _this.form.pageNo === 1) {
+            _this.noData = true;
+            return;
+          }
+          // 如果加载完毕，显示没有更多了
+          if (data.data.membersList.totalpage === _this.form.pageNo) {
+            _this.finished = true;
+          }
+          if(Number(data.data.membersList.totalpage) > Number(_this.form.pageNo)) {
+            _this.form.pageNo ++;
+          }
+        } else {
+          _this.$toast(data.msg);
+        }
+      })
+    },
+    // 列表上拉加载
+    onLoad() {
+      var _this = this;
+      // 异步更新数据
+      setTimeout(() => {
+        _this.getList();
+        _this.loading = true;
+      }, 500)
+    },
+    // 下拉刷新
+    onRefresh() {
+      var _this = this;
+      setTimeout(() => {
+        // 重新初始化这些属性
+        _this.isLoading = false;
+        _this.myList = [];
+        _this.form.pageNo = 1;
+        _this.loading = false;
+        _this.finished = false;
+        _this.noData = false;
+        // 请求信息
+        _this.getList();
+      }, 500)
+    },
     // 单选
     changes() {
       var _this = this;
@@ -104,13 +183,13 @@ export default {
     checkAll() {
       var _this = this;
       var key = _this.checked;
-      var listArr = _this.list;
+      var listArr = _this.myList;
       let ids = [];
       // 选中
       if (Number(key) == 1) {
         listArr.forEach(function(value) {
-          if(value.is_check==1){
-            ids.push(value.id);
+          if(value.isBind==2){
+            ids.push(value.memberId);
           }
         });
         _this.selectedData = ids;
@@ -193,6 +272,11 @@ export default {
   font-size: 0.3rem;
   line-height: 0.6rem;
 }
+.noData{
+  font-size: 0.3rem;
+  line-height: 0.5rem;
+  text-align: center;
+}
 .top {
   padding: 0.1rem;
   background: #fff;
@@ -224,6 +308,9 @@ export default {
   line-height: 0.8rem;
   font-size: 0.2rem;
   color: #252f3f;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .checkbox {
   width: 0.3rem;
