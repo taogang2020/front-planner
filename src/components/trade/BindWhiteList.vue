@@ -1,6 +1,7 @@
 <template>
   <div class="whiteList">
-    <van-nav-bar v-show="is_weixin" title="绑定白名单" />
+    <van-nav-bar v-show="is_weixin" title="绑定白名单" style="height:0.9rem;position:fixed;width: 100%;"/>
+    <div v-show="is_weixin" style="height:0.9rem;width:100%"></div>
     <div class="top clear">
       <van-cell-group class="inp fl">
         <van-field
@@ -278,8 +279,14 @@ export default {
   text-align: center;
 }
 .top {
+  width: 7.5rem;
   padding: 0.1rem;
+  box-sizing: border-box;
   background: #fff;
+  position: fixed;
+  z-index: 9;
+  height: 0.8rem;
+  /* background: #fafafa; */
 }
 .item {
   width: 100%;

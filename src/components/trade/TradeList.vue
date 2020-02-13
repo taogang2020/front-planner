@@ -1,9 +1,8 @@
 <template>
   <div class="tradeList">
-    <!-- <img class="developing" src="../../assets/imgs/developing.jpg"/>> -->
     <div class="top clear">
       <van-cell-group class="fl inp">
-        <van-field v-model="value" placeholder="请输入转让资产名称" />
+        <van-field v-model="form.transferName" placeholder="请输入转让资产名称" />
       </van-cell-group>
       <p class="fr choose" @click="search">搜索</p>
     </div>
@@ -110,8 +109,6 @@ export default {
         pageSize:10,
         total:0,
       },
-      value: "",
-      value1: "",
       dialog: false,
       transfer: [],
       rate: [],
@@ -185,6 +182,9 @@ export default {
     },
     search() {
       var _this = this;
+      _this.form.pageNo = 1;
+      _this.getList();
+
     },
     closeBtn(action, done) {
       var _this = this;
