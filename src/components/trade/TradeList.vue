@@ -49,8 +49,8 @@
                 </p>
               </div>
               <div class="clear">
-                <div class="bind fl" @click="handelClick()">绑定白名单</div>
-                <div class="bind fl" @click="detailClick()">资金到账情况</div>
+                <div class="bind fl" @click="handelClick(item.issueGuid)">绑定白名单</div>
+                <!-- <div class="bind fl" @click="detailClick()">资金到账情况</div> -->
               </div>
             </div>
           </van-list>
@@ -124,16 +124,12 @@ export default {
     };
   },
   methods: {
-    handelClick() {
+    handelClick(issueGuid) {
       var _this = this;
-      // _this.$dialog
-      //   .alert({
-      //     message:"绑定成功，为保证您的XX请及时进行线下打款操作，线下打款帐号：XXXXXXXXX",
-      //       confirmButtonColor:'#ed2424'
-      //   })
-      //   .then(() => {
-      //     // on close
-      //   });
+      _this.$router.push({ 
+        name:'bindWhiteList', 
+        params:{'issueGuid' : issueGuid}, 
+      })
     },
     // 获取列表
     getList(){
@@ -212,8 +208,6 @@ export default {
     },
     // 资金到账情况
     detailClick() {
-      
-        
       
     },
     //只能选择一个

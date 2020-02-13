@@ -21,27 +21,28 @@
           shape="square"
           checked-color="#ed2424"
         ></van-checkbox>
-        <p class="fl titleName">客户名称</p>
-        <p class="fl titleName">身份证号</p>
+        <p class="fl titleName">用户名称</p>
+        <p class="fl titleName">用户编号</p>
         <p class="fl titleName">是否已绑白名单</p>
       </div>
       <van-checkbox-group v-model="selectedData" ref="checkboxGroup" >
-        <li class="list" v-for="item in list" :key="item.id">
+        <li class="list" v-for="item in myList" :key="item.memberId">
           <div class="checkbox fl">
             <van-checkbox
-              v-show="item.is_check==1"
+              v-show="item.isBind==2"
               shape="square"
-              :name="item.id"
-              :value="item.id"
+              :name="item.memberId"
+              :value="item.memberId"
               checked-color="#ed2424"
               ref="checkboxes"
               slot="right-icon"
               @click="changes"
             />
           </div>
-          <span class="fl">{{item.name}}</span>
-          <span class="fl">{{item.idcard}}</span>
-          <span class="fl">{{item.name}}</span>
+          <span class="fl">{{item.memberFullName}}</span>
+          <span class="fl">{{item.memberCode}}</span>
+          <span v-if="item.isBind==1" class="fl">是</span>
+          <span v-if="item.isBind==2" class="fl">否</span>
         </li>
       </van-checkbox-group>
     </div>
@@ -53,15 +54,17 @@ export default {
   name: "BindWhiteList",
   data() {
     return {
+      form:{
+        issueGuid: "",
+        memberFullName: '',
+        pageNo: 1,
+        pageSize: 10,
+        total: 0
+      },
+      myList: [],
       value: "",
       result: [],
       checked: false,
-      list: [
-        { name: "子文涵", id: 4, is_check: 1, idcard: "330000198607182967" },
-        { name: "桓何不", id: 5, is_check: 0, idcard: "330000198607182967" },
-        { name: "谷紫怡", id: 6, is_check: 1, idcard: "330000198607182967" },
-        { name: "谷紫二", id: 7, is_check: 1, idcard: "330000198607182967" }
-      ],
       selectedData: [],
       is_weixin: false
     };
@@ -78,6 +81,7 @@ export default {
   created() {
     var _this = this;
     _this.isWeixin();
+    _this.getList();
   },
   methods: {
     // 判断是否微信打开
@@ -92,6 +96,19 @@ export default {
         _this.is_weixin = true;
         return false;
       }
+    },
+    // 获取集合
+    getList() {
+      var _this = this;
+      _this.form.issueGuid = _this.$route.params.issueGuid;
+      _this.$http.post("/api/planner/white/selectWhiteList",_this.form).then(function (res) {
+        var data = res.data;
+        if (data.code == 0) {
+          _this.myList = data.data.membersList.list;
+        } else {
+          _this.$toast(data.msg);
+        }
+      })
     },
     // 单选
     changes() {

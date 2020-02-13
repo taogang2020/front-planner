@@ -79,7 +79,7 @@ const router = new Router({
       meta: {
         title: '绑定白名单'
       },
-      path: '/bindWhiteList',
+      path: '/bindWhiteList/:issueGuid',
       name: 'bindWhiteList',
       component: BindWhiteList
     },
