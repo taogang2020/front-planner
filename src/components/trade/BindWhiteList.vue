@@ -6,6 +6,7 @@
       style="height:0.9rem;position:fixed;width: 100%;"
     />
     <div v-show="is_weixin" style="height:0.9rem;width:100%"></div>
+    <div class="listBox">
     <div class="top clear">
       <van-cell-group class="inp fl">
         <van-field
@@ -67,6 +68,7 @@
           </div>
         </van-pull-refresh>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -281,6 +283,10 @@ export default {
   font-size: 0.3rem;
   line-height: 0.6rem;
 }
+/* .listBox {
+  padding-top: 1rem;
+  box-sizing: border-box;
+} */
 .noData {
   font-size: 0.3rem;
   line-height: 0.5rem;
@@ -299,7 +305,7 @@ export default {
 .item {
   width: 100%;
   height: 0.8rem;
-  padding: 0.2rem 0.1rem;
+  padding: 1rem 0.1rem 0.2rem 0.1rem;
   box-sizing: border-box;
 }
 .item li {
