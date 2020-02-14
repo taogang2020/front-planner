@@ -100,11 +100,6 @@ export default {
     return {
       form:{
         transferName:'',
-        transferMoneyBegin:'',
-        transferMoneyEnd:'',
-        transferRateBegin:'',
-        transferRateEnd:'',
-        registAgencyId:'',
         pageNo:1,
         pageSize:10,
         total:0,
@@ -182,6 +177,7 @@ export default {
     },
     search() {
       var _this = this;
+      _this.myList = [];
       _this.form.pageNo = 1;
       _this.getList();
 
