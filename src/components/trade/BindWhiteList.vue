@@ -6,7 +6,7 @@
       style="height:0.9rem;position:fixed;width: 100%;"
     />
     <div v-show="is_weixin" style="height:0.9rem;width:100%"></div>
-    <div class="listBox">
+    <div class="listBox clear">
     <div class="top clear">
       <van-cell-group class="inp fl">
         <van-field
@@ -31,7 +31,7 @@
         <p class="fl titleName">用户编号</p>
         <p class="fl titleName">是否已绑白名单</p>
       </div>
-      <div class="clearFixd">
+      <div class="clearFixd clear">
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <div v-if="noData" class="noData">暂无数据</div>
           <div v-else>
@@ -45,7 +45,7 @@
               @load="onLoad"
             >
               <van-checkbox-group v-model="selectedData" ref="checkboxGroup">
-                <li class="list" v-for="item in myList" :key="item.memberId">
+                <li class="list van-clearfix" v-for="item in myList" :key="item.memberId">
                   <div class="checkbox fl">
                     <van-checkbox
                       v-show="item.isBind==2"
@@ -218,7 +218,9 @@ export default {
       console.log(_this.selectedData, 222);
     },
     // 搜索
-    search() {},
+    search() {
+
+    },
     // 点击绑定
     bindClick() {
       var _this = this;
@@ -283,10 +285,6 @@ export default {
   font-size: 0.3rem;
   line-height: 0.6rem;
 }
-/* .listBox {
-  padding-top: 1rem;
-  box-sizing: border-box;
-} */
 .noData {
   font-size: 0.3rem;
   line-height: 0.5rem;
@@ -305,7 +303,7 @@ export default {
 .item {
   width: 100%;
   height: 0.8rem;
-  padding: 1rem 0.1rem 0.2rem 0.1rem;
+  padding-top: 0.8rem;
   box-sizing: border-box;
 }
 .item li {
@@ -314,8 +312,21 @@ export default {
   border-bottom: 0.01rem solid #ccc;
 }
 .title {
-  padding-bottom: 0.2rem;
+  position: fixed;
+  background: #fff;
+  z-index: 9;
+  padding:0.2rem 0rem;
+  box-sizing: border-box;
+  width:7.3rem;
+  margin-left: 0.1rem;
   border-bottom: 0.01rem solid #ccc;
+}
+.clearFixd{
+  background: #fff;
+  margin-top: 0.8rem;
+  width: 100%;
+  padding: 0 0.1rem;
+  box-sizing: border-box;
 }
 .titleName {
   width: 2.3rem;

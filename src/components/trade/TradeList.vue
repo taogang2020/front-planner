@@ -153,6 +153,7 @@ export default {
     },
     // 列表上拉加载
     onLoad() {
+      console.log(111)
       var _this = this;
       // 异步更新数据
       setTimeout(() => {
@@ -175,12 +176,14 @@ export default {
         _this.getList();
       }, 500)
     },
+    // 搜索
     search() {
       var _this = this;
+      _this.loading = false;
+      _this.finished = false;
       _this.myList = [];
       _this.form.pageNo = 1;
       _this.getList();
-
     },
     closeBtn(action, done) {
       var _this = this;
