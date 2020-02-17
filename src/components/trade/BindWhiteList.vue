@@ -7,68 +7,75 @@
     />
     <div v-show="is_weixin" style="height:0.9rem;width:100%"></div>
     <div class="listBox clear">
-    <div class="top clear">
-      <van-cell-group class="inp fl">
-        <van-field
-          v-model="value"
-          placeholder="请输入用户名"
-          right-icon="search"
-          @click-right-icon="search"
-        />
-      </van-cell-group>
-      <p class="fr choose" @click="bindClick">绑定</p>
-    </div>
-    <div class="item">
-      <div class="title clear">
-        <van-checkbox
-          class="fl"
-          v-model="checked"
-          @change="checkAll"
-          shape="square"
-          checked-color="#ed2424"
-        ></van-checkbox>
-        <p class="fl titleName">用户名称</p>
-        <p class="fl titleName">用户编号</p>
-        <p class="fl titleName">是否已绑白名单</p>
+      <div class="top clear">
+        <van-cell-group class="inp fl">
+          <van-field
+            v-model="value"
+            placeholder="请输入用户名"
+            right-icon="search"
+            @input="search"
+          />
+        </van-cell-group>
+        
       </div>
-      <div class="clearFixd clear">
-        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-          <div v-if="noData" class="noData">暂无数据</div>
-          <div v-else>
-            <van-list
-              class="list"
-              ref="list"
-              v-model="loading"
-              :finished="finished"
-              :offset="30"
-              finished-text="- 没有更多了 -"
-              @load="onLoad"
-            >
-              <van-checkbox-group v-model="selectedData" ref="checkboxGroup">
-                <li class="list van-clearfix" v-for="item in myList" :key="item.memberId">
-                  <div class="checkbox fl">
-                    <van-checkbox
-                      v-show="item.isBind==2"
-                      shape="square"
-                      :name="item.memberId"
-                      :value="item.memberId"
-                      checked-color="#ed2424"
-                      ref="checkboxes"
-                      slot="right-icon"
-                      @click="changes"
-                    />
-                  </div>
-                  <span class="fl">{{item.memberFullName}}</span>
-                  <span class="fl">{{item.memberCode}}</span>
-                  <span v-if="item.isBind==1" class="fl">是</span>
-                  <span v-if="item.isBind==2" class="fl">否</span>
-                </li>
-              </van-checkbox-group>
-            </van-list>
-          </div>
-        </van-pull-refresh>
+      <div class="item">
+        <div class="title clear">
+          <van-checkbox
+            class="fl"
+            v-model="checked"
+            @change="checkAll"
+            shape="square"
+            checked-color="#ed2424"
+          ></van-checkbox>
+          <p class="fl titleName">用户名称</p>
+          <p class="fl titleName">用户编号</p>
+          
+          <p class="fl titleName">账号</p>
+          <p class="fl titleName">白名单</p>
+        </div>
+        <div class="clearFixd clear van-clearfix">
+          <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+            <div v-if="noData" class="noData">暂无数据</div>
+            <div v-else>
+              <van-list
+                class="list van-clearfix"
+                ref="list"
+                v-model="loading"
+                :finished="finished"
+                :offset="30"
+                finished-text="- 没有更多了 -"
+                @load="onLoad"
+              >
+                <van-checkbox-group v-model="selectedData" ref="checkboxGroup">
+                  <li class="list van-clearfix" v-for="item in myList" :key="item.memberId">
+                    <div class="checkbox fl">
+                      <van-checkbox
+                        v-show="item.isBind==2"
+                        shape="square"
+                        :name="item.memberId"
+                        :value="item.memberId"
+                        checked-color="#ed2424"
+                        ref="checkboxes"
+                        slot="right-icon"
+                        @click="changes(item.accountId)"
+                      />
+                    </div>
+                    <span class="fl">{{item.memberFullName}}</span>
+                    <span class="fl" style="color:#ed2424">{{item.memberCode}}</span>
+                    <span class="fl"><span style="width:1rem;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">中国工商11111</span><span style="width:0.6rem;display: inline-block;"> | {{item.accountNo.substring(item.accountNo.length-4)}}</span></span>
+                    <span v-if="item.isBind==1" class="fl">是</span>
+                    <span v-if="item.isBind==2" class="fl">否</span>
+                  </li>
+                </van-checkbox-group>
+              </van-list>
+            </div>
+          </van-pull-refresh>
+        </div>
       </div>
+      
     </div>
+    <div class="botBtn">
+    <p class="choose" @click="bindClick">绑定</p>
     </div>
   </div>
 </template>
@@ -94,14 +101,12 @@ export default {
       isLoading: false, // 下拉的加载图案
       loading: false, // 当loading为true时，转圈圈
       finished: false, // 数据是否请求结束，结束会先显示- 没有更多了 -
-      noData: false // 如果没有数据，显示暂无数
+      noData: false, // 如果没有数据，显示暂无数
     };
   },
 
   mounted() {
-    document
-      .querySelector("body")
-      .setAttribute("style", "background-color:#fff");
+    document.querySelector("body").setAttribute("style", "background-color:#fff");
   },
   beforeDestroy() {
     document.querySelector("body").removeAttribute("style");
@@ -184,10 +189,11 @@ export default {
       }, 500);
     },
     // 单选
-    changes() {
+    changes(accountId) {
       var _this = this;
       setTimeout(() => {
-        console.log(this.selectedData, 111);
+        console.log(this.selectedData,111);
+       
       });
     },
     // 全选
@@ -195,7 +201,7 @@ export default {
       var _this = this;
       var key = _this.checked;
       var listArr = _this.myList;
-      let ids = [];
+      var ids=[];
       // 选中
       if (Number(key) == 1) {
         listArr.forEach(function(value) {
@@ -215,26 +221,33 @@ export default {
         // });
         _this.selectedData = [];
       }
-      console.log(_this.selectedData, 222);
+      // console.log(_this.selectedData, 222);
     },
     // 搜索
     search() {
-
+      var _this = this;
+      console.log(_this.value)
+    
     },
     // 点击绑定
     bindClick() {
       var _this = this;
-      console.log(_this.result);
+      let requestData = [];
+      _this.myList.forEach(value=>{
+          // console.log(value);
+          if(_this.selectedData.includes(value.memberId)){
+            requestData.push({memberId:value.memberId, accountId:value.accountId});
+          }
+      })
+      console.log(requestData)
     },
-
-    // 点击返回
-    onClickLeft() {}
   }
+   
 };
 </script>
 <style>
 .whiteList .inp {
-  width: 6.4rem;
+  width: 7.3rem;
   height: 0.6rem;
   border: 0.02rem solid #666;
   border-radius: 0.05rem;
@@ -271,6 +284,9 @@ export default {
   font-size: 0.3rem;
   line-height: 0.3rem;
 }
+.whiteList .van-list__finished-text{
+  padding-bottom: 0.8rem;
+}
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -280,10 +296,23 @@ export default {
   font-size: 0.3rem;
   font-size: 0.3rem;
 }
+.botBtn{
+  padding-top: 0.8rem;
+  width: 7.5rem;
+  height: 0.8rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
 .whiteList .choose {
-  color: #333;
+  width: 7.5rem;
+  height: 0.8rem;
+  background: #ed2424;
+  color: #fff;
   font-size: 0.3rem;
-  line-height: 0.6rem;
+  text-align: center;
+  line-height: 0.8rem;
+ 
 }
 .noData {
   font-size: 0.3rem;
@@ -329,12 +358,13 @@ export default {
   box-sizing: border-box;
 }
 .titleName {
-  width: 2.3rem;
+  width: 1.7rem;
   text-align: center;
   font-size: 0.25rem;
 }
 .list span {
-  width: 2.3rem;
+  width: 1.7rem;
+  height: 0.8rem;
   text-align: center;
   display: block;
   line-height: 0.8rem;

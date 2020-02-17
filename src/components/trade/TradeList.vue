@@ -153,7 +153,7 @@ export default {
     },
     // 列表上拉加载
     onLoad() {
-      console.log(111)
+      // console.log(111)
       var _this = this;
       // 异步更新数据
       setTimeout(() => {
