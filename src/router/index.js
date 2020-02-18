@@ -6,6 +6,7 @@ import CapitalAccount from '@/components/trade/CapitalAccount'
 import AccountDetail from '@/components/trade/AccountDetail'
 import CapitalDetail from '@/components/trade/CapitalDetail'
 import TradeList from '@/components/trade/TradeList'
+import WhiteListDetail from '@/components/trade/WhiteListDetail'
 import Mine from '@/components/account/Mine'
 import User from '@/components/account/User'
 import OpenAccountPersonal from '@/components/account/OpenAccountPersonal'
@@ -25,6 +26,7 @@ import EditPassword from '@/components/account/EditPassword'
 import OpenAccountList from '@/components/account/OpenAccountList'
 import AccountDetailPersonal from '@/components/account/AccountDetailPersonal'
 import AccountDetailOrgan from '@/components/account/AccountDetailOrgan'
+
 
 Vue.use(Router)
 
@@ -170,6 +172,14 @@ const router = new Router({
       path: '/personalDetail/:memberGuid',
       name: 'personalDetail',
       component: PersonalDetail
+    },
+    {
+      meta: {
+        title: '详情'
+      },
+      path: '/whiteListDetail',
+      name: 'whiteListDetail',
+      component: WhiteListDetail
     },
     {
       meta: {

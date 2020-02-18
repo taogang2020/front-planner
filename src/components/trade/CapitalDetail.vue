@@ -1,6 +1,6 @@
 <template>
   <div class="capitalDetail">
-    <van-nav-bar v-show='is_weixin' title="资金到账明细" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar v-show='is_weixin' title="资金到账明细" />
     <div class="listBox">
       <div class="clear title">
         <p class="fl">转让名称</p>
@@ -56,7 +56,7 @@ export default {
         _this.is_weixin = false;
         return true;
       }else{
-        _this.is_weixin = false;
+        _this.is_weixin = true;
         return false;
       }
     },
@@ -66,11 +66,7 @@ export default {
       var _this = this;
       _this.$router.go(-1);
     },
-    // 点击左侧箭头
-    onClickLeft() {
-      var _this = this;
-      _this.$router.go(-1);
-    }
+    
   }
 };
 </script>

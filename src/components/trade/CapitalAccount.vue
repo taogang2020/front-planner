@@ -8,15 +8,16 @@
     </div>
     <div class="item">
       <div class="title clear">
-        <div class="checkbox fl"><van-checkbox v-model="checked" @change="checkAll" shape="square" checked-color="#ed2424"></van-checkbox></div>
+        <!-- <div class="checkbox fl"><van-checkbox v-model="checked" @change="checkAll" shape="square" checked-color="#ed2424"></van-checkbox></div> -->
         <p class="fl titleName">客户名称</p>
         <p class="fl titleName">银行卡号</p>
         <p class="fl titleName">到账金额</p>
         <p class="fl titleName">备注</p>
       </div>
+      <div class="clearFixd clear van-clearfix">
       <van-checkbox-group v-model="result" ref="checkboxGroup">
-        <li class="list"  v-for = "(item, index) in list"  :key="item.id">
-          <div class="checkbox fl" >
+        <li class="list"  v-for = "item in list"  :key="item.id">
+          <!-- <div class="checkbox fl" >
             <van-checkbox
               v-if="item.is_check==1"
               shape="square"
@@ -27,12 +28,13 @@
               slot="right-icon"
               @click="toggle(index,item.id)"
             />
-          </div>
+          </div> -->
           <span class="fl">{{item.name}}</span>
           <span class="fl">{{item.idcard}}</span>
           <span class="fl">{{item.name}}</span>
         </li>
       </van-checkbox-group>
+      </div>
     </div>
   </div>
 </template>
@@ -57,11 +59,9 @@ export default {
   },
   mounted () {
      document.querySelector('body').setAttribute('style', 'background:#fff')
-     document.querySelector('.main').setAttribute('style', 'background:#fff')
   },
   beforeDestroy() {
     document.querySelector('body').removeAttribute('style')
-    document.querySelector('.main').removeAttribute('style')
   },
   created(){
     var _this = this; 
@@ -124,23 +124,21 @@ export default {
 };
 </script>
 <style>
+
 .capitalAccount .inp {
-  width: 7.2rem;
+  width: 7.3rem;
   height: 0.6rem;
-  border: 0.01rem solid #666;
-  border-radius: 0.04rem;
-  margin: 0 auto;
-  box-sizing: border-box;
-  margin-top: 0.01rem;
-  margin-right: 0.125rem;
-}
-.van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after{
-    border-width:0 !important; 
+  border: 0.02rem solid #666;
+  border-radius: 0.05rem;
 }
 .capitalAccount .inp .van-cell {
   padding: 0.05rem;
   font-size: 0.25rem;
 }
+.van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after{
+    border-width:0 !important; 
+}
+
 .capitalAccount .van-nav-bar .van-icon{
   color: #333;
 }
@@ -180,7 +178,7 @@ export default {
 .item{
   width: 100%;
   height: 0.8rem;
-  padding: 0.2rem 0.1rem;
+   padding-top: 1rem;
   box-sizing: border-box;
 }
 .item li{
@@ -189,8 +187,21 @@ export default {
   border-bottom: 0.01rem solid #ccc;
 }
 .title{
-  padding-bottom: 0.2rem;
+    position: fixed;
+  background: #fff;
+  z-index: 9;
+  padding:0.2rem 0rem;
+  box-sizing: border-box;
+  width:7.3rem;
+  margin-left: 0.1rem;
   border-bottom: 0.01rem solid #ccc;
+}
+.clearFixd{
+  background: #fff;
+  margin-top: 0.8rem;
+  width: 100%;
+  padding: 0 0.1rem;
+  box-sizing: border-box;
 }
 .titleName{
   width: 1.75rem;
@@ -209,7 +220,16 @@ export default {
   width: 0.3rem;
   height: 0.3rem;
 }
-
+.top {
+  width: 7.5rem;
+  padding: 0.1rem;
+  box-sizing: border-box;
+  background: #fff;
+  position: fixed;
+  z-index: 9;
+  height: 0.8rem;
+  /* background: #fafafa; */
+}
 
 
 </style>

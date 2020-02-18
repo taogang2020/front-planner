@@ -1,6 +1,6 @@
 <template>
   <div class="AccountDetail">
-    <van-nav-bar v-show='is_weixin' title="资金到账明细" left-text="返回"  right-text="明细" left-arrow @click-left="onClickLeft" @click-right="detailClick"
+    <van-nav-bar v-show='is_weixin' title="资金到账明细"  right-text="明细" @click-right="detailClick"
     />
     <div>
       <van-cell-group>
@@ -102,11 +102,7 @@ export default {
       var _this = this;
       _this.$router.go(-1);
     },
-    // 点击左侧箭头
-    onClickLeft() {
-      var _this = this;
-      _this.$router.go(-1);
-    }
+   
   }
 };
 </script>
