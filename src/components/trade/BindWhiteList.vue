@@ -50,8 +50,8 @@
                   <li class="list van-clearfix" v-for="item in myList" :key="item.memberId">
                     <div class="checkbox fl">
                       <van-checkbox
-                        v-show="item.isBind==2"
                         shape="square"
+                        v-show="item.bindStatus != 2 && item.bindStatus != 3"
                         :name="item.memberId"
                         :value="item.memberId"
                         checked-color="#ed2424"
@@ -62,9 +62,8 @@
                     </div>
                     <span class="fl">{{item.memberFullName}}</span>
                     <span class="fl" style="color:#ed2424">{{item.memberCode}}</span>
-                    <span class="fl"><span style="width:1rem;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">中国工商11111</span><span style="width:0.6rem;display: inline-block;"> | {{item.accountNo.substring(item.accountNo.length-4)}}</span></span>
-                    <span v-if="item.isBind==1" class="fl">是</span>
-                    <span v-if="item.isBind==2" class="fl">否</span>
+                    <span class="fl"><span style="width:1rem;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{item.bankName}}</span><span style="width:0.6rem;display: inline-block;"> | {{item.accountNo.substring(item.accountNo.length-4)}}</span></span>
+                    <span class="fl">{{item.bindStatusDesc}}</span>
                   </li>
                 </van-checkbox-group>
               </van-list>
@@ -91,6 +90,10 @@ export default {
         pageNo: 1,
         pageSize: 10,
         total: 0
+      },
+      bindForm: {
+        issueGuid: "",
+        idsArray:[],
       },
       myList: [],
       value: "",
@@ -205,7 +208,7 @@ export default {
       // 选中
       if (Number(key) == 1) {
         listArr.forEach(function(value) {
-          if (value.isBind == 2) {
+          if (value.bindStatus != 2 && value.bindStatus != 3) {
             ids.push(value.memberId);
           }
         });
@@ -232,14 +235,24 @@ export default {
     // 点击绑定
     bindClick() {
       var _this = this;
-      let requestData = [];
+      _this.bindForm.issueGuid = _this.$route.params.issueGuid;
       _this.myList.forEach(value=>{
           // console.log(value);
           if(_this.selectedData.includes(value.memberId)){
-            requestData.push({memberId:value.memberId, accountId:value.accountId});
+            _this.bindForm.idsArray.push({memberId:value.memberId, accountId:value.accountId});
           }
       })
-      console.log(requestData)
+      _this.$http
+        .post("/api/planner/white/batchBindWhiteList", _this.bindForm)
+        .then(function(res) {
+          var data = res.data;
+          if (data.code == 0) {
+            
+          } else {
+            _this.$toast(data.msg);
+          }
+        });
+
     },
   }
    
