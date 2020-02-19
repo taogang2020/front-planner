@@ -246,9 +246,12 @@ export default {
         .post("/api/planner/white/batchBindWhiteList", _this.bindForm)
         .then(function(res) {
           var data = res.data;
-          if (data.code == 0) {
-            
-          } else {
+          if (data.code == 0 && data.data.bindStatus==2) {
+            _this.$toast("受理成功");
+            _this.getList();
+          }else if(data.code == 0 && data.data.bindStatus==4){
+            _this.$toast("受理失败，原因：" + data.data.failReason);
+          }else {
             _this.$toast(data.msg);
           }
         });
