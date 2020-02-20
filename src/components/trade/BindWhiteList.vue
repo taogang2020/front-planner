@@ -11,7 +11,7 @@
         <van-cell-group class="inp fl">
           <van-field
             v-model="value"
-            placeholder="请输入用户名"
+            placeholder="请输入用户名称"
             right-icon="search"
             @input="search"
           />
@@ -229,8 +229,12 @@ export default {
     // 搜索
     search() {
       var _this = this;
-      console.log(_this.value)
-    
+      _this.loading = false;
+      _this.finished = false;
+      _this.myList = [];
+      _this.form.pageNo = 1;
+      _this.form.memberFullName = _this.value;
+      _this.getList();    
     },
     // 点击绑定
     bindClick() {
