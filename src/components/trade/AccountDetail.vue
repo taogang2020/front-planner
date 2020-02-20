@@ -1,9 +1,9 @@
 <template>
   <div class="AccountDetail">
-    <van-nav-bar v-show='is_weixin' title="资金到账明细"  right-text="明细" @click-right="detailClick"
-    />
+    <van-nav-bar v-show='is_weixin' title="资金到账明细"  />
     <div>
       <van-cell-group>
+        <p class="changeTitle">明细</p>
         <van-field v-model="form.name" label="客户名称:" readonly />
         <van-field v-model="form.bankNo" label="银行卡号:" readonly />
         <van-field v-model="form.bankName" label="开户银行:" readonly />
@@ -164,6 +164,18 @@ export default {
   font-size: 0.3rem;
   line-height: 0.6rem;
   margin-bottom: 0.2rem;
+}
+.AccountDetail .changeTitle{
+    width: 1.2rem;
+    height: 0.6rem;
+    background: red;
+    font-size: 0.3rem;
+    text-align: center;
+    line-height: 0.6rem;
+    float: right;
+    margin-right: 0.3rem;
+    color: #fff;
+    border-radius: 0.04rem;
 }
 .Btn {
   text-align: center;

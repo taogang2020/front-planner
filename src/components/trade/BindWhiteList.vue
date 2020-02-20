@@ -61,7 +61,7 @@
                       />
                     </div>
                     <span class="fl">{{item.memberFullName}}</span>
-                    <span class="fl" style="color:#ed2424">{{item.memberCode}}</span>
+                    <span class="fl" style="color:#ed2424" @click="detailClick(item.memberGuid)">{{item.memberCode}}</span>
                     <span class="fl"><span style="width:1rem;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{item.bankName}}</span><span style="width:0.6rem;display: inline-block;"> | {{item.accountNo.substring(item.accountNo.length-4)}}</span></span>
                     <span class="fl">{{item.bindStatusDesc}}</span>
                   </li>
@@ -257,6 +257,13 @@ export default {
         });
 
     },
+    detailClick(memberGuid){
+      var _this = this;
+      _this.$router.push({
+        name:'whiteListDetail',
+        params:{'memberGuid' : memberGuid}, 
+      })
+    }
   }
    
 };

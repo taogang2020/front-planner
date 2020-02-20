@@ -177,7 +177,7 @@ const router = new Router({
       meta: {
         title: '详情'
       },
-      path: '/whiteListDetail',
+      path: '/whiteListDetail/:memberGuid',
       name: 'whiteListDetail',
       component: WhiteListDetail
     },
