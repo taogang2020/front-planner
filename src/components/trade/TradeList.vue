@@ -49,7 +49,7 @@
               </div>
               <div class="clear">
                 <div class="bind fl" @click="handelClick(item.issueGuid)">绑定白名单</div>
-                <!-- <div class="bind fl" @click="detailClick()">资金到账情况</div> -->
+                <div class="bind fl" @click="detailClick(item.issueGuid)">资金到账情况</div>
               </div>
             </div>
           </van-list>
@@ -205,8 +205,12 @@ export default {
       _this.channel = [];
     },
     // 资金到账情况
-    detailClick() {
-      
+    detailClick(issueGuid) {
+      var _this = this;
+      _this.$router.push({ 
+        name:'capitalAccount', 
+        params:{'issueGuid' : issueGuid}, 
+      })
     },
     //只能选择一个
     checkboxChangetra(val) {

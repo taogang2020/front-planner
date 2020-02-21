@@ -97,7 +97,7 @@ const router = new Router({
       meta: {
         title: '资金到账明细',
       },
-      path: '/capitalAccount',
+      path: '/capitalAccount/:issueGuid',
       name: 'capitalAccount',
       component: CapitalAccount
     },
