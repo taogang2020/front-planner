@@ -218,7 +218,12 @@ export default {
     // 搜索
     search() {
       var _this = this;
-      console.log(_this.value)
+      _this.loading = false;
+      _this.finished = false;
+      _this.myList = [];
+      _this.form.pageNo = 1;
+      _this.form.memberFullName = _this.value;
+      _this.getList();    
     
     },
   }
