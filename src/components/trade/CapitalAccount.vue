@@ -212,7 +212,6 @@ export default {
         });
         _this.selectedData = ids;
       } else {
-      
         _this.selectedData = [];
       }
     },
