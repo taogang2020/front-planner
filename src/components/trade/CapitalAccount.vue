@@ -11,7 +11,7 @@
         <van-cell-group class="inp fl">
           <van-field
             v-model="value"
-            placeholder="请输入用户名称"
+            placeholder="请输入用户名"
             right-icon="search"
             @input="search"
           />
@@ -27,10 +27,10 @@
             shape="square"
             checked-color="#ed2424"
           ></van-checkbox> -->
-          <p class="fl titleName">用户名称</p>
+          <p class="fl titleName">客户名称</p>
           <p class="fl titleName">银行卡号</p>
-          <p class="fl titleName">到账金额(元)</p>
-          <p class="fl titleName">状态</p>
+          <p class="fl titleName">到账金额</p>
+          <p class="fl titleName">备注</p>
         </div>
         <div class="clearFixd clear van-clearfix">
           <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
@@ -46,7 +46,7 @@
                 @load="onLoad"
               >
                 <!-- <van-checkbox-group v-model="selectedData" ref="checkboxGroup"> -->
-                  <li class="list van-clearfix" v-for="item in myList" :key="item.id">
+                  <li class="list van-clearfix" v-for="item in myList" :key="item.memberId">
                     <!-- <div class="checkbox fl">
                       <van-checkbox
                         shape="square"
@@ -60,9 +60,9 @@
                       />
                     </div> -->
                     <span class="fl">{{item.memberFullName}}</span>
-                    <span class="fl"><span style="width:1rem;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{item.payBank}}</span><span style="width:0.6rem;display: inline-block;"> | {{item.payAccountNo.substring(item.payAccountNo.length-4)}}</span></span>
-                    <span class="fl">{{item.payMoney}}</span>
-                    <span class="fl">{{item.tradeStatusDesc}}</span>
+                    <span class="fl" style="color:#ed2424">{{item.memberCode}}</span>
+                    <span class="fl"><span style="width:1rem;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{item.bankName}}</span><span style="width:0.6rem;display: inline-block;"> | {{item.accountNo.substring(item.accountNo.length-4)}}</span></span>
+                    <span class="fl">{{item.bindStatusDesc}}</span>
                   </li>
                 <!-- </van-checkbox-group> -->
               </van-list>
@@ -82,9 +82,8 @@ export default {
   data() {
     return {
       form: {
-        issueGuid: "",
+        issueGuid: "d945cf5391454467bd1fc92e7858d56a",
         memberFullName: "",
-        payType:1,
         pageNo: 1,
         pageSize: 10,
         total: 0
@@ -135,14 +134,14 @@ export default {
     getList() {
       var _this = this;
       _this.loading = true;
-      _this.form.issueGuid = _this.$route.params.issueGuid;
+      // _this.form.issueGuid = _this.$route.params.issueGuid;
       _this.$http
-        .post("/api/planner/issue/search/funding/record", _this.form)
+        .post("/api/planner/white/selectWhiteList", _this.form)
         .then(function(res) {
           var data = res.data;
           if (data.code == 0) {
             _this.loading = false;
-            _this.myList = _this.myList.concat(data.data.list);
+            _this.myList = _this.myList.concat(data.data.membersList.list);
             // 调用全选方法
             _this.checkAll();
             // 如果没有数据，显示暂无数据
@@ -151,11 +150,11 @@ export default {
               return;
             }
             // 如果加载完毕，显示没有更多了
-            if (data.data.totalpage === _this.form.pageNo) {
+            if (data.data.membersList.totalpage === _this.form.pageNo) {
               _this.finished = true;
             }
             if (
-              Number(data.data.totalpage) >
+              Number(data.data.membersList.totalpage) >
               Number(_this.form.pageNo)
             ) {
               _this.form.pageNo++;
@@ -219,12 +218,8 @@ export default {
     // 搜索
     search() {
       var _this = this;
-      _this.loading = false;
-      _this.finished = false;
-      _this.myList = [];
-      _this.form.pageNo = 1;
-      _this.form.memberFullName = _this.value;
-      _this.getList();
+      console.log(_this.value)
+    
     },
   }
    
