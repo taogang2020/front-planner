@@ -252,6 +252,10 @@ export default {
           var data = res.data;
           if (data.code == 0 && data.data.bindStatus==2) {
             _this.$toast("受理成功");
+            _this.loading = false;
+            _this.finished = false;
+            _this.myList = [];
+            _this.form.pageNo = 1;
             _this.getList();
           }else if(data.code == 0 && data.data.bindStatus==4){
             _this.$toast("受理失败，原因：" + data.data.failReason);
