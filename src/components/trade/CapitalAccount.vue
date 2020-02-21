@@ -78,7 +78,7 @@
 
 <script>
 export default {
-  name: "BindWhiteList",
+  name: "CapitalAccount",
   data() {
     return {
       form: {
