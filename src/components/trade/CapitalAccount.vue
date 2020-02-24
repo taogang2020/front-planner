@@ -11,7 +11,7 @@
         <van-cell-group class="inp fl">
           <van-field
             v-model="value"
-            placeholder="请输入用户名"
+            placeholder="请输入用户名称"
             right-icon="search"
             @input="search"
           />
@@ -20,17 +20,10 @@
       </div>
       <div class="item">
         <div class="title clear">
-          <!-- <van-checkbox
-            class="fl"
-            v-model="checked"
-            @change="checkAll"
-            shape="square"
-            checked-color="#ed2424"
-          ></van-checkbox> -->
-          <p class="fl titleName">客户名称</p>
+          <p class="fl titleName">用户名称</p>
           <p class="fl titleName">银行卡号</p>
-          <p class="fl titleName">到账金额</p>
-          <p class="fl titleName">备注</p>
+          <p class="fl titleName">到账金额(元)</p>
+          <p class="fl titleName">状态</p>
         </div>
         <div class="clearFixd clear van-clearfix">
           <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
@@ -45,26 +38,12 @@
                 finished-text="- 没有更多了 -"
                 @load="onLoad"
               >
-                <!-- <van-checkbox-group v-model="selectedData" ref="checkboxGroup"> -->
-                  <li class="list van-clearfix" v-for="item in myList" :key="item.memberId">
-                    <!-- <div class="checkbox fl">
-                      <van-checkbox
-                        shape="square"
-                        v-show="item.bindStatus != 2 && item.bindStatus != 3"
-                        :name="item.memberId"
-                        :value="item.memberId"
-                        checked-color="#ed2424"
-                        ref="checkboxes"
-                        slot="right-icon"
-                        @click="changes(item.accountId)"
-                      />
-                    </div> -->
+                  <li class="list van-clearfix" v-for="item in myList" :key="item.id">
                     <span class="fl">{{item.memberFullName}}</span>
-                    <span class="fl" style="color:#ed2424">{{item.memberCode}}</span>
-                    <span class="fl"><span style="width:1rem;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{item.bankName}}</span><span style="width:0.6rem;display: inline-block;"> | {{item.accountNo.substring(item.accountNo.length-4)}}</span></span>
-                    <span class="fl">{{item.bindStatusDesc}}</span>
+                    <span class="fl"><span style="width:1rem;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{item.payBank}}</span><span style="width:0.6rem;display: inline-block;"> | {{item.payAccountNo.substring(item.payAccountNo.length-4)}}</span></span>
+                    <span class="fl">{{item.payMoney}}</span>
+                    <span class="fl">{{item.tradeStatusDesc}}</span>
                   </li>
-                <!-- </van-checkbox-group> -->
               </van-list>
             </div>
           </van-pull-refresh>
@@ -82,8 +61,9 @@ export default {
   data() {
     return {
       form: {
-        issueGuid: "d945cf5391454467bd1fc92e7858d56a",
+        issueGuid: "",
         memberFullName: "",
+        payType:1,
         pageNo: 1,
         pageSize: 10,
         total: 0
@@ -134,29 +114,24 @@ export default {
     getList() {
       var _this = this;
       _this.loading = true;
-      // _this.form.issueGuid = _this.$route.params.issueGuid;
+      _this.form.issueGuid = _this.$route.params.issueGuid;
       _this.$http
-        .post("/api/planner/white/selectWhiteList", _this.form)
+        .post("/api/planner/issue/search/funding/record", _this.form)
         .then(function(res) {
           var data = res.data;
           if (data.code == 0) {
             _this.loading = false;
-            _this.myList = _this.myList.concat(data.data.membersList.list);
-            // 调用全选方法
-            _this.checkAll();
+            _this.myList = _this.myList.concat(data.data.list);
             // 如果没有数据，显示暂无数据
             if (_this.myList.length === 0 && _this.form.pageNo === 1) {
               _this.noData = true;
               return;
             }
             // 如果加载完毕，显示没有更多了
-            if (data.data.membersList.totalpage === _this.form.pageNo) {
+            if (data.data.totalpage === _this.form.pageNo) {
               _this.finished = true;
             }
-            if (
-              Number(data.data.membersList.totalpage) >
-              Number(_this.form.pageNo)
-            ) {
+            if (Number(data.data.totalpage) >Number(_this.form.pageNo)) {
               _this.form.pageNo++;
             }
           } else {
@@ -219,11 +194,11 @@ export default {
       var _this = this;
       _this.loading = false;
       _this.finished = false;
+      _this.noData = false;
       _this.myList = [];
       _this.form.pageNo = 1;
       _this.form.memberFullName = _this.value;
-      _this.getList();    
-    
+      _this.getList();
     },
   }
    

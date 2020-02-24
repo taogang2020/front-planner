@@ -231,6 +231,7 @@ export default {
       var _this = this;
       _this.loading = false;
       _this.finished = false;
+      _this.noData = false;
       _this.myList = [];
       _this.form.pageNo = 1;
       _this.form.memberFullName = _this.value;
