@@ -129,7 +129,7 @@ export default {
       var params = _this.form;
       // _this.finished = false;
       _this.loading = true;
-      _this.$http.post("/api/planner/issue/selectParentAssetsIssue",params).then(function (res) {
+      _this.$http.post("/api/planner/issue/selectAssetsIssueForPlanner",params).then(function (res) {
         var data = res.data;
         if (data.code == 0) {
           _this.loading = false;
