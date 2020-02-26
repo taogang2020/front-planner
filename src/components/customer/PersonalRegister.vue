@@ -39,11 +39,11 @@
         <p class="title">请上传相关证件</p>
         <div class="ImgBox clear">
           <div class="file idCardPositive fl">
-            <van-uploader v-model="positiveFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadPositive" :before-delete="delPositive"/>
+            <van-uploader v-model="positiveFileList" :before-read='beforeUpload' :max-count="1" :after-read="uploadPositive" :before-delete="delPositive"/>
             <p>身份证正面</p>
           </div>
           <div class="file idCardReverse fr">
-            <van-uploader v-model="reverseFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
+            <van-uploader v-model="reverseFileList" :before-read='beforeUpload' :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
             <p>身份证反面</p>
           </div>
         </div>

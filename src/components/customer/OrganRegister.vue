@@ -36,23 +36,23 @@
           <p class="title">请上传相关证件</p>
           <div class="ImgBox clear">
             <div class="file fl">
-              <van-uploader v-model="yyzzFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz" />
+              <van-uploader v-model="yyzzFileList"  :before-read='beforeUpload' :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz" />
               <p>营业执照</p>
             </div>
             <div class="file fr">
-              <van-uploader v-model="sqwtsFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" />
+              <van-uploader v-model="sqwtsFileList"  :before-read='beforeUpload' :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" />
               <p>授权人委托书</p>
             </div>
             <div class="file idCardPositive fl">
-              <van-uploader v-model="positiveFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
+              <van-uploader v-model="positiveFileList"  :before-read='beforeUpload' :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
               <p>负责人身份证正面</p>
             </div>
             <div class="file idCardPositive fr">
-              <van-uploader v-model="reverseFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
+              <van-uploader v-model="reverseFileList"  :before-read='beforeUpload' :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
               <p>负责人身份证反面</p>
             </div>
             <div class="file fl">
-              <van-uploader v-model="otherFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadOther" :before-delete="delOther" />
+              <van-uploader v-model="otherFileList"  :before-read='beforeUpload' :max-count="1" :after-read="uploadOther" :before-delete="delOther" />
               <p>其他</p>
             </div>
           </div>
