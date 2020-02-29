@@ -146,7 +146,9 @@ export default {
             _this.loading = false;
             _this.myList = _this.myList.concat(data.data.membersList.list);
             // 调用全选方法
-            _this.checkAll();
+            if(Number(_this.checked) == 1){
+              _this.checkAll();
+            }
             // 如果没有数据，显示暂无数据
             if (_this.myList.length === 0 && _this.form.pageNo === 1) {
               _this.noData = true;
@@ -172,6 +174,7 @@ export default {
       var _this = this;
       // 异步更新数据
       setTimeout(() => {
+        console.log(_this.selectedData,333);
         _this.getList();
         _this.loading = true;
       }, 500);
@@ -195,8 +198,7 @@ export default {
     changes(accountId) {
       var _this = this;
       setTimeout(() => {
-        console.log(this.selectedData,111);
-       
+        console.log(_this.selectedData,111);
       });
     },
     // 全选
