@@ -20,7 +20,7 @@
       </div>
       <div class="item">
         <div class="title clear">
-          <div class="checkbox fl" style="height:0.45rem">
+          <div class="checkbox fl" style=" width: 0.42rem;height:0.45rem;margin-top: -0.15rem;">
             <van-checkbox
           icon-size="20px"
             class="fl"
@@ -255,7 +255,7 @@ export default {
           }
       })
       if(_this.bindForm.idsArray.length == 0){
-        _this.$toast("请选择要绑定的数据");
+        _this.$toast("请选择要绑定的白名单");
         return;
       }
       _this.$http
@@ -312,7 +312,9 @@ export default {
   color: #ed2424;
 }
 .whiteList .van-checkbox {
-  margin-top: 0.2rem;
+  margin-top: 0.1rem;
+      width: 0.42rem;
+    height: 0.55rem;
 }
 .whiteList .title .van-checkbox {
   margin-top: 0.05rem;
@@ -423,7 +425,7 @@ export default {
 }
 .checkbox {
   width: 0.42rem;
-  height: 0.7rem;
+  height: 0.8rem;
   /* margin-top: 0.2rem; */
 }
 </style>
