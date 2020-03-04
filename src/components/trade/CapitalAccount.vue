@@ -227,9 +227,6 @@ export default {
 .whiteList .van-nav-bar__right .van-nav-bar__text {
   color: #ed2424;
 }
-.whiteList .van-checkbox {
-  margin-top: 0.2rem;
-}
 .whiteList .title .van-checkbox {
   margin-top: 0.05rem;
 }

@@ -312,9 +312,9 @@ export default {
   color: #ed2424;
 }
 .whiteList .van-checkbox {
-  margin-top: 0.1rem;
-      width: 0.42rem;
-    height: 0.55rem;
+  margin-top: 0.1rem !important;
+  width: 0.42rem;
+  height: 0.55rem;
 }
 .whiteList .title .van-checkbox {
   margin-top: 0.05rem;
