@@ -21,6 +21,7 @@
       <div class="item">
         <div class="title clear">
           <van-checkbox
+          icon-size="20px"
             class="fl"
             v-model="checked"
             @change="checkAll"
@@ -51,6 +52,7 @@
                     <div class="checkbox fl">
                       <van-checkbox
                         shape="square"
+                        icon-size="20px"
                         v-show="item.bindStatus != 2 && item.bindStatus != 3"
                         :name="item.memberId"
                         :value="item.memberId"
@@ -249,6 +251,10 @@ export default {
             _this.bindForm.idsArray.push({memberId:value.memberId, accountId:value.accountId});
           }
       })
+      if(_this.bindForm.idsArray.length == 0){
+        _this.$toast("请选择要绑定的数据");
+        return;
+      }
       _this.$http
         .post("/api/planner/white/batchBindWhiteList", _this.bindForm)
         .then(function(res) {
@@ -308,16 +314,16 @@ export default {
 .whiteList .title .van-checkbox {
   margin-top: 0.05rem;
 }
-.whiteList .van-checkbox__icon {
-  width: 0.3rem;
-  height: 0.3rem;
-}
-.whiteList .van-icon-success {
+/* .whiteList .van-checkbox__icon {
+  width: 0.35rem;
+  height: 0.35rem;
+} */
+/* .whiteList .van-icon-success {
   width: 0.3rem;
   height: 0.3rem;
   font-size: 0.3rem;
   line-height: 0.3rem;
-}
+} */
 .whiteList .van-list__finished-text{
   padding-bottom: 0.8rem;
 }
@@ -397,7 +403,7 @@ export default {
   font-size: 0.25rem;
 }
 .list span {
-  width: 1.7rem;
+  width: 1.65rem;
   height: 0.8rem;
   text-align: center;
   display: block;
@@ -409,7 +415,8 @@ export default {
   white-space: nowrap;
 }
 .checkbox {
-  width: 0.3rem;
-  height: 0.3rem;
+  width: 0.42rem;
+  height: 0.7rem;
+  /* margin-top: 0.2rem; */
 }
 </style>
