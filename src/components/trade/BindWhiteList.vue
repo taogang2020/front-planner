@@ -20,7 +20,8 @@
       </div>
       <div class="item">
         <div class="title clear">
-          <van-checkbox
+          <div class="checkbox fl" style="height:0.45rem">
+            <van-checkbox
           icon-size="20px"
             class="fl"
             v-model="checked"
@@ -28,6 +29,8 @@
             shape="square"
             checked-color="#ed2424"
           ></van-checkbox>
+          </div>
+          
           <p class="fl titleName">用户名称</p>
           <p class="fl titleName">用户编号</p>
           
@@ -327,6 +330,9 @@ export default {
 .whiteList .van-list__finished-text{
   padding-bottom: 0.8rem;
 }
+.whiteList .van-icon-success:before {
+  height: 0.34rem !important;
+}
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -401,6 +407,7 @@ export default {
   width: 1.7rem;
   text-align: center;
   font-size: 0.25rem;
+  line-height: 0.45rem;
 }
 .list span {
   width: 1.65rem;
