@@ -146,6 +146,12 @@ export default {
         var data = res.data;
         if (data.code == 0) {
           _this.$toast(data.msg); 
+          setTimeout(() => {
+            _this.$router.push({ 
+              path:'/myAccount',  
+            })
+          }, 500);
+         
         } else {
           _this.$toast(data.msg);
         }

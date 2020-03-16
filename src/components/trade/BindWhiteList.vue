@@ -31,11 +31,11 @@
           ></van-checkbox>
           </div>
           
-          <p class="fl titleName">用户名称</p>
+          <p class="fl titleName" style="text-align:left">用户名称</p>
           <p class="fl titleName">用户编号</p>
           
           <p class="fl titleName">账号</p>
-          <p class="fl titleName">白名单</p>
+          <p class="fl titleName">绑定状态</p>
         </div>
         <div class="clearFixd clear van-clearfix">
           <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
@@ -54,18 +54,19 @@
                   <li class="list van-clearfix" v-for="item in myList" :key="item.memberId">
                     <div class="checkbox fl">
                       <van-checkbox
+                      :disabled="item.bindStatus == 3 || item.bindStatus == 2"
                         shape="square"
                         icon-size="20px"
-                        v-show="item.bindStatus != 2 && item.bindStatus != 3"
+                        :label-disabled = false
                         :name="item.memberId"
                         :value="item.memberId"
                         checked-color="#ed2424"
                         ref="checkboxes"
                         slot="right-icon"
                         @click="changes(item.accountId)"
-                      />
+                      >{{item.memberFullName}}</van-checkbox>
                     </div>
-                    <span class="fl">{{item.memberFullName}}</span>
+                    <span class="fl name">{{item.memberFullName}}</span>
                     <span class="fl" style="color:#ed2424" @click="detailClick(item.memberGuid)">{{item.memberCode}}</span>
                     <span class="fl"><span style="width:1rem;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{item.bankName}}</span><span style="width:0.6rem;display: inline-block;"> | {{item.accountNo.substring(item.accountNo.length-4)}}</span></span>
                     <span class="fl">{{item.bindStatusDesc}}</span>
@@ -264,11 +265,13 @@ export default {
           var data = res.data;
           if (data.code == 0 && data.data.bindStatus==2) {
             _this.$toast("受理成功");
+            _this.selectedData = [];
             _this.loading = false;
             _this.finished = false;
             _this.myList = [];
             _this.form.pageNo = 1;
             _this.getList();
+
           }else if(data.code == 0 && data.data.bindStatus==4){
             _this.$toast("受理失败，原因：" + data.data.failReason);
           }else {
@@ -313,8 +316,19 @@ export default {
 }
 .whiteList .van-checkbox {
   margin-top: 0.1rem !important;
-  width: 0.42rem;
+  width: 2rem;
   height: 0.55rem;
+  overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.whiteList .van-checkbox__label{
+  opacity: 0;
+  position: relative;
+  z-index: 999;
+}
+.whiteList .van-checkbox__icon .van-icon {
+    border-color: #ccc !important;
 }
 .whiteList .title .van-checkbox {
   margin-top: 0.05rem;
@@ -422,6 +436,9 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.list .name{
+  text-align: left;
 }
 .checkbox {
   width: 0.42rem;

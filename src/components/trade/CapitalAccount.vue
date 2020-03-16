@@ -20,7 +20,7 @@
       </div>
       <div class="item">
         <div class="title clear">
-          <p class="fl titleName">用户名称</p>
+          <p class="fl titleName" style="text-align:left">用户名称</p>
           <p class="fl titleName">银行卡号</p>
           <p class="fl titleName">到账金额(元)</p>
           <p class="fl titleName">状态</p>
@@ -39,9 +39,9 @@
                 @load="onLoad"
               >
                   <li class="list van-clearfix" v-for="item in myList" :key="item.id">
-                    <span class="fl">{{item.memberFullName}}</span>
+                    <span class="fl name">{{item.memberFullName}}</span>
                     <span class="fl"><span style="width:1rem;display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{item.payBank}}</span><span style="width:0.6rem;display: inline-block;"> | {{item.payAccountNo.substring(item.payAccountNo.length-4)}}</span></span>
-                    <span class="fl">{{item.payMoney}}</span>
+                    <span class="fl">{{moneyFormat(item.payMoney)}}</span>
                     <span class="fl">{{item.tradeStatusDesc}}</span>
                   </li>
               </van-list>
@@ -139,6 +139,7 @@ export default {
           }
         });
     },
+  
     // 列表上拉加载
     onLoad() {
       var _this = this;
@@ -162,6 +163,13 @@ export default {
         // 请求信息
         _this.getList();
       }, 500);
+    },
+    moneyFormat(cellValue) {
+      var reg = /\d{1,3}(?=(\d{3})+$)/g;
+      if (cellValue == null) return 0;
+      var mn = (cellValue + "").replace(reg, "$&,");
+      if (!mn.includes(".")) mn += ".00";
+      return mn;
     },
     // 单选
     changes(accountId) {
@@ -329,6 +337,10 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.list .name{
+  text-align: left;
+
 }
 .checkbox {
   width: 0.3rem;

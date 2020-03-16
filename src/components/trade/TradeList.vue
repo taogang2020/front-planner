@@ -316,7 +316,7 @@ export default {
 }
 .name {
   font-size: 0.32rem;
-  color: #333;
+  color: #ed2424;
   line-height: 0.5rem;
   width: 3.2rem;
   overflow: hidden;
