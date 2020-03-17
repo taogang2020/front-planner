@@ -4,6 +4,8 @@
       v-show="is_weixin"
       title="绑定白名单"
       style="height:0.9rem;position:fixed;width: 100%;"
+      left-text="返回" left-arrow
+      @click-left="onClickLeft"
     />
     <div v-show="is_weixin" style="height:0.9rem;width:100%"></div>
     <div class="listBox clear">
@@ -286,6 +288,11 @@ export default {
         name:'whiteListDetail',
         params:{'memberGuid' : memberGuid}, 
       })
+    },
+    onClickLeft(){
+      var _this = this;
+      _this.$router.go(-1);
+
     }
   }
    

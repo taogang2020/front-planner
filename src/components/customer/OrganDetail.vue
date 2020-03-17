@@ -1,6 +1,6 @@
 <template>
   <div class="organDetail">
-    <van-nav-bar v-show="is_weixin" title="客户详情" />
+    <van-nav-bar v-show="is_weixin" title="客户详情" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
         
       <van-tabs @click="onClick">
@@ -672,6 +672,11 @@ export default {
     //     done(); //关闭
     //   }
     // },
+     //返回
+    cancel() {
+      var _this = this;
+      _this.$router.go(-1);
+    }
     
   }
 

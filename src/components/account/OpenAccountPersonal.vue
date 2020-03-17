@@ -1,6 +1,6 @@
 <template>
   <div class="openAccount">
-    <van-nav-bar v-show="is_weixin" title="绑定银行卡" />
+    <van-nav-bar v-show="is_weixin" title="绑定银行卡" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
       <van-cell-group>
         <van-field v-model="form.memberCode" label="用户编号:" readonly />
@@ -26,7 +26,7 @@
     </div>
     <div class="Btn">
       <van-button type="danger" class="sure" @click="openAccount">确 认</van-button>
-      <van-button type="default" class="sure" @click="cancelClick">取 消</van-button>
+      <van-button type="default" class="sure" @click="cancel">取 消</van-button>
     </div>
     <div id="thirdPayHtml" style="display:none;"></div>
   </div>
@@ -167,7 +167,7 @@ export default {
 
     },
     //取消
-    cancelClick(){
+    cancel(){
       var _this = this;
       _this.$router.go(-1);
     },

@@ -1,5 +1,12 @@
 <template>
   <div class="tradeList">
+    <van-nav-bar
+      v-show="is_weixin"
+      title="交易市场"
+      style="height:0.9rem;position:fixed;width: 100%;"
+    />
+    <div v-show="is_weixin" style="height:0.9rem;width:100%"></div>
+    <div>
     <div class="top clear">
       <van-cell-group class="fl inp">
         <van-field v-model="form.transferName" placeholder="请输入转让资产名称" />
@@ -56,6 +63,7 @@
         </div>
       </van-pull-refresh>
     </div>
+    </div>
     <div class="bot">
       <!-- 底部 -->
       <tabbar-nav></tabbar-nav>
@@ -108,6 +116,7 @@ export default {
       transfer: [],
       rate: [],
       channel: [],
+      is_weixin: false,
       isLoading: false, // 下拉的加载图案
       loading: false, // 当loading为true时，转圈圈
       finished: false, // 数据是否请求结束，结束会先显示- 没有更多了 -
@@ -115,7 +124,24 @@ export default {
       noData: false // 如果没有数据，显示暂无数
     };
   },
+  created() {
+    var _this = this;
+    _this.isWeixin();
+  },
   methods: {
+     // 判断是否微信打开
+    isWeixin() {
+      var _this = this;
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf("micromessenger") != -1;
+      if (isWeixin) {
+        _this.is_weixin = false;
+        return true;
+      } else {
+        _this.is_weixin = true;
+        return false;
+      }
+    },
     handelClick(issueGuid) {
       var _this = this;
       _this.$router.push({ 

@@ -1,6 +1,6 @@
 <template>
   <div class="my_account">
-    <van-nav-bar v-show="is_weixin" title="账户中心" />
+    <van-nav-bar v-show="is_weixin" title="账户中心" left-text="返回" left-arrow @click-left="cancel" />
     <div >
       <p>
         <router-link :to="{name:'mine'}">
@@ -85,6 +85,11 @@ export default {
             _this.$toast(data.msg);
           }
         });
+    },
+      //返回
+    cancel() {
+      var _this = this;
+      _this.$router.go(-1);
     }
   }
 };
@@ -101,6 +106,13 @@ export default {
 }
 .van-dialog__confirm .van-button__text{
   color: #ed2424;
+}
+.my_account .van-nav-bar .van-icon {
+  color: #333;
+  top: 0;
+}
+.my_account .van-nav-bar__text {
+  color: #333;
 }
 .my_account .wrapper {
   display: flex;

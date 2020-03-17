@@ -1,6 +1,6 @@
 <template>
   <div class="organBack">
-    <van-nav-bar v-show="is_weixin" title="审核退回"/>
+    <van-nav-bar v-show="is_weixin" title="审核退回" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
         <div class="titleDes">
         <p class="status">用户您好，你的资料已提交审核，您的审核状态为：<span style='font-size:0.3rem;color:#ed2424'>{{form.memberStatusDesc}}</span>，请根据审核意见更改资料。</p>
@@ -552,6 +552,11 @@ export default {
           _this.$toast(data.msg);
         }
       }) 
+    },
+    //取消
+    cancel(){
+      var _this = this;
+      _this.$router.go(-1);
     },
 
   }

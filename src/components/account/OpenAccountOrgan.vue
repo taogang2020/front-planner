@@ -1,6 +1,6 @@
 <template>
   <div class="openAccount">
-    <van-nav-bar v-show="is_weixin" title="绑定银行卡"/>
+    <van-nav-bar v-show="is_weixin" title="绑定银行卡" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
       <van-cell-group >
         <van-field v-model="form.memberCode" label="用户编号:" readonly/>
@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: "OpenAccountPersonal",
+  name: "OpenAccountOrgan",
   data() {
     return {
       form:{

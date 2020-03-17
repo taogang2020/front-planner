@@ -1,6 +1,6 @@
 <template>
   <div class="whiteListDetail">
-    <van-nav-bar v-show="is_weixin" title="详情" />
+    <van-nav-bar v-show="is_weixin" title="详情" left-text="返回" left-arrow @click-left="cancel"/>
     <div class="content">
       <van-cell-group>
         <van-field v-model="form.agencyName" disabled label="渠道名称:" />

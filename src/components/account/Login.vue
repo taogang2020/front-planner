@@ -1,7 +1,9 @@
 <template>
 <div>
   <div class="loginWarp">
+    <img src="../../assets/imgs/top_logo.png" alt="">
     <van-tabs  @click="onClick" :line-width='10'>
+      
       <van-tab title="密码登录">
         <van-field v-model="form.memberCode" placeholder="请输入管理人编号" />
         <van-field v-model="form.operatorLoginName" placeholder="请输入登录名" />

@@ -1,6 +1,6 @@
 <template>
   <div class="accountDetail">
-    <van-nav-bar v-show="is_weixin" title="银行卡管理"/>
+    <van-nav-bar v-show="is_weixin" title="银行卡管理" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
       
       <van-cell-group>
@@ -202,6 +202,15 @@ export default {
   line-height: 0.6rem;
   font-size: 0.3rem;
   margin-bottom: 0.1rem;
+}
+.accountDetail .van-nav-bar__left{
+  left: 0;
+}
+.accountDetail .van-nav-bar .van-icon {
+  color: #333;
+}
+.accountDetail .van-nav-bar__text {
+  color: #333;
 }
 .accountDetail .van-cell-group {
   background: transparent;

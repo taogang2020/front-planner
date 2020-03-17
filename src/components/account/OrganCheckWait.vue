@@ -1,6 +1,6 @@
 <template>
   <div class="organWait">
-    <van-nav-bar v-show="is_weixin" title="待审核" />
+    <van-nav-bar v-show="is_weixin" title="待审核" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
         <div class="titleDes">
         <p class="status">用户您好，您的资料已提交审核，您的审核状态为：<span style='font-size:0.32rem;color:#ed2424'>{{form.memberStatusDesc}}</span></p>
@@ -160,7 +160,12 @@ export default {
          _this.$toast(data.msg);
         }
       }) 
-    }
+    },
+    //取消
+    cancel(){
+      var _this = this;
+      _this.$router.go(-1);
+    },
     
   }
 

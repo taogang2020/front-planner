@@ -3,6 +3,8 @@
     <van-nav-bar
       v-show="is_weixin"
       title="资金到账明细"
+       left-text="返回" left-arrow
+      @click-left="cancel"
       style="height:0.9rem;position:fixed;width: 100%;"
     />
     <div v-show="is_weixin" style="height:0.9rem;width:100%"></div>
@@ -208,6 +210,11 @@ export default {
       _this.form.memberFullName = _this.value;
       _this.getList();
     },
+     //返回
+    cancel() {
+      var _this = this;
+      _this.$router.go(-1);
+    }
   }
    
 };

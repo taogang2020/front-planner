@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <van-nav-bar v-show="is_weixin" title="客户代注册"/>
+    <van-nav-bar v-show="is_weixin" title="客户代注册" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
       <van-cell-group v-show="firstTep">
         <van-field v-model="form.memberFullName" required label="企业全称:" placeholder="请输入企业全称" />
@@ -556,6 +556,11 @@ export default {
       _this.firstTep = false;
       _this.secondTep = true;
       _this.thirdTep = false;
+    },
+    //取消
+    cancel(){
+      var _this = this;
+      _this.$router.go(-1);
     },
 
     
