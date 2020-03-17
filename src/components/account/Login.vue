@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="loginWarp">
-    <img src="../../assets/imgs/top_logo.png" alt="">
+    <img class="logo" src="../../assets/imgs/top_logo.png" alt="">
     <van-tabs  @click="onClick" :line-width='10'>
       
       <van-tab title="密码登录">
@@ -253,6 +253,12 @@ export default {
     text-align: center;
     line-height: 0.85rem;
     margin: 0 auto;
+}
+.logo{
+  width: 2rem;
+    height: auto;
+    margin: 0 auto;
+    display: block;
 }
 /* .line{
     position: absolute;
