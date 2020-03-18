@@ -4,7 +4,7 @@
     <div v-show="is_weixin" style="height:0.9rem;width:100%"></div>
     <div class="listBox ">
       <div class="fixd">
-        <div class="clear"><p class="titlename" @click="registerClick">客户代注册</p></div>
+        <div class="clear"><p class="titlename" @click="registerClick">代注册</p></div>
         <div class=" title">
           <p class="fl">客户编号</p>
           <p class="fl">客户全称</p>
@@ -25,8 +25,8 @@
               @load="onLoad"
             >
               <div class="van-clearfix" v-for='item in myList' :key="item.assetsMoney" >
-                <p class="fl" v-if="item.memberType == 1"><router-link :to="{name:'organDetail',params:{'memberGuid':item.memberGuid}}">{{item.memberCode}}</router-link></p>
-                <p class="fl" v-if="item.memberType == 2"><router-link :to="{name:'personalDetail',params:{'memberGuid':item.memberGuid}}">{{item.memberCode}}</router-link></p>
+                <p class="fl red" v-if="item.memberType == 1" @click="organDetail(item.memberStatus,item.memberGuid)">{{item.memberCode}}</p>
+                <p class="fl red" v-if="item.memberType == 2" @click="personalDetail(item.memberStatus,item.memberGuid)">{{item.memberCode}}</p>
                 <p class="fl">{{item.memberFullName}}</p>
                 <p class="fl">{{item.memberStatusDesc}}</p>
               </div>
@@ -157,7 +157,37 @@ export default {
       var _this = this;
       _this.show = true;
 
-    }
+    },
+    personalDetail(memberStatus,memberGuid){
+      var _this = this;
+      if(memberStatus==6){
+        _this.$router.push({ 
+          name:'personalDetail',  
+          params:{'memberGuid':memberGuid}
+        })
+      }else{
+        _this.$router.push({ 
+          name:'personalDetailDis',  
+          params:{'memberGuid':memberGuid}
+          })
+      }
+
+    },
+    organDetail(memberStatus,memberGuid){
+      var _this = this;
+      if(memberStatus==6){
+        _this.$router.push({ 
+          name:'organDetail',  
+          params:{'memberGuid':memberGuid}
+        })
+      }else{
+        _this.$router.push({ 
+          name:'organDetailDis',  
+          params:{'memberGuid':memberGuid}
+          })
+      }
+
+    },
   }
 };
 </script>
@@ -215,7 +245,7 @@ export default {
 .clearFixd{
   padding-top: 1.8rem;
 }
-a{
+.red{
   color: #ed2424;
 }
 .customerList .listBox {

@@ -15,7 +15,9 @@ import OrganRegister from '@/components/customer/OrganRegister'
 import PersonalRegister from '@/components/customer/PersonalRegister'
 import CustomerList from '@/components/customer/CustomerList'
 import PersonalDetail from '@/components/customer/PersonalDetail'
+import PersonalDetailDis from '@/components/customer/PersonalDetailDis'
 import OrganDetail from '@/components/customer/OrganDetail'
+import OrganDetailDis from '@/components/customer/OrganDetailDis'
 import Login from '@/components/account/Login'
 import Register from '@/components/account/Register'
 import OrganCheckBack from '@/components/account/OrganCheckBack'
@@ -161,7 +163,7 @@ const router = new Router({
       meta: {
         title: '客户详情'
       },
-      path: '/organDetail/:memberGuid',
+      path: '/organDetail',
       name: 'organDetail',
       component: OrganDetail
     },
@@ -169,9 +171,25 @@ const router = new Router({
       meta: {
         title: '客户详情'
       },
-      path: '/personalDetail/:memberGuid',
+      path: '/organDetailDis',
+      name: 'organDetailDis',
+      component: OrganDetailDis
+    },
+    {
+      meta: {
+        title: '客户详情'
+      },
+      path: '/personalDetail',
       name: 'personalDetail',
       component: PersonalDetail
+    },
+    {
+      meta: {
+        title: '客户详情'
+      },
+      path: '/personalDetailDis',
+      name: 'personalDetailDis',
+      component: PersonalDetailDis
     },
     {
       meta: {

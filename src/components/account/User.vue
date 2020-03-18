@@ -6,7 +6,7 @@
           <img class="fl" src="../../assets/imgs/head_port.png"/>
           <p class="fl">您好，{{form.operatorName}}</p>
         </router-link>
-        <van-icon name="plus" size="0.4rem" color="#fff" />
+        <!-- <van-icon name="plus" size="0.4rem" color="#fff" /> -->
       </div>
       <div class="accountManger clear">
         <div class="item clear">

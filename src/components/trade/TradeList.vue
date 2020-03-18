@@ -56,7 +56,7 @@
               </div>
               <div class="clear">
                 <div class="bind fl" @click="handelClick(item.issueGuid)">绑定白名单</div>
-                <div class="bind fl" @click="detailClick(item.issueGuid)">资金到账情况</div>
+                <div class="bind fl" style="margin-left:2.2rem" @click="detailClick(item.issueGuid)">资金到账情况</div>
               </div>
             </div>
           </van-list>
@@ -378,7 +378,7 @@ export default {
   text-align: center;
   line-height: 0.5rem;
   color: #fff;
-  margin-left: 0.3rem;
+  margin-left: 0.8rem;
   border-radius: 0.08rem;
   cursor: pointer;
 }

@@ -36,19 +36,19 @@
         <van-tab title="证明文件">
           <div class="ImgBox clear">
             <div class="file  fl">
-              <van-uploader v-model="yyzzFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz"/>
+              <van-uploader v-model="yyzzFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz" :deletable="is_del"/>
               <p>营业执照</p>
             </div>
             <div class="file fr">
-              <van-uploader v-model="sqwtsFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" />
+              <van-uploader v-model="sqwtsFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" :deletable="is_del"/>
               <p>授权人委托书</p>
             </div>
             <div class="file idCardPositive fl">
-              <van-uploader v-model="positiveFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive"/>
+              <van-uploader v-model="positiveFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" :deletable="is_del"/>
               <p>负责人身份证正面</p>
             </div>
             <div class="file idCardPositive fr">
-              <van-uploader v-model="reverseFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative"/>
+              <van-uploader v-model="reverseFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" :deletable="is_del"/>
               <p>负责人身份证反面</p>
             </div>
             <div class="file fl">
@@ -179,6 +179,7 @@ export default {
       showSaveBtn : false,
       showDelete : false,
       showReview : false,
+      is_del:false,
     }
   },
 
@@ -510,6 +511,7 @@ export default {
       _this.getAdress();
       _this.is_disabled = false;
       _this.showSaveBtn = true;
+      _this.is_del = true;
     },
     //取消
     cancelEditClick(){
@@ -517,6 +519,7 @@ export default {
       _this.getDetail();
       _this.is_disabled = true;
       _this.showSaveBtn = false;
+      _this.is_del = false;
     },
     //保存或者提交审核
     submitClick(isSubmit){
