@@ -37,7 +37,7 @@
               <div class="itemCenter van-clearfix">
                 <p>
                   转让金额：
-                  <span>{{item.transferMoney}}</span>元
+                  <span>{{moneyFormat(item.transferMoney)}}</span>元
                 </p>
                 <p v-if="item.transferRateType == 1">
                   固定收益率：
@@ -51,7 +51,8 @@
                   转让到期日：
                   <span>{{item.transferEndTimeStr}}</span>
                   <span v-if="item.issueStatus==7 || item.issueStatus==8 || item.issueStatus==9" class="date">({{item.issueStatusDesc}})</span>
-                  <span v-if="item.issueStatus!=7 && item.issueStatus!=8 && item.issueStatus!=9" class="date">(剩余{{item.transferEndDateAndNowDateDiff}}天)</span>
+                  <span v-if="item.issueStatus!=7 && item.issueStatus!=8 && item.issueStatus!=9 && item.transferEndDateAndNowDateDiff > 0" class="date">(剩余{{item.transferEndDateAndNowDateDiff}}天)</span>
+                  <span v-if="item.issueStatus!=7 && item.issueStatus!=8 && item.issueStatus!=9 &&item.transferEndDateAndNowDateDiff <= 0" class="date">(已到期)</span>
                 </p>
               </div>
               <div class="clear">
@@ -98,7 +99,7 @@
 
 <script>
 import tabbarNav from "../layout/Tabbar";
-import {dateCommonFormat } from '@/utils/common';
+// import { moneyFormat } from '@/utils/common';
 export default {
   name: "TradeList",
   components: {
@@ -201,6 +202,13 @@ export default {
         // 请求信息
         _this.getList();
       }, 500)
+    },
+    moneyFormat(cellValue) {
+      var reg = /\d{1,3}(?=(\d{3})+$)/g;
+      if (cellValue == null) return 0;
+      var mn = (cellValue + "").replace(reg, "$&,");
+      if (!mn.includes(".")) mn += ".00";
+      return mn;
     },
     // 搜索
     search() {
