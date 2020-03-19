@@ -28,6 +28,7 @@
       <van-button type="danger" class="sure" @click="openAccount">确 认</van-button>
       <van-button type="default" class="sure" @click="cancel">取 消</van-button>
     </div>
+    <p class="tips">温馨提示：银行卡绑定完成后请重新进入平台进行下一步操作</p>
     <div id="thirdPayHtml" style="display:none;"></div>
   </div>
 </template>
@@ -232,5 +233,11 @@ export default {
 }
 .sure{
   width: 1.5rem
+}
+.openAccount .tips{
+  color: #848080;
+  font-size: 0.24rem;
+  margin-left: 0.5rem;
+  margin-top: 0.4rem;
 }
 </style>

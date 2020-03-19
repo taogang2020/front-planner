@@ -188,11 +188,11 @@ export default {
   color: #333;
 }
 .loginWarp .van-tab--active {
-  font-size: 0.34rem;
+  font-size: 0.32rem;
   font-weight: 700;
 }
 .loginWarp .van-tab {
-  font-size: 0.34rem;
+  font-size: 0.32rem;
 }
 .loginWarp .van-tabs__content {
   padding: 0.9rem 0.6rem;
@@ -255,7 +255,7 @@ export default {
     margin: 0 auto;
 }
 .logo{
-  width: 2rem;
+    width: 2.5rem;
     height: auto;
     margin: 0 auto;
     display: block;
