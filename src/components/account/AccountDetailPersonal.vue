@@ -8,10 +8,10 @@
         <van-field v-model="form.memberCode" disabled label="用户编号:" />
         <van-field v-model="form.memberFullName" disabled label="用户名称:"  />
         <van-field v-model="form.memberTypeDesc" disabled label="用户类型:" />
-        <van-field v-model="form.idCard" disabled label="用户身份证:" />
+        <van-field v-model="form.idCard" disabled label="用户身份证:" label-width="2.4rem"/>
         <van-field v-model="form.bankName" disabled label="开户银行:" />
         <van-field v-model="form.accountName" disabled label="账户名称:" />
-        <van-field v-model="form.cardAccount" disabled label="银行卡卡号:" />
+        <van-field v-model="form.cardAccount" disabled label="银行卡卡号:" label-width="2.4rem"/>
         <van-field v-model="form.channelAccountName" disabled label="渠道账户名称:" label-width="2.4rem"/>
         <van-field v-model="form.channelCardAccount" disabled label="渠道账号:" />
       </van-cell-group>

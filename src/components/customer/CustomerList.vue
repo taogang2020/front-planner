@@ -241,11 +241,11 @@ export default {
 .fixd{
   position: fixed;
   z-index: 9;
-  height: 1.8rem;
+  height: 1rem;
   background: #fafafa;
 }
 .clearFixd{
-  padding-top: 1.8rem;
+  padding-top: 1rem;
 }
 .red{
   color: #ed2424;

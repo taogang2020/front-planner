@@ -26,7 +26,7 @@
             <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize :disabled="is_disabled" label="业务经营范围:" label-width="2.4rem"  placeholder="请输入业务经营范围" />
           </div>
           <div class="text" style="margin-top:0.1rem">
-            <van-field v-model="form.operatorName" required label="业务负责人:" :disabled="is_disabled" placeholder="请输入业务负责人" />
+            <van-field v-model="form.operatorName" required label="业务负责人:" label-width="2.6rem" :disabled="is_disabled" placeholder="请输入业务负责人" />
             <van-field :value="form.operatorIdTypeDesc" required @click="cardTypeSelect" label="证件类型:"  :disabled="is_disabled" clickable  placeholder="请选择证件类型" />
             <van-field v-model="form.operatorIdCard" required label="业务负责人证件号:" label-width="2.6rem" :disabled="is_disabled" placeholder="请输入证件号"/>
             <van-field v-model="form.memberPhone" label="手机号:"  :disabled="is_disabled" placeholder="请输入手机号" />

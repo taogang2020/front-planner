@@ -14,28 +14,12 @@
             <van-icon name="graphic" size="0.7rem" color="#ffd01e" />
             <p class="titlename">银行卡管理</p>
           </div>
-        </div>     
-      </div>
-      <div class="accountManger clear">
-        <div class="item clear">
           <div class="fl list" @click="insteadRegister">
             <van-icon name="graphic" size="0.7rem" color="#ffd01e" />
             <p class="titlename">代注册</p>
           </div>
         </div>     
       </div>
-      <!-- <div class="accountManger clear">
-        <div class="item clear">
-          <div class="fl list">
-            <van-icon name="vip-card-o" size="0.7rem" color="#ff701e" />
-            <p class="titlename">我的客户</p>
-          </div>
-          <div class="fl list">
-            <van-icon name="newspaper-o" size="0.7rem" color="#ffd01e" />
-            <p class="titlename">白名单</p>
-          </div>
-        </div>
-      </div> -->
     </div>
     <van-overlay :show="insteadRegisterShow" @click="insteadRegisterShow = false" >
       <div class="wrapper" @click.stop>

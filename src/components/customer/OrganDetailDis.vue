@@ -26,7 +26,7 @@
             <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize :disabled="is_disabled" label="业务经营范围:" label-width="2.4rem"   />
           </div>
           <div class="text" style="margin-top:0.1rem">
-            <van-field v-model="form.operatorName" required label="业务负责人:" :disabled="is_disabled"  />
+            <van-field v-model="form.operatorName" required label="业务负责人:" label-width="2.6rem" :disabled="is_disabled"  />
             <van-field v-model="form.operatorIdTypeDesc" required label="证件类型:"  :disabled="is_disabled" clickable  />
             <van-field v-model="form.operatorIdCard" required label="业务负责人证件号:" label-width="2.6rem" :disabled="is_disabled" />
             <van-field v-model="form.memberPhone" label="手机号:"  :disabled="is_disabled" />

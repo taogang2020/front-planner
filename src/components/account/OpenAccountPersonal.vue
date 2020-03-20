@@ -10,7 +10,7 @@
         <van-field v-model="form.idCard" label="证件号:" readonly />
         <van-field v-model="form.accountName" required label="账户名称:" placeholder="请输入账户名称" />
         <van-field v-model="form.bankName" required label="开户银行:"  clickable  placeholder="请输入银行名称进行搜索" right-icon="search" @click-right-icon="searchBank"/>
-        <van-field v-model="form.cardAccount" required label="银行卡卡号：" placeholder="请输入银行卡卡号" />
+        <van-field v-model="form.cardAccount" required label="银行卡卡号：" label-width="2.5rem" placeholder="请输入银行卡卡号" />
         <!-- 开户银行选择器 -->
         <van-popup v-model="bankArray" position="bottom">
           <van-picker

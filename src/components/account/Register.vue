@@ -18,11 +18,11 @@
           <van-field :value="form.address" label="注册地址:" @click="showPopup" readonly  placeholder="请选择注册地址" />
           <van-field v-model="form.memberAddress" label="详细地址:" label-width="2.6rem"  placeholder="请输入详细地址" />
         </van-cell-group>
-        <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize label="业务经营范围:" label-width="2.4rem"  placeholder="请输入业务经营范围" />
+        <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize label="业务经营范围:" label-width="2.6rem"  placeholder="请输入业务经营范围" />
         <div class="firstBtn"><van-button type="danger" class="next pre" @click="firstNext">下一步</van-button></div>
       </div>
       <div v-show="secondTep" class="text">
-        <van-field v-model="form.operatorName" required label="业务负责人:" placeholder="请输入业务负责人" />
+        <van-field v-model="form.operatorName" required label-width="2.6rem" label="业务负责人:" placeholder="请输入业务负责人" />
         <van-field :value="form.idTypeDesc" required @click="showCardType = true" label="证件类型:" readonly clickable  placeholder="请选择证件类型" />
         <van-field v-model="form.idCard" required label="证件号:" placeholder="请输入证件号"/>
         <van-field v-model="form.memberPhone" label="手机号:" placeholder="请输入手机号" />

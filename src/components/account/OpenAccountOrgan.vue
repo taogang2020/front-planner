@@ -8,9 +8,9 @@
         <van-field v-model="form.memberTypeDesc" label="用户类型:" readonly />
         <van-field v-model="form.companyCreditCode" label-width="2.7rem" label="统一社会信用代码:" readonly />
         <van-field v-model="form.accountName" label="账户名称:" placeholder="请输入账户名称" />
-        <van-field v-model="form.bankContact" label="联系人姓名:" placeholder="请输入联系人姓名" />
+        <van-field v-model="form.bankContact" label="联系人姓名:" label-width="2.6rem" placeholder="请输入联系人姓名" />
         <van-field v-model="form.bankName" label="开户银行:"  clickable  placeholder="请输入银行名称进行搜索" right-icon="search" @click-right-icon="searchBank"/>
-        <van-field v-model="form.cardAccount" label="银行卡卡号:"  placeholder="请输入银行卡卡号" />
+        <van-field v-model="form.cardAccount" label="银行卡卡号:" label-width="2.6rem"  placeholder="请输入银行卡卡号" />
         <!-- 开户银行选择器 -->
         <van-popup v-model="bankArray" position="bottom">
           <van-picker

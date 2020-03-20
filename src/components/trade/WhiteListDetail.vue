@@ -18,8 +18,8 @@
         />
         <van-field v-model="form.bankName" disabled label="开户银行:" />
         <van-field v-model="form.accountName" disabled label="账户名称:" />
-        <van-field v-model="form.cardAccount" disabled label="银行卡卡号:" />
-        <van-field v-if="isOrgan" v-model="form.bankContact" disabled label="联系人姓名:" />
+        <van-field v-model="form.cardAccount" disabled label="银行卡卡号:" label-width="2.4rem"/>
+        <van-field v-if="isOrgan" v-model="form.bankContact" disabled label="联系人姓名:" label-width="2.4rem"/>
         <van-field v-model="form.channelAccountName" label-width="2.4rem" disabled label="渠道账户名称:" />
         <van-field v-model="form.channelCardAccount" disabled label="渠道账号:" />
       </van-cell-group>
