@@ -16,6 +16,14 @@
           </div>
         </div>     
       </div>
+      <div class="accountManger clear">
+        <div class="item clear">
+          <div class="fl list" @click="insteadRegister">
+            <van-icon name="graphic" size="0.7rem" color="#ffd01e" />
+            <p class="titlename">代注册</p>
+          </div>
+        </div>     
+      </div>
       <!-- <div class="accountManger clear">
         <div class="item clear">
           <div class="fl list">
@@ -29,6 +37,14 @@
         </div>
       </div> -->
     </div>
+    <van-overlay :show="insteadRegisterShow" @click="insteadRegisterShow = false" >
+      <div class="wrapper" @click.stop>
+        <div class="block">
+          <p><router-link :to="{name:'organRegister'}">企业</router-link></p>
+          <p><router-link :to="{name:'personalRegister'}">个人</router-link></p>
+        </div>
+      </div>
+    </van-overlay>
   </div>
 </template>
 <script>
@@ -37,6 +53,7 @@ export default {
   data() {
     return {
       form:{},
+      insteadRegisterShow:false,
     };
   },
 
@@ -65,6 +82,11 @@ export default {
       _this.$router.push({ 
         path:'/openAccountList',  
       })
+    },
+    //代注册
+    insteadRegister(){
+      var _this = this;
+      _this.insteadRegisterShow = true;
     },
     
   }
@@ -134,6 +156,33 @@ export default {
   font-size: 0.28rem;
   margin-top: 0.3rem;
 }
-
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 50%;
+  height:3rem;
+  margin-top:-1.5rem;
+  font-size: 0.3rem;
+}
+.block {
+  width: 3rem;
+  height: 3rem;
+  background-color: #fff;
+}
+.block p{
+  width: 2rem;
+  height: 0.8rem;
+  text-align: center;
+  margin: 0.4rem auto;
+  color: #fff;
+  background: #ed2424;
+  line-height: 0.8rem;
+  border-radius: 0.08rem;
+}
+.block a{
+  color: #fff;
+}
 
 </style>
