@@ -4,7 +4,9 @@
     <div v-show="is_weixin" style="height:0.9rem;width:100%"></div>
     <div class="listBox ">
       <div class="fixd">
+        <!-- 
         <div class="clear"><p class="titlename" @click="registerClick">代注册</p></div>
+        -->
         <div class=" title">
           <p class="fl">客户编号</p>
           <p class="fl">客户全称</p>

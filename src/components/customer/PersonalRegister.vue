@@ -343,7 +343,7 @@ export default {
             _this.$toast("操作成功");
             //返回列表
             _this.$router.push({
-              path:'/customerList'
+              path:'/user'
             });
           } else {
             _this.$toast("操作失败");

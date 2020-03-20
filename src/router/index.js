@@ -28,6 +28,7 @@ import EditPassword from '@/components/account/EditPassword'
 import OpenAccountList from '@/components/account/OpenAccountList'
 import AccountDetailPersonal from '@/components/account/AccountDetailPersonal'
 import AccountDetailOrgan from '@/components/account/AccountDetailOrgan'
+import Success from '@/components/welcome/Success'
 
 
 Vue.use(Router)
@@ -38,6 +39,14 @@ const router = new Router({
     {
       path: '/',
       redirect: '/login',
+    },
+    {
+      meta: {
+        title: '操作成功'
+      },
+      path: '/success',
+      name: 'success',
+      component: Success
     },
     {
       meta: {
