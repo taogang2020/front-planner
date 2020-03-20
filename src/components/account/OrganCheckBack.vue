@@ -16,7 +16,7 @@
               <van-field :value="form.companyTypeDesc" required label="企业类型:" readonly clickable  @click="showcompanyType = true" placeholder="请选择企业类型" />
               <van-field v-model="form.legalMan" required label="企业法人:" placeholder="请输入企业法人" />
               <van-field :value="form.legalIdCardTypeDesc" required @click="showlegalIdCardType = true" label="法人证件类型:" label-width="2.6rem" readonly clickable  placeholder="请选择" />
-              <van-field v-model="form.legalIdCard" required label="法人证件号:" placeholder="请输入法人证件号"/>
+              <van-field v-model="form.legalIdCard" required label="法人证件号:" label-width="2.6rem" placeholder="请输入法人证件号"/>
               <van-field v-model="form.openTime" label="成立时间:"  readonly @click="showTime = true" placeholder="请选择成立时间"/>
               <van-field v-model="form.totalAssets" label="总资产(亿):"  placeholder="请输入总资产" />
               <van-field v-model="form.netAssets" label="净资产(亿):"  placeholder="请输入净资产" />

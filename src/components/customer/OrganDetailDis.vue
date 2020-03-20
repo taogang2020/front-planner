@@ -15,7 +15,7 @@
               <van-field v-model="form.companyTypeDesc" required label="企业类型:" :disabled="is_disabled" />
               <van-field v-model="form.legalMan" required :disabled="is_disabled" label="企业法人:" />
               <van-field v-model="form.legalIdCardTypeDesc"  label="法人证件类型:" label-width="2.6rem" :disabled="is_disabled" />
-              <van-field v-model="form.legalIdCard" required label="法人证件号:" :disabled="is_disabled" />
+              <van-field v-model="form.legalIdCard" required label="法人证件号:" label-width="2.6rem" :disabled="is_disabled" />
               <van-field v-model="form.openTime" label="成立时间:"  :disabled="is_disabled" />
               <van-field v-model="form.totalAssets" label="总资产(亿):" :disabled="is_disabled" />
               <van-field v-model="form.netAssets" label="净资产(亿):" :disabled="is_disabled" />

@@ -15,7 +15,7 @@
               <van-field v-model="form.companyTypeDesc" required label="企业类型:" disabled clickable />
               <van-field v-model="form.legalMan" required disabled label="企业法人:"/>
               <van-field v-model="form.legalIdCardTypeDesc" required disabled label="法人证件类型:" label-width="2.6rem" />
-              <van-field v-model="form.legalIdCard" required label="法人证件号:" disabled/>
+              <van-field v-model="form.legalIdCard" required label="法人证件号:" label-width="2.6rem" disabled/>
               <van-field v-model="form.openTimeStr" label="成立时间:"  disabled />
               <van-field v-model="form.totalAssets" label="总资产(亿):" disabled />
               <van-field v-model="form.netAssets" label="净资产(亿):" disabled />
@@ -51,7 +51,7 @@
               <van-uploader v-model="reverseFileList" :disabled="true" :deletable='false' :max-count="1"/>
               <p>身份证反面</p>
             </div>
-            <div class="file fl">
+            <div class="file fl" v-show="showOtherPic">
               <van-uploader v-model="otherFileList" :disabled="true" :deletable='false' :max-count="1"/>
               <p>其他</p>
             </div>
@@ -85,6 +85,7 @@ export default {
       ],
       form:{},
       is_weixin:false,
+      showOtherPic:true,
     }
   },
 
@@ -139,7 +140,8 @@ export default {
             if(data.data.membersVo.otherFilePathFull){
               _this.otherFileList[0].url = "http://"+ data.data.membersVo.otherFilePathFull;
             }else{
-              _this.otherFileList[0].url = ''
+              _this.otherFileList[0].url = '';
+              _this.showOtherPic = false;
             }
           } else {
             _this.$toast(data.msg);
