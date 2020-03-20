@@ -182,7 +182,6 @@ export default {
       var _this = this;
       // 异步更新数据
       setTimeout(() => {
-        console.log(_this.selectedData,333);
         _this.getList();
         _this.loading = true;
       }, 500);
@@ -206,7 +205,6 @@ export default {
     changes(accountId) {
       var _this = this;
       setTimeout(() => {
-        console.log(_this.selectedData,111);
       });
     },
     // 全选
@@ -234,7 +232,6 @@ export default {
         // });
         _this.selectedData = [];
       }
-      // console.log(_this.selectedData, 222);
     },
     // 搜索
     search() {
