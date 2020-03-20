@@ -15,7 +15,7 @@
             <p class="titlename">银行卡管理</p>
           </div>
           <div class="fl list" @click="insteadRegister">
-            <van-icon name="graphic" size="0.7rem" color="#ffd01e" />
+            <van-icon name="friends" size="0.7rem" color="#ffd01e" />
             <p class="titlename">代注册</p>
           </div>
         </div>     
