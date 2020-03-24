@@ -23,7 +23,7 @@
               <van-field v-model="form.address" label="注册地址:" disabled  />
               <van-field v-model="form.memberAddress" label="详细地址:" disabled />
             </van-cell-group>
-            <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize disabled label="业务经营范围:" label-width="2.4rem"  placeholder="请输入业务经营范围" />
+            <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize disabled label="业务经营范围:" label-width="2.4rem" />
           </div>
           <div class="text" style="margin-top:0.1rem">
             <van-field v-model="form.operatorName" required label="业务负责人:" label-width="2.6rem" disabled/>

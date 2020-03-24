@@ -41,7 +41,7 @@ export default {
   display: block;
 }
 .tips {
-  color: #67c23a;
+  color: #777;
   font-size: 0.5rem;
   text-align: center;
   margin: 0.4rem 0;
@@ -56,9 +56,9 @@ export default {
   height: 0.8rem;
   text-align: center;
   line-height: 0.8rem;
-  margin: 0 auto;
+  margin: 1rem auto;
   display: block;
-  background: #67c23a;
+  background: #ed2424;
   color: #fff;
   font-size: 0.3rem;
   border-radius: 0.04rem;
