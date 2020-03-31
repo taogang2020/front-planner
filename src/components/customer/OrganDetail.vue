@@ -1,6 +1,6 @@
 <template>
   <div class="organDetail">
-    <van-nav-bar v-show="is_weixin" title="客户详情" />
+    <van-nav-bar v-show="is_weixin" title="客户详情" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
         
       <van-tabs @click="onClick">
@@ -15,7 +15,7 @@
               <van-field :value="form.companyTypeDesc" required label="企业类型:" :disabled="is_disabled" clickable  @click="companyTypeSelect" placeholder="请选择企业类型" />
               <van-field v-model="form.legalMan" required :disabled="is_disabled" label="企业法人:" placeholder="请输入企业法人"/>
               <van-field :value="form.legalIdCardTypeDesc" required @click="legalIdCardTypeSelect" label="法人证件类型:" label-width="2.6rem" :disabled="is_disabled" clickable  placeholder="请选择" />
-              <van-field v-model="form.legalIdCard" required label="法人证件号:" :disabled="is_disabled" placeholder="请输入法人证件号"/>
+              <van-field v-model="form.legalIdCard" required label="法人证件号:" label-width="2.6rem" :disabled="is_disabled" placeholder="请输入法人证件号"/>
               <van-field v-model="form.openTime" label="成立时间:"  :disabled="is_disabled" @click="showTimeSelect" placeholder="请选择成立时间"/>
               <van-field v-model="form.totalAssets" label="总资产(亿):" :disabled="is_disabled" placeholder="请输入总资产"/>
               <van-field v-model="form.netAssets" label="净资产(亿):" :disabled="is_disabled" placeholder="请输入净资产"/>
@@ -26,7 +26,7 @@
             <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize :disabled="is_disabled" label="业务经营范围:" label-width="2.4rem"  placeholder="请输入业务经营范围" />
           </div>
           <div class="text" style="margin-top:0.1rem">
-            <van-field v-model="form.operatorName" required label="业务负责人:" :disabled="is_disabled" placeholder="请输入业务负责人" />
+            <van-field v-model="form.operatorName" required label="业务负责人:" label-width="2.6rem" :disabled="is_disabled" placeholder="请输入业务负责人" />
             <van-field :value="form.operatorIdTypeDesc" required @click="cardTypeSelect" label="证件类型:"  :disabled="is_disabled" clickable  placeholder="请选择证件类型" />
             <van-field v-model="form.operatorIdCard" required label="业务负责人证件号:" label-width="2.6rem" :disabled="is_disabled" placeholder="请输入证件号"/>
             <van-field v-model="form.memberPhone" label="手机号:"  :disabled="is_disabled" placeholder="请输入手机号" />
@@ -36,23 +36,23 @@
         <van-tab title="证明文件">
           <div class="ImgBox clear">
             <div class="file  fl">
-              <van-uploader v-model="yyzzFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz"/>
+              <van-uploader v-model="yyzzFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz" :deletable="is_del"/>
               <p>营业执照</p>
             </div>
             <div class="file fr">
-              <van-uploader v-model="sqwtsFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" />
+              <van-uploader v-model="sqwtsFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" :deletable="is_del"/>
               <p>授权人委托书</p>
             </div>
             <div class="file idCardPositive fl">
-              <van-uploader v-model="positiveFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive"/>
+              <van-uploader v-model="positiveFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" :deletable="is_del"/>
               <p>负责人身份证正面</p>
             </div>
             <div class="file idCardPositive fr">
-              <van-uploader v-model="reverseFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative"/>
+              <van-uploader v-model="reverseFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" :deletable="is_del"/>
               <p>负责人身份证反面</p>
             </div>
             <div class="file fl">
-              <van-uploader v-model="otherFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadOther" :before-delete="delOther"/>
+              <van-uploader v-model="otherFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadOther" :before-delete="delOther"/>
               <p>其他</p>
             </div>
             
@@ -179,6 +179,7 @@ export default {
       showSaveBtn : false,
       showDelete : false,
       showReview : false,
+      is_del:false,
     }
   },
 
@@ -510,6 +511,7 @@ export default {
       _this.getAdress();
       _this.is_disabled = false;
       _this.showSaveBtn = true;
+      _this.is_del = true;
     },
     //取消
     cancelEditClick(){
@@ -517,6 +519,7 @@ export default {
       _this.getDetail();
       _this.is_disabled = true;
       _this.showSaveBtn = false;
+      _this.is_del = false;
     },
     //保存或者提交审核
     submitClick(isSubmit){
@@ -672,6 +675,11 @@ export default {
     //     done(); //关闭
     //   }
     // },
+     //返回
+    cancel() {
+      var _this = this;
+      _this.$router.go(-1);
+    }
     
   }
 

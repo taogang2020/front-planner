@@ -1,6 +1,6 @@
 <template>
   <div class="organBack">
-    <van-nav-bar v-show="is_weixin" title="审核退回"/>
+    <van-nav-bar v-show="is_weixin" title="审核退回" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
         <div class="titleDes">
         <p class="status">用户您好，你的资料已提交审核，您的审核状态为：<span style='font-size:0.3rem;color:#ed2424'>{{form.memberStatusDesc}}</span>，请根据审核意见更改资料。</p>
@@ -16,7 +16,7 @@
               <van-field :value="form.companyTypeDesc" required label="企业类型:" readonly clickable  @click="showcompanyType = true" placeholder="请选择企业类型" />
               <van-field v-model="form.legalMan" required label="企业法人:" placeholder="请输入企业法人" />
               <van-field :value="form.legalIdCardTypeDesc" required @click="showlegalIdCardType = true" label="法人证件类型:" label-width="2.6rem" readonly clickable  placeholder="请选择" />
-              <van-field v-model="form.legalIdCard" required label="法人证件号:" placeholder="请输入法人证件号"/>
+              <van-field v-model="form.legalIdCard" required label="法人证件号:" label-width="2.6rem" placeholder="请输入法人证件号"/>
               <van-field v-model="form.openTime" label="成立时间:"  readonly @click="showTime = true" placeholder="请选择成立时间"/>
               <van-field v-model="form.totalAssets" label="总资产(亿):"  placeholder="请输入总资产" />
               <van-field v-model="form.netAssets" label="净资产(亿):"  placeholder="请输入净资产" />
@@ -27,7 +27,7 @@
             <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize label="业务经营范围:" label-width="2.4rem"  placeholder="请输入业务经营范围" />
           </div>
           <div class="text" style="margin-top:0.1rem">
-            <van-field v-model="form.operatorName" required label="业务负责人:" placeholder="请输入业务负责人" />
+            <van-field v-model="form.operatorName" required label="业务负责人:" label-width="2.6rem" placeholder="请输入业务负责人" />
             <van-field :value="form.operatorIdTypeDesc" required @click="showCardType = true" label="证件类型:" readonly clickable  placeholder="请选择证件类型" />
             <van-field v-model="form.operatorIdCard" required label="证件号:" placeholder="请输入证件号"/>
             <van-field v-model="form.memberPhone" label="手机号:" placeholder="请输入手机号" />
@@ -37,23 +37,23 @@
         <van-tab title="证明文件">
           <div class="ImgBox clear">
             <div class="file  fl">
-              <van-uploader v-model="yyzzFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz" />
+              <van-uploader v-model="yyzzFileList" :before-read='beforeUpload' :max-count="1" :after-read="uploadYyzz" :before-delete="delYyzz" />
               <p>营业执照</p>
             </div>
             <div class="file fr">
-              <van-uploader v-model="sqwtsFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" />
+              <van-uploader v-model="sqwtsFileList" :before-read='beforeUpload' :max-count="1" :after-read="uploadSqwts" :before-delete="delSqwts" />
               <p>授权人委托书</p>
             </div>
             <div class="file idCardPositive fl">
-              <van-uploader v-model="positiveFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
+              <van-uploader v-model="positiveFileList" :before-read='beforeUpload' :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
               <p>负责人身份证正面</p>
             </div>
             <div class="file idCardPositive fr">
-              <van-uploader v-model="reverseFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
+              <van-uploader v-model="reverseFileList"  :before-read='beforeUpload' :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
               <p>负责人身份证反面</p>
             </div>
             <div class="file fl">
-              <van-uploader v-model="otherFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadOther" :before-delete="delOther" />
+              <van-uploader v-model="otherFileList" :before-read='beforeUpload' :max-count="1" :after-read="uploadOther" :before-delete="delOther" />
               <p>其他</p>
             </div>
           </div>
@@ -552,6 +552,11 @@ export default {
           _this.$toast(data.msg);
         }
       }) 
+    },
+    //取消
+    cancel(){
+      var _this = this;
+      _this.$router.go(-1);
     },
 
   }

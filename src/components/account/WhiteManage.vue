@@ -64,22 +64,23 @@
       :before-close="closeBtn"
       >
       <p class="title">转让金额：</p>
-      <van-radio-group v-model="transfer" class="clear">
-        <van-radio class="fl" name="1">0-1000w</van-radio>
-        <van-radio class="fl" name="2">1000-5000w</van-radio>
-        <van-radio class="fl" name="3">5000-10000w</van-radio>
-      </van-radio-group>
+      <van-checkbox-group v-model="transfer" class="clear" @change="checkboxChangetra">
+        <van-checkbox class="fl"  name='1'>0-1000w</van-checkbox>
+        <van-checkbox class="fl"  name='2'>1000-5000w</van-checkbox>
+        <van-checkbox class="fl"  name='3'>5000-10000w</van-checkbox>
+      </van-checkbox-group>
       <p class="title">利率：</p>
-      <van-radio-group v-model="rate" class="clear">
-        <van-radio class="fl" name="1">0-10%</van-radio>
-        <van-radio class="fl" name="2">10-15%</van-radio>
-        <van-radio class="fl" name="3">15-20%</van-radio>
-      </van-radio-group>
+      <van-checkbox-group v-model="rate" class="clear" @change="checkboxChangerate">
+        <van-checkbox class="fl"  name='1'>0-10%</van-checkbox>
+        <van-checkbox class="fl"  name='2'>10-15%</van-checkbox>
+        <van-checkbox class="fl"  name='3'>15-20%</van-checkbox>
+      </van-checkbox-group>
       <p class="title">银行渠道：</p>
-      <van-radio-group v-model="channel" class="clear">
-        <van-radio class="fl" name="1">贵州场外</van-radio>
-        <van-radio class="fl" name="2">山东金交</van-radio>
-      </van-radio-group>
+      <van-checkbox-group v-model="channel" class="clear" @change="checkboxChangechanl">
+        <van-checkbox class="fl"  name='1'>贵州场外</van-checkbox>
+        <van-checkbox class="fl"  name='2'>山东金交</van-checkbox>
+      </van-checkbox-group>
+      
     </van-dialog>
   </div>
 </template>
@@ -91,9 +92,9 @@ export default {
     return {
       value: "",
       dialog: false,
-      transfer: "",
-      rate: "",
-      channel: ""
+      transfer: [],
+      rate: [],
+      channel: []
     };
   },
   methods: {
@@ -127,15 +128,36 @@ export default {
     //   打开弹窗时清空数据
     open() {
       var _this = this;
-      _this.transfer = "";
-      _this.rate = "";
-      _this.channel = "";
+      _this.transfer = [];
+      _this.rate = [];
+      _this.channel = [];
     },
     // 资金到账情况
     detailClick(){
 
 
-    }
+    },
+     //只能选择两个
+    checkboxChangetra(val) {
+      var _this = this;
+      if(_this.transfer.length==2){
+         _this.transfer.splice(0,1)
+      }
+    },
+     //只能选择两个
+    checkboxChangerate(val) {
+      var _this = this;
+      if(_this.rate.length==2){
+         _this.rate.splice(0,1)
+      }
+    },
+     //只能选择两个
+    checkboxChangechanl(val) {
+      var _this = this;
+      if(_this.channel.length==2){
+         _this.channel.splice(0,1)
+      }
+    },
   }
 };
 </script>
@@ -157,19 +179,19 @@ export default {
 .whiteManage .van-dialog__content {
   padding: 0.2rem;
 }
-.whiteManage .van-radio {
+.whiteManage .van-checkbox {
   margin-bottom: 0.15rem;
 }
-.whiteManage .van-radio__icon {
+.whiteManage .van-checkbox__icon {
   opacity: 0;
 }
-.whiteManage .van-radio__label {
+.whiteManage .van-checkbox__label {
   border: 1px solid #ccc;
   padding: 0.05rem;
   font-size: 0.25rem;
   border-radius: 0.05rem;
 }
-.whiteManage .van-radio__icon--checked + .van-radio__label {
+.whiteManage .van-checkbox__icon--checked + .van-checkbox__label {
   border: 1px solid #ed2424;
 }
 </style>

@@ -1,63 +1,75 @@
 <template>
   <div class="tradeList">
-    <img class="developing" src="../../assets/imgs/developing.jpg"/>>
-    <!-- <div class="top clear">
+    <van-nav-bar
+      v-show="is_weixin"
+      title="交易市场"
+      style="height:0.9rem;position:fixed;width: 100%;"
+    />
+    <div v-show="is_weixin" style="height:0.9rem;width:100%"></div>
+    <div>
+    <div class="top clear">
       <van-cell-group class="fl inp">
-        <van-field v-model="value" placeholder="请输入用户名" right-icon="search" />
+        <van-field v-model="form.transferName" placeholder="请输入转让资产名称" />
       </van-cell-group>
-      <p class="fr choose" @click="screen">筛选</p>
-    </div> -->
-    <!-- <div class="list">
-      <div class="item">
-        <div class="itemTop">
-          <p class="fl name">国盛资产转让1期</p>
-          <p class="fr channel">
-            银行渠道:<span>贵州场外</span>
-          </p>
+      <p class="fr choose" @click="search">搜索</p>
+    </div>
+    <div class="clearFixd">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <div class="noData" v-if="noData">暂无数据</div>
+        <div v-else>
+          <van-list
+            class="list"
+            ref="list"
+            v-model="loading"
+            :finished="finished"
+            :offset="30"
+            finished-text="- 没有更多了 -"
+            @load="onLoad"
+          >
+            <div class="item" v-for='item in myList'>
+              <div class="itemTop">
+                <p class="fl name">{{item.transferName}}</p>
+                <p class="fr channel">
+                  银行渠道:
+                  <span>{{item.registAgencyName}}</span>
+                </p>
+              </div>
+              <div class="itemCenter van-clearfix">
+                <p>
+                  转让金额：
+                  <span>{{moneyFormat(item.transferMoney)}}</span>元
+                </p>
+                <p v-if="item.transferRateType == 1">
+                  固定收益率：
+                  <span>年化{{item.transferRate}}</span>%
+                </p>
+                <p v-if="item.transferRateType == 2">
+                  固定折价率：
+                  <span>年化{{item.transferRate}}</span>%
+                </p>
+                <p>
+                  转让到期日：
+                  <span>{{item.transferEndTimeStr}}</span>
+                  <span v-if="item.issueStatus==7 || item.issueStatus==8 || item.issueStatus==9" class="date">({{item.issueStatusDesc}})</span>
+                  <span v-if="item.issueStatus!=7 && item.issueStatus!=8 && item.issueStatus!=9 && item.transferEndDateAndNowDateDiff > 0" class="date">(剩余{{item.transferEndDateAndNowDateDiff}}天)</span>
+                  <span v-if="item.issueStatus!=7 && item.issueStatus!=8 && item.issueStatus!=9 &&item.transferEndDateAndNowDateDiff <= 0" class="date">(已到期)</span>
+                </p>
+              </div>
+              <div class="clear">
+                <div class="bind fl" @click="handelClick(item.issueGuid)">绑定白名单</div>
+                <div class="bind fl" style="margin-left:2.2rem" @click="detailClick(item.issueGuid)">资金到账情况</div>
+              </div>
+            </div>
+          </van-list>
         </div>
-        <div class="itemCenter">
-          <p>
-            转让金额：<span>12345</span>元
-          </p>
-          <p>
-            转让折价率：<span>5</span>%
-          </p>
-          <p>
-            资产到期日：<span>2020-06-09</span><span class="date">(剩余120天)</span>
-          </p>
-        </div>
-        <div class="clear">
-          <div class="bind fl" @click="handelClick()">绑定白名单</div>
-          <div class="bind fl" @click="detailClick()">资金到账情况</div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="itemTop">
-          <p class="fl name">国盛资产转让1期</p>
-          <p class="fr channel">
-            银行渠道:
-            <span>贵州场外</span>
-          </p>
-        </div>
-        <div class="itemCenter">
-          <p>
-            转让金额：<span>12345</span>元
-          </p>
-          <p>
-            转让折价率：<span>5</span>%
-          </p>
-          <p>
-            资产到期日：<span>2020-06-09</span><span class="date">(剩余120天)</span>
-          </p>
-        </div>
-        <div class="clear">
-          <div class="bind fl" @click="handelClick()">绑定白名单</div>
-          <div class="bind fl" @click="handelClick()">资金到账情况</div>
-        </div>
-        
-      </div>
-    </div> -->
-    <!-- <van-dialog
+      </van-pull-refresh>
+    </div>
+    </div>
+    <div class="bot">
+      <!-- 底部 -->
+      <tabbar-nav></tabbar-nav>
+    </div>
+    <van-dialog
       v-model="dialog"
       show-cancel-button
       confirmButtonColor="#ED2424"
@@ -65,53 +77,148 @@
       :before-close="closeBtn"
       >
       <p class="title">转让金额：</p>
-      <van-radio-group v-model="transfer" class="clear">
-        <van-radio class="fl" name="1">0-1000w</van-radio>
-        <van-radio class="fl" name="2">1000-5000w</van-radio>
-        <van-radio class="fl" name="3">5000-10000w</van-radio>
-      </van-radio-group>
+      <van-checkbox-group v-model="transfer" class="clear" @change="checkboxChangetra">
+        <van-checkbox class="fl" name="1">0-1000w</van-checkbox>
+        <van-checkbox class="fl" name="2">1000-5000w</van-checkbox>
+        <van-checkbox class="fl" name="3">5000-10000w</van-checkbox>
+      </van-checkbox-group>
       <p class="title">利率：</p>
-      <van-radio-group v-model="rate" class="clear">
-        <van-radio class="fl" name="1">0-10%</van-radio>
-        <van-radio class="fl" name="2">10-15%</van-radio>
-        <van-radio class="fl" name="3">15-20%</van-radio>
-      </van-radio-group>
+      <van-checkbox-group v-model="rate" class="clear" @change="checkboxChangerate">
+        <van-checkbox class="fl" name="1">0-10%</van-checkbox>
+        <van-checkbox class="fl" name="2">10-15%</van-checkbox>
+        <van-checkbox class="fl" name="3">15-20%</van-checkbox>
+      </van-checkbox-group>
       <p class="title">银行渠道：</p>
-      <van-radio-group v-model="channel" class="clear">
-        <van-radio class="fl" name="1">贵州场外</van-radio>
-        <van-radio class="fl" name="2">山东金交</van-radio>
-      </van-radio-group>
-    </van-dialog> -->
+      <van-checkbox-group v-model="channel" class="clear" @change="checkboxChangechanl">
+        <van-checkbox class="fl" name="1">贵州场外</van-checkbox>
+        <van-checkbox class="fl" name="2">山东金交</van-checkbox>
+      </van-checkbox-group>
+    </van-dialog>
   </div>
 </template>
 
 <script>
+import tabbarNav from "../layout/Tabbar";
+// import { moneyFormat } from '@/utils/common';
 export default {
   name: "TradeList",
+  components: {
+    tabbarNav
+  },
   data() {
     return {
-      value: "",
+      form:{
+        transferName:'',
+        pageNo:1,
+        pageSize:10,
+        total:0,
+      },
       dialog: false,
-      transfer: "",
-      rate: "",
-      channel: ""
+      transfer: [],
+      rate: [],
+      channel: [],
+      is_weixin: false,
+      isLoading: false, // 下拉的加载图案
+      loading: false, // 当loading为true时，转圈圈
+      finished: false, // 数据是否请求结束，结束会先显示- 没有更多了 -
+      myList: [],
+      noData: false // 如果没有数据，显示暂无数
     };
   },
+  created() {
+    var _this = this;
+    _this.isWeixin();
+  },
   methods: {
-    handelClick() {
+     // 判断是否微信打开
+    isWeixin() {
       var _this = this;
-      _this.$dialog
-        .alert({
-          message:"绑定成功，为保证您的XX请及时进行线下打款操作，线下打款帐号：XXXXXXXXX",
-            confirmButtonColor:'#ed2424'
-        })
-        .then(() => {
-          // on close
-        });
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf("micromessenger") != -1;
+      if (isWeixin) {
+        _this.is_weixin = false;
+        return true;
+      } else {
+        _this.is_weixin = true;
+        return false;
+      }
     },
-    screen() {
+    handelClick(issueGuid) {
       var _this = this;
-      _this.dialog = true;
+      _this.$router.push({ 
+        name:'bindWhiteList', 
+        params:{'issueGuid' : issueGuid}, 
+      })
+    },
+    // 获取列表
+    getList(){
+      var _this = this;
+      var params = _this.form;
+      // _this.finished = false;
+      _this.loading = true;
+      _this.$http.post("/api/planner/issue/selectAssetsIssueForPlanner",params).then(function (res) {
+        var data = res.data;
+        if (data.code == 0) {
+          _this.loading = false;
+          _this.myList = _this.myList.concat(data.data.list);
+          // 如果没有数据，显示暂无数据
+          if (_this.myList.length === 0 && _this.form.pageNo === 1) {
+            _this.noData = true;
+            return;
+          }
+          // 如果加载完毕，显示没有更多了
+          if (data.data.totalpage === _this.form.pageNo) {
+            _this.finished = true;
+          }
+          if(Number(data.data.totalpage) > Number(_this.form.pageNo)) {
+            _this.form.pageNo ++;
+          }
+        } else {
+          _this.$toast(data.msg);
+        }
+      })
+    },
+    // 列表上拉加载
+    onLoad() {
+      // console.log(111)
+      var _this = this;
+      // 异步更新数据
+      setTimeout(() => {
+        _this.getList();
+        _this.loading = true;
+      }, 500)
+    },
+    // 下拉刷新
+    onRefresh() {
+      var _this = this;
+      setTimeout(() => {
+        // 重新初始化这些属性
+        _this.isLoading = false;
+        _this.myList = [];
+        _this.form.pageNo = 1;
+        _this.loading = false;
+        _this.finished = false;
+        _this.noData = false;
+        // 请求信息
+        _this.getList();
+      }, 500)
+    },
+    moneyFormat(cellValue) {
+      var reg = /\d{1,3}(?=(\d{3})+$)/g;
+      if (cellValue == null) return 0;
+      var mn = (cellValue + "").replace(reg, "$&,");
+      if (!mn.includes(".")) mn += ".00";
+      return mn;
+    },
+    // 搜索
+    search() {
+      var _this = this;
+      _this.loading = false;
+      _this.finished = false;
+      _this.noData = false;
+      _this.myList = [];
+      _this.form.pageNo = 1;
+      _this.getList();
     },
     closeBtn(action, done) {
       var _this = this;
@@ -128,14 +235,41 @@ export default {
     //   打开弹窗时清空数据
     open() {
       var _this = this;
-      _this.transfer = "";
-      _this.rate = "";
-      _this.channel = "";
+      _this.transfer = [];
+      _this.rate = [];
+      _this.channel = [];
     },
     // 资金到账情况
-    detailClick(){
+    detailClick(issueGuid) {
+      var _this = this;
+      _this.$router.push({ 
+        name:'capitalAccount', 
+        params:{'issueGuid' : issueGuid}, 
+      })
+    },
+    //只能选择一个
+    checkboxChangetra(val) {
+      var _this = this;
+      if (_this.transfer.length == 2) {
+        _this.transfer.splice(0, 1);
+      }
+      console.log(_this.transfer.toString());
+     
 
-
+    },
+    //只能选择一个
+    checkboxChangerate(val) {
+      var _this = this;
+      if (_this.rate.length == 2) {
+        _this.rate.splice(0, 1);
+      }
+    },
+    //只能选择一个
+    checkboxChangechanl(val) {
+      var _this = this;
+      if (_this.channel.length == 2) {
+        _this.channel.splice(0, 1);
+      }
     }
   }
 };
@@ -158,30 +292,44 @@ export default {
 .tradeList .van-dialog__content {
   padding: 0.2rem;
 }
-.tradeList .van-radio {
+.tradeList .van-checkbox {
   margin-bottom: 0.15rem;
 }
-.tradeList .van-radio__icon {
+.tradeList .van-checkbox__icon {
   opacity: 0;
 }
-.tradeList .van-radio__label {
+.tradeList .van-checkbox__label {
   border: 1px solid #ccc;
   padding: 0.05rem;
   font-size: 0.25rem;
   border-radius: 0.05rem;
 }
-.tradeList .van-radio__icon--checked + .van-radio__label {
+.tradeList .van-checkbox__icon--checked + .van-checkbox__label {
   border: 1px solid #ed2424;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.tradeList{
+.tradeList {
   width: 7.5rem;
 }
+.clearFixd{
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  box-sizing: border-box;
+}
+.noData{
+  font-size: 0.3rem;
+  line-height: 0.5rem;
+  text-align: center;
+}
 .top {
-  padding: 0.1rem;
+  width: 7.5rem;
+  box-sizing: border-box;
+  padding: 0.1rem ;
   background: #fff;
+  position: fixed;
+  z-index: 9;
 }
 .tradeList .choose {
   color: #333;
@@ -202,12 +350,20 @@ export default {
 }
 .name {
   font-size: 0.32rem;
-  color: #333;
+  color: #ed2424;
   line-height: 0.5rem;
+  width: 3.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .channel {
   font-size: 0.25rem;
   line-height: 0.5rem;
+  width: 3.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .itemCenter {
   padding-left: 0.3rem;
@@ -230,7 +386,7 @@ export default {
   text-align: center;
   line-height: 0.5rem;
   color: #fff;
-  margin-left: 0.3rem;
+  margin-left: 0.8rem;
   border-radius: 0.08rem;
   cursor: pointer;
 }
@@ -239,11 +395,18 @@ export default {
   font-size: 0.3rem;
   color: #333;
 }
-.developing{
+.developing {
   display: block;
   width: 7.5rem;
   position: fixed;
   bottom: 1rem;
   top: 0;
+}
+.bot {
+  height: 1rem;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
 }
 </style>

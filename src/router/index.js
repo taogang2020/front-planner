@@ -6,6 +6,7 @@ import CapitalAccount from '@/components/trade/CapitalAccount'
 import AccountDetail from '@/components/trade/AccountDetail'
 import CapitalDetail from '@/components/trade/CapitalDetail'
 import TradeList from '@/components/trade/TradeList'
+import WhiteListDetail from '@/components/trade/WhiteListDetail'
 import Mine from '@/components/account/Mine'
 import User from '@/components/account/User'
 import OpenAccountPersonal from '@/components/account/OpenAccountPersonal'
@@ -14,7 +15,9 @@ import OrganRegister from '@/components/customer/OrganRegister'
 import PersonalRegister from '@/components/customer/PersonalRegister'
 import CustomerList from '@/components/customer/CustomerList'
 import PersonalDetail from '@/components/customer/PersonalDetail'
+import PersonalDetailDis from '@/components/customer/PersonalDetailDis'
 import OrganDetail from '@/components/customer/OrganDetail'
+import OrganDetailDis from '@/components/customer/OrganDetailDis'
 import Login from '@/components/account/Login'
 import Register from '@/components/account/Register'
 import OrganCheckBack from '@/components/account/OrganCheckBack'
@@ -25,6 +28,8 @@ import EditPassword from '@/components/account/EditPassword'
 import OpenAccountList from '@/components/account/OpenAccountList'
 import AccountDetailPersonal from '@/components/account/AccountDetailPersonal'
 import AccountDetailOrgan from '@/components/account/AccountDetailOrgan'
+import Success from '@/components/welcome/Success'
+
 
 Vue.use(Router)
 
@@ -34,6 +39,14 @@ const router = new Router({
     {
       path: '/',
       redirect: '/login',
+    },
+    {
+      meta: {
+        title: '操作成功'
+      },
+      path: '/success',
+      name: 'success',
+      component: Success
     },
     {
       meta: {
@@ -79,7 +92,7 @@ const router = new Router({
       meta: {
         title: '绑定白名单'
       },
-      path: '/bindWhiteList',
+      path: '/bindWhiteList/:issueGuid',
       name: 'bindWhiteList',
       component: BindWhiteList
     },
@@ -95,7 +108,7 @@ const router = new Router({
       meta: {
         title: '资金到账明细',
       },
-      path: '/capitalAccount',
+      path: '/capitalAccount/:issueGuid',
       name: 'capitalAccount',
       component: CapitalAccount
     },
@@ -159,7 +172,7 @@ const router = new Router({
       meta: {
         title: '客户详情'
       },
-      path: '/organDetail/:memberGuid',
+      path: '/organDetail',
       name: 'organDetail',
       component: OrganDetail
     },
@@ -167,9 +180,33 @@ const router = new Router({
       meta: {
         title: '客户详情'
       },
-      path: '/personalDetail/:memberGuid',
+      path: '/organDetailDis',
+      name: 'organDetailDis',
+      component: OrganDetailDis
+    },
+    {
+      meta: {
+        title: '客户详情'
+      },
+      path: '/personalDetail',
       name: 'personalDetail',
       component: PersonalDetail
+    },
+    {
+      meta: {
+        title: '客户详情'
+      },
+      path: '/personalDetailDis',
+      name: 'personalDetailDis',
+      component: PersonalDetailDis
+    },
+    {
+      meta: {
+        title: '详情'
+      },
+      path: '/whiteListDetail/:memberGuid',
+      name: 'whiteListDetail',
+      component: WhiteListDetail
     },
     {
       meta: {
@@ -212,20 +249,19 @@ const router = new Router({
       component: CustomerList
     },
     {
+      meta: {
+        title: '交易市场'
+      },
+      path: '/tradeList',
+      name: 'tradeList',
+      component: TradeList
+    },
+    {
       path: '/index',
       name: 'index',
       component: Index,
       redirect: '/tradeList',
       children: [
-      {
-        meta: {
-          title: '交易市场'
-        },
-        path: '/tradeList',
-        name: 'tradeList',
-        component: TradeList
-      },
-      
       
       {
         meta: {

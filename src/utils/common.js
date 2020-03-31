@@ -12,3 +12,10 @@ export function dateCommonFormat(dateStr){
      　　   (day<10?'0'+day:day);
   　　  return newDate;
 }
+export function moneyFormat(cellValue) {
+    var reg = /\d{1,3}(?=(\d{3})+$)/g;
+    if (cellValue == null) return 0;
+    var mn = (cellValue + "").replace(reg, "$&,");
+    if (!mn.includes(".")) mn += ".00";
+    return mn;
+  }

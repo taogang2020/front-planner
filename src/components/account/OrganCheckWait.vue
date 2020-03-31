@@ -1,6 +1,6 @@
 <template>
   <div class="organWait">
-    <van-nav-bar v-show="is_weixin" title="待审核" />
+    <van-nav-bar v-show="is_weixin" title="待审核" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
         <div class="titleDes">
         <p class="status">用户您好，您的资料已提交审核，您的审核状态为：<span style='font-size:0.32rem;color:#ed2424'>{{form.memberStatusDesc}}</span></p>
@@ -15,7 +15,7 @@
               <van-field v-model="form.companyTypeDesc" required label="企业类型:" disabled clickable />
               <van-field v-model="form.legalMan" required disabled label="企业法人:"/>
               <van-field v-model="form.legalIdCardTypeDesc" required disabled label="法人证件类型:" label-width="2.6rem" />
-              <van-field v-model="form.legalIdCard" required label="法人证件号:" disabled/>
+              <van-field v-model="form.legalIdCard" required label="法人证件号:" label-width="2.6rem" disabled/>
               <van-field v-model="form.openTimeStr" label="成立时间:"  disabled />
               <van-field v-model="form.totalAssets" label="总资产(亿):" disabled />
               <van-field v-model="form.netAssets" label="净资产(亿):" disabled />
@@ -23,10 +23,10 @@
               <van-field v-model="form.address" label="注册地址:" disabled  />
               <van-field v-model="form.memberAddress" label="详细地址:" disabled />
             </van-cell-group>
-            <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize disabled label="业务经营范围:" label-width="2.4rem"  placeholder="请输入业务经营范围" />
+            <van-field v-model="form.businessScope" rows="1" class='textarea' type="textarea" autosize disabled label="业务经营范围:" label-width="2.4rem" />
           </div>
           <div class="text" style="margin-top:0.1rem">
-            <van-field v-model="form.operatorName" required label="业务负责人:" disabled/>
+            <van-field v-model="form.operatorName" required label="业务负责人:" label-width="2.6rem" disabled/>
             <van-field v-model="form.operatorIdTypeDesc" required label="业务负责人证件:" label-width="2.6rem" disabled  />
             <van-field v-model="form.operatorIdCard" required label="业务负责人证件号:" label-width="2.6rem" disabled/>
             <van-field v-model="form.memberPhone" label="手机号:"  disabled/>
@@ -51,7 +51,7 @@
               <van-uploader v-model="reverseFileList" :disabled="true" :deletable='false' :max-count="1"/>
               <p>身份证反面</p>
             </div>
-            <div class="file fl">
+            <div class="file fl" v-show="showOtherPic">
               <van-uploader v-model="otherFileList" :disabled="true" :deletable='false' :max-count="1"/>
               <p>其他</p>
             </div>
@@ -85,6 +85,7 @@ export default {
       ],
       form:{},
       is_weixin:false,
+      showOtherPic:true,
     }
   },
 
@@ -139,7 +140,8 @@ export default {
             if(data.data.membersVo.otherFilePathFull){
               _this.otherFileList[0].url = "http://"+ data.data.membersVo.otherFilePathFull;
             }else{
-              _this.otherFileList[0].url = ''
+              _this.otherFileList[0].url = '';
+              _this.showOtherPic = false;
             }
           } else {
             _this.$toast(data.msg);
@@ -160,7 +162,12 @@ export default {
          _this.$toast(data.msg);
         }
       }) 
-    }
+    },
+    //取消
+    cancel(){
+      var _this = this;
+      _this.$router.go(-1);
+    },
     
   }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="personalDetail">
-    <van-nav-bar v-show="is_weixin" title="客户详情"/>
+    <van-nav-bar v-show="is_weixin" title="客户详情" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
       <van-tabs @click="onClick" sticky>
         <van-tab title="基本信息">
@@ -25,6 +25,7 @@
               label="地址:"
               @click="showPopup"
               :disabled="is_disabled"
+              
               placeholder="请选择地址"
             />
             <van-field v-model="form.memberAddress" :disabled="is_disabled" label="详细地址:" />
@@ -33,11 +34,11 @@
         <van-tab title="证明文件">
           <div class="ImgBox clear">
             <div class="file idCardPositive fl">
-              <van-uploader v-model="positiveFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" />
+              <van-uploader v-model="positiveFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadPositive" :before-delete="delPositive" :deletable="is_del"  />
               <p>身份证正面</p>
             </div>
             <div class="file idCardReverse fr">
-              <van-uploader v-model="reverseFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
+              <van-uploader v-model="reverseFileList" :before-read='beforeUpload' :disabled="is_disabled" :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" :deletable="is_del"/>
               <p>身份证反面</p>
             </div>
           </div>
@@ -117,6 +118,7 @@ export default {
       showSaveBtn : false,
       showDelete : false,
       showReview : false,
+      is_del:false,
     };
   },
   created() {
@@ -319,6 +321,7 @@ export default {
       _this.getAdress();
       _this.is_disabled = false;
       _this.showSaveBtn = true;
+      _this.is_del = true;
     },
     //取消
     cancelEditClick(){
@@ -326,6 +329,7 @@ export default {
       _this.getDetail();
       _this.is_disabled = true;
       _this.showSaveBtn = false;
+      _this.is_del = false;
     },
     //保存或者提交审核
     submitClick(isSubmit){
@@ -445,6 +449,11 @@ export default {
     //     done(); //关闭
     //   }
     // },
+    //返回
+    cancel() {
+      var _this = this;
+      _this.$router.go(-1);
+    }
 
   }
 };

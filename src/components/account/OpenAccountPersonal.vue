@@ -1,6 +1,6 @@
 <template>
   <div class="openAccount">
-    <van-nav-bar v-show="is_weixin" title="绑定银行卡" />
+    <van-nav-bar v-show="is_weixin" title="绑定银行卡" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
       <van-cell-group>
         <van-field v-model="form.memberCode" label="用户编号:" readonly />
@@ -10,7 +10,7 @@
         <van-field v-model="form.idCard" label="证件号:" readonly />
         <van-field v-model="form.accountName" required label="账户名称:" placeholder="请输入账户名称" />
         <van-field v-model="form.bankName" required label="开户银行:"  clickable  placeholder="请输入银行名称进行搜索" right-icon="search" @click-right-icon="searchBank"/>
-        <van-field v-model="form.cardAccount" required label="银行卡卡号：" placeholder="请输入银行卡卡号" />
+        <van-field v-model="form.cardAccount" required label="银行卡卡号：" label-width="2.5rem" placeholder="请输入银行卡卡号" />
         <!-- 开户银行选择器 -->
         <van-popup v-model="bankArray" position="bottom">
           <van-picker
@@ -26,8 +26,9 @@
     </div>
     <div class="Btn">
       <van-button type="danger" class="sure" @click="openAccount">确 认</van-button>
-      <van-button type="default" class="sure" @click="cancelClick">取 消</van-button>
+      <van-button type="default" class="sure" @click="cancel">取 消</van-button>
     </div>
+    <p class="tips">温馨提示：银行卡绑定完成后请重新进入平台进行下一步操作</p>
     <div id="thirdPayHtml" style="display:none;"></div>
   </div>
 </template>
@@ -167,7 +168,7 @@ export default {
 
     },
     //取消
-    cancelClick(){
+    cancel(){
       var _this = this;
       _this.$router.go(-1);
     },
@@ -232,5 +233,11 @@ export default {
 }
 .sure{
   width: 1.5rem
+}
+.openAccount .tips{
+  color: #848080;
+  font-size: 0.24rem;
+  margin-left: 0.5rem;
+  margin-top: 0.4rem;
 }
 </style>

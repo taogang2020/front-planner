@@ -1,6 +1,6 @@
 <template>
   <div class="openAccountList">
-    <van-nav-bar v-show="is_weixin" style="height:0.9rem;position:fixed;width: 100%;"  title="绑定银行卡" />
+    <van-nav-bar v-show="is_weixin" style="height:0.9rem;position:fixed;width: 100%;"  title="绑定银行卡" left-text="返回" left-arrow @click-left="cancel"/>
     <div v-show="is_weixin" style="height:0.9rem;width:100%"></div>
     <div class="listBox ">
       <div class=" title fixd">
@@ -169,6 +169,11 @@ export default {
         _this.$toast("用户类型不存在");
       }
     },
+    //返回
+    cancel() {
+      var _this = this;
+      _this.$router.go(-1);
+    }
   
   }
 };
@@ -193,6 +198,9 @@ export default {
 }
 .openAccountList .van-nav-bar__text {
   color: #ed2424;
+}
+.openAccountList .van-nav-bar__text {
+  color: #333;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

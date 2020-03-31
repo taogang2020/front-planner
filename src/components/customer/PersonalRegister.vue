@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <van-nav-bar v-show="is_weixin" title="客户代注册" />
+    <van-nav-bar v-show="is_weixin" title="客户代注册" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
       <van-cell-group v-show="active">
         <van-field v-model="form.memberFullName" label="姓名:" required placeholder="请输入姓名" />
@@ -39,11 +39,11 @@
         <p class="title">请上传相关证件</p>
         <div class="ImgBox clear">
           <div class="file idCardPositive fl">
-            <van-uploader v-model="positiveFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadPositive" :before-delete="delPositive"/>
+            <van-uploader v-model="positiveFileList" :before-read='beforeUpload' :max-count="1" :after-read="uploadPositive" :before-delete="delPositive"/>
             <p>身份证正面</p>
           </div>
           <div class="file idCardReverse fr">
-            <van-uploader v-model="reverseFileList" accept=".jpg,.jpeg,.png,.pdf,.JPG,.JPEG,.PDF" :before-read='beforeUpload' :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
+            <van-uploader v-model="reverseFileList" :before-read='beforeUpload' :max-count="1" :after-read="uploadNegative" :before-delete="delNegative" />
             <p>身份证反面</p>
           </div>
         </div>
@@ -343,7 +343,7 @@ export default {
             _this.$toast("操作成功");
             //返回列表
             _this.$router.push({
-              path:'/customerList'
+              path:'/user'
             });
           } else {
             _this.$toast("操作失败");
@@ -360,7 +360,12 @@ export default {
     pre() {
       var _this = this;
       _this.active = true;
-    }
+    },
+    //取消
+    cancel(){
+      var _this = this;
+      _this.$router.go(-1);
+    },
   }
 };
 </script>
@@ -370,8 +375,14 @@ export default {
   line-height: 0.7rem;
   cursor: pointer;
 }
+.register .van-nav-bar .van-icon {
+  color: #333;
+}
 .register .van-nav-bar__text{
   color: #333;
+}
+.register .van-nav-bar__left{
+  left: 0;
 }
 .register .van-cell {
   width: 7.5rem;

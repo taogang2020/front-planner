@@ -1,7 +1,9 @@
 <template>
 <div>
   <div class="loginWarp">
+    <!-- <img class="logo" src="../../assets/imgs/top_logo.png" alt=""> -->
     <van-tabs  @click="onClick" :line-width='10'>
+      
       <van-tab title="密码登录">
         <van-field v-model="form.memberCode" placeholder="请输入管理人编号" />
         <van-field v-model="form.operatorLoginName" placeholder="请输入登录名" />
@@ -186,11 +188,11 @@ export default {
   color: #333;
 }
 .loginWarp .van-tab--active {
-  font-size: 0.34rem;
+  font-size: 0.32rem;
   font-weight: 700;
 }
 .loginWarp .van-tab {
-  font-size: 0.34rem;
+  font-size: 0.32rem;
 }
 .loginWarp .van-tabs__content {
   padding: 0.9rem 0.6rem;
@@ -251,6 +253,12 @@ export default {
     text-align: center;
     line-height: 0.85rem;
     margin: 0 auto;
+}
+.logo{
+    width: 2.5rem;
+    height: auto;
+    margin: 0 auto;
+    display: block;
 }
 /* .line{
     position: absolute;

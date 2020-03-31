@@ -1,6 +1,6 @@
 <template>
   <div class="editPassword">
-    <van-nav-bar v-show="is_weixin" title="密码管理" />
+    <van-nav-bar v-show="is_weixin" title="密码管理" left-text="返回" left-arrow @click-left="cancel"/>
     <div>
       <van-cell-group>
         <van-field v-model="form.oldSecrectCode" label="原始密码:" type="password" required placeholder="请输入原始密码" />
@@ -129,6 +129,9 @@ export default {
   line-height: 0.6rem;
   font-size: 0.3rem;
   margin-bottom: 0.1rem;
+}
+.editPassword .van-nav-bar .van-icon {
+  color: #333;
 }
 .editPassword .van-cell-group {
   background: transparent;

@@ -1,6 +1,6 @@
 <template>
   <div class="Mine">
-    <van-nav-bar v-show="is_weixin"  title="个人中心" />
+    <van-nav-bar v-show="is_weixin"  title="个人中心" left-text="返回" left-arrow @click-left="cancel" />
     <div class="content" >
       <van-cell-group>
         <van-field v-model="form.operatorName" required label="操作员名称:" />
@@ -146,6 +146,12 @@ export default {
         var data = res.data;
         if (data.code == 0) {
           _this.$toast(data.msg); 
+          setTimeout(() => {
+            _this.$router.push({ 
+              path:'/myAccount',  
+            })
+          }, 500);
+         
         } else {
           _this.$toast(data.msg);
         }

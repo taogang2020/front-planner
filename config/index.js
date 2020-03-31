@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://plannertest.qyiti.com/api',
+        target: 'https://plannertest.qyiti.com/api',
         changeOrigin: true,
         pathRewrite: {
         '^/api': ''
@@ -22,6 +22,7 @@ module.exports = {
 
     // Various Dev Server settings
     host: 'test.planner.com', // can be overwritten by process.env.HOST
+    // host: '0.0.0.0', // can be overwritten by process.env.HOST
     port: 80, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
