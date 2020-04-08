@@ -82,7 +82,7 @@
       
     </div>
     <div class="botBtn">
-    <p class="choose" @click="bindClick">绑定</p>
+    <p class="choose point" @click="bindClick" v-bind:class='{click:isClick}'>绑定</p>
     </div>
   </div>
 </template>
@@ -113,6 +113,7 @@ export default {
       loading: false, // 当loading为true时，转圈圈
       finished: false, // 数据是否请求结束，结束会先显示- 没有更多了 -
       noData: false, // 如果没有数据，显示暂无数
+      isClick: false,
     };
   },
 
@@ -247,6 +248,9 @@ export default {
     // 点击绑定
     bindClick() {
       var _this = this;
+      if(_this.isClick == true){
+        return;
+      }
       _this.bindForm.issueGuid = _this.$route.params.issueGuid;
       _this.myList.forEach(value=>{
           // console.log(value);
@@ -258,10 +262,14 @@ export default {
         _this.$toast("请选择要绑定的白名单");
         return;
       }
+      _this.isClick = true;
       _this.$http
         .post("/api/planner/white/batchBindWhiteList", _this.bindForm)
         .then(function(res) {
           var data = res.data;
+          setTimeout(function(){
+            _this.isClick = false;
+          },2000);
           if (data.code == 0 && data.data.bindStatus==2) {
             _this.$toast("受理成功");
             _this.selectedData = [];
@@ -448,5 +456,11 @@ export default {
   width: 0.42rem;
   height: 0.8rem;
   /* margin-top: 0.2rem; */
+}
+.point{
+  pointer-events: auto;
+}
+.click{
+  pointer-events: none;
 }
 </style>

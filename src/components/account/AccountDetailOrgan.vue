@@ -31,7 +31,7 @@
           <div v-show="bankPhoneShow">
             <van-field v-model="changeCardForm.bankPhone" required label-width="2.4rem" label="银行预留手机号:" placeholder="请输入银行预留手机号" style="width:6.5rem"/>
             <div class="Btn">
-                <van-button type="danger" class="back" @click="selectChange">变 更</van-button>
+                <van-button type="danger" class="back point" @click="selectChange" v-bind:class='{click:isClick}'>变 更</van-button>
                 <van-button type="danger" class="back" @click="cancelChange">取 消</van-button>
             </div>
             <div id="thirdPayHtml" style="display:none;"></div>
@@ -58,6 +58,7 @@ export default {
       is_weixin:false,
       show:false,
       bankPhoneShow:false,
+      isClick:false,
       
     };
   },
@@ -120,6 +121,9 @@ export default {
     //变更
     selectChange(){
       var _this= this;
+      if(_this.isClick  == true){
+        return;
+      }
       if(_this.changeCardForm.changeAccountType == 1){
         //换卡
         _this.changeCard();
@@ -132,9 +136,13 @@ export default {
     changeCard() {
       var _this = this;
       if(_this.checkRequired()){
+        _this.isClick = true;
         _this.changeCardForm.bankChannel = 1;//目前只有贵州场外
         _this.$http.post("/api/planner/member/cust/change/card",_this.changeCardForm).then(function(res){
           var data =res.data;
+          setTimeout(function(){
+            _this.isClick = false;
+          },2000)
           if(data.code == 0) {
             var resultHtml = data.data;
             var thirdPayHtml = document.getElementById("thirdPayHtml");
@@ -152,9 +160,13 @@ export default {
     changeMobileNo() {
       var _this = this;
       if(_this.checkRequired()){
+        _this.isClick = true;
         _this.changeCardForm.bankChannel = 1;//目前只有贵州场外
         _this.$http.post("/api/planner/member/cust/change/bankphone",_this.changeCardForm).then(function(res){
           var data =res.data;
+          setTimeout(function(){
+            _this.isClick = false;
+          },2000)
           if(data.code == 0) {
             var resultHtml = data.data;
             var thirdPayHtml = document.getElementById("thirdPayHtml");
@@ -282,5 +294,12 @@ export default {
     background: #ed2424;
     line-height: 0.8rem;
     border-radius: 0.08rem;
+}
+.point{
+  pointer-events: auto;
+}
+.click{
+  pointer-events: none;
+  opacity: 0.6;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="loginWarp">
-    <!-- <img class="logo" src="../../assets/imgs/top_logo.png" alt=""> -->
+    <!-- <img class="logo" src="../../assets/imgs/tab_logo.png" alt=""> -->
     <van-tabs  @click="onClick" :line-width='10'>
       
       <van-tab title="密码登录">

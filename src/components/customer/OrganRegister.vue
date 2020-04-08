@@ -58,8 +58,8 @@
           </div>
           <div class="thirdBtn">
             <van-button type="danger" class="pre" @click="thirdPre">上一步</van-button>
-            <van-button type="danger" class="pre" @click="submitClick(2)">保存</van-button>
-            <van-button type="danger" style="width:1.8rem" class="pre" @click="submitClick(1)">成为用户</van-button>
+            <van-button type="danger" class="pre point" @click="submitClick(2)" v-bind:class='{click:isClick}'>保存</van-button>
+            <van-button type="danger" style="width:1.8rem" class="pre point" @click="submitClick(1)" v-bind:class='{click:isClick}'>成为用户</van-button>
           </div>
           
       </div>
@@ -182,6 +182,7 @@ export default {
       showCardType: false,
       showAddress:false,
       is_weixin:false,
+      isClick:false,
       
     }
   },
@@ -425,6 +426,9 @@ export default {
     // 保存或者提交
     submitClick(isSubmit){
       var _this = this;
+      if(_this.isClick == true){
+        return;
+      }
       //判断文件是否上传
       if (_this.form.yyzzFilePath == "") {
         _this.$toast("请上传营业执照文件");
@@ -442,6 +446,7 @@ export default {
         _this.$toast("请上传负责人身份证反面文件");
         return;
       }
+      _this.isClick = true;
       _this.form.isSubmit = isSubmit;
       var savesecrectCode = _this.form.secrectCode;
       var  md5 = crypto.createHash("md5");
@@ -449,6 +454,9 @@ export default {
       _this.form.secrectCode = md5.digest('hex');  //password 加密完的密码
       _this.$http.post("/api/planner/member/cust/register",_this.form).then(function(res){
         var data =res.data;
+        setTimeout(function(){
+          _this.isClick = false;
+        },2000);
         if(data.code==0){
           var result =data.data;
           if(result) {
@@ -704,5 +712,11 @@ export default {
 }
 .pre{
   width: 1.6rem;
+}
+.point{
+  pointer-events: auto;
+}
+.click{
+  pointer-events: none;
 }
 </style>
