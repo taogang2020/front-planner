@@ -157,7 +157,7 @@ export default {
             }else if(data.data.membersOperator.memberStatus==2){
               //正常
               _this.$router.push({ 
-                path:'/tradeList',  
+                path:'/user',  
               })
             }else if(data.data.membersOperator.memberStatus==3){
               //审核退回
