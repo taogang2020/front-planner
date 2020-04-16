@@ -260,7 +260,7 @@ const router = new Router({
       path: '/index',
       name: 'index',
       component: Index,
-      redirect: '/tradeList',
+      redirect: '/user',
       children: [
       
       {
@@ -286,15 +286,15 @@ router.beforeEach((to, from, next) => {
   next()
   const type = to.meta.type
   // 判断该路由是否需要登录权限
-  if (type === 'login') {
-    if (window.localStorage.getItem('login')) {
-      next()
-    } else {
-      next('/login')
-    }
-  } else {
-    next()  // 确保一定要有next()被调用
-  }
+  // if (type === 'login') {
+  //   if (window.localStorage.getItem('login')) {
+  //     next()
+  //   } else {
+  //     next('/login')
+  //   }
+  // } else {
+  //   next()  // 确保一定要有next()被调用
+  // }
 
 })
 export default router
