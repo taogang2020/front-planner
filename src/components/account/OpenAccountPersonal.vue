@@ -25,7 +25,7 @@
       
     </div>
     <div class="Btn">
-      <van-button type="danger" class="sure" @click="openAccount">确 认</van-button>
+      <van-button type="danger" class="sure point" @click="openAccount" v-bind:class='{click:isClick}'>确 认</van-button>
       <van-button type="default" class="sure" @click="cancel">取 消</van-button>
     </div>
     <p class="tips">温馨提示：银行卡绑定完成后请重新进入平台进行下一步操作</p>
@@ -58,6 +58,7 @@ export default {
       bankList: [],
       bankArray: false,
       is_weixin:false,
+      isClick:false,
     };
   },
   created(){
@@ -139,6 +140,9 @@ export default {
     //开户
     openAccount(){
       var _this = this;
+      if(_this.isClick == true){
+        return;
+      }
       //校验
       if (_this.form.accountName == "") {
         _this.$toast("请填写账户名称");
@@ -152,8 +156,12 @@ export default {
         _this.$toast("请填写银行卡卡号");
         return;
       }
+      _this.isClick = true;
       _this.$http.post("/api/planner/member/cust/openacc",_this.form).then(function(res){
         var data =res.data;
+        setTimeout(function(){
+          _this.isClick = false;
+        },2000);
         if(data.code == 0) {
           var resultHtml = data.data;
           var thirdPayHtml = document.getElementById("thirdPayHtml");
@@ -239,5 +247,12 @@ export default {
   font-size: 0.24rem;
   margin-left: 0.5rem;
   margin-top: 0.4rem;
+}
+.point{
+  pointer-events: auto;
+}
+.click{
+  pointer-events: none;
+  opacity: 0.6;
 }
 </style>

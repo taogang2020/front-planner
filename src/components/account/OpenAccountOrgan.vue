@@ -127,6 +127,9 @@ export default {
     //开户
     openAccount(){
       var _this = this;
+      if(_this.isClick == true){
+        return;
+      }
       //校验
       if (_this.form.accountName == "") {
         _this.$toast("请填写账户名称");
@@ -144,8 +147,12 @@ export default {
         _this.$toast("请填写银行卡卡号");
         return;
       }
+      _this.isClick = true;
       _this.$http.post("/api/planner/member/cust/openacc",_this.form).then(function(res){
         var data =res.data;
+        setTimeout(function(){
+          _this.isClick = false;
+        },2000);
         if(data.code == 0) {
           var resultHtml = data.data;
           var thirdPayHtml = document.getElementById("thirdPayHtml");
@@ -229,5 +236,12 @@ export default {
   font-size: 0.24rem;
   margin-left: 0.5rem;
   margin-top: 0.4rem;
+}
+.point{
+  pointer-events: auto;
+}
+.click{
+  pointer-events: none;
+  opacity: 0.6;
 }
 </style>
