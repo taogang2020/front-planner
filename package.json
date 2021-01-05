@@ -12,7 +12,7 @@
   "dependencies": {
     "@lingui/core": "^2.8.3",
     "ali-oss": "^6.3.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "crypto": "^1.0.1",
     "vant": "^2.2.16",
     "vee-validate": "^2.0.0-rc.25",
